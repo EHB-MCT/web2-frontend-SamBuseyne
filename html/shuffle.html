@@ -7,22 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shuffle</title>
     <link rel="stylesheet" href="../stylesheets/style.css">
-    <script src="./scripts/script.js"></script>
+    <script src="../scripts/script.js"></script>
 </head>
 
 <body>
     <header>
         <nav class="navigation">
-            <li> <a href="../index.html">Home</a> </li>
-            <li><a href="../html/advanced.html">Advanced Search</a></li>
+            <ul>
+                <a href="../index.html">Moves</a>
+                <input type="text" placeholder="Search">
+                <a href="../html/watchlist.html">Watchlist</a>
+                <a href="../html/login.html">Login</a>
+            </ul>
         </nav>
     </header>
 
-    <main>
-        <p>Here comes the shuffle function.</p>
-        <p>Under construction.</p>
+    <main id="shufflePage">
+        <section id="shuffle">
+            <div id="moviePoster1">
+                <figure>
+                    <img src="../assets/ShawshankRedemption_movieposter.jpg" alt="shawshankRedemption">
+                </figure>
+            </div>
+            <div id="moviePoster2">
+                <figure>
+                    <img src="../assets/Green_mile_movieposter.jpg" alt="greenMile">
+                </figure>
+            </div>
+            <div id="moviePoster3">
+                <figure>
+                    <img src="../assets/Silence_of_the_lambs_movieposter.jpg" alt="silenceOfTheLambs">
+                </figure>
+            </div>
+        </section>
+        <section id="shuffleButtonContainer">
+            <button id="shuffleButton">Shuffle</button>
+        </section>
     </main>
-
 </body>
-
 </html>
