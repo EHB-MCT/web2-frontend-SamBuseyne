@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <nav>
+        <nav class="navigation">
             <ul>
                 <a href="../index.html">Moves</a>
                 <input type="text" placeholder="Search">
@@ -24,7 +24,7 @@
     <main>
         <article>
             <section>
-                <figure>
+                <!-- <figure>
                     <img src="../assets/Dune_still_1.jpg" alt="movieStill1">
                 </figure>
                 <figure>
@@ -32,12 +32,22 @@
                 </figure>
                 <figure>
                     <img src="../assets/Dune_still_3.jpg" alt="movieStill3">
-                </figure>
+                </figure> -->
             </section>
         </article>
         <article class="infoPage">
-            <section class="infoPageTitel">
-                <p>Titel movie and info</p>
+            <section class="infoPageTitle">
+                <div class="infoPageMovieTitle">
+                    <p id="movieTitle">Dune (2021)</p>
+                </div>
+                <div class="infoPageMovieDescription">
+                    <h3>Rating</h3>
+                    <p id="movieDescription">PG-13</p>
+                </div>
+                <div>
+                    <h3>Language</h3>
+                    <p id="language">English</p>
+                </div>
             </section>
             <section>
                 <div class="infoPagecontainter">
@@ -45,7 +55,7 @@
                         <p>General info</p>
                     </div>
                     <div class="infoPageSide">
-                        <p>sidebar</p>
+                        <button class="addButton">Add</button>
                     </div>
                 </div>
             </section>

@@ -44,11 +44,44 @@ figure {
 *       Header      *
 *********************/
 
+.navigation {
+  background-color: grey;
+}
+
+.navigation ul {
+  margin: 0;
+  padding: 2em 0em 2em 0em;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navigation a{
+  text-decoration: none;
+  color: white;
+  background-color: rgb(50, 138, 238);
+  border-radius: 25px;
+  padding: 0.5em 1em 0.5em 1em;
+}
+
+.navigation input{
+  background-color: rgb(223, 222, 222);
+  width: 35%;
+}
+
 
 /********************
 *      Body          *
 *********************/
+#mainPage{
+  position: absolute;
+}
 
+#gradient{
+  background-color: red;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
 
 #mainPageWallpaper {
   position: relative;
@@ -56,21 +89,88 @@ figure {
   color: white;
 }
 
+#mainPageFigure {
+  margin: 0;
+  height: 100%;
+}
+
+#mainPageFigure img {
+  width: 100%;
+  height: auto;
+}
+
 #mainPageMovieInfo {
   position: absolute;
-  top: 50%;
-  left: 15%;
-  transform: translate(-50%, -50%);
+  top: 25%;
+  left: 5%;
+  /* transform: translate(-50%, -50%); */
   background-color: rgba(255, 255, 255, 0);
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 20%;
 }
+
+.more{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#mainPageMovieInfo h2 {
+  text-align: left;
+  margin: 0;
+  margin-bottom: 0.5em;
+}
+
+#mainPageMovieInfo p {
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 0.5em;
+}
+
+#mainPageMovieInfo button {
+  border-radius: 25px;
+  color: blue;
+  background-color: rgba(255, 255, 255, 0);
+  border-color: blue;
+  font-size: 2em;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+}
+
+#mainPageMovieInfo a{
+  text-align: left;
+  text-decoration: none;
+  color: black;
+  background-color: white;
+  padding: 0.5em 1em 0.5em 1em;
+  border-radius: 10px;
+}
+
+
+
+/********************
+*      Footer       *
+*********************/
 
 #mainPageFooter {
   position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 90%;
+  width: 100%;
   background-color: rgba(255, 255, 255, 0);
+}
+
+#footerContainter{
+  width: 50%;
+}
+
+#mainPageFooterButtons{
   display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 #mainPageFooter a {
@@ -79,6 +179,8 @@ figure {
   background-color: rgb(58, 171, 236);
   padding: 2em;
   border-radius: 25px;
+  font-size: 1em;
+  margin: 0em 3em 0em 3em;
 }
 
 #mainPageFooter ul {
@@ -93,22 +195,29 @@ figure {
 
 
 
-
-
-
-
-
-
-
-
 /***  INFO  ***/
 
-.infoPage{
+.infoPage {
   display: flex;
   flex-direction: column;
+  background-color: lightgrey;
 }
 
 .infoPagecontainter {
   display: flex;
   flex-direction: row;
+  background-color: rgb(153, 152, 152);
+}
+
+.infoPageDescription{
+  background-color: rgb(71, 70, 70);
+}
+
+.infoPageTitle{
+  display: flex;
+  flex-direction: row;
+}
+
+.infoPageTitle div{
+  margin: 0em 0.5em 0em 0.5em;
 }

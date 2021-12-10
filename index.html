@@ -6,43 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moves</title>
-    <link rel="stylesheet" href="./stylesheets/style.css">
+    <link rel="stylesheet" href="../stylesheets/style.css">
     <script src="./scripts/script.js"></script>
 </head>
-<h1>Welcome to Moves</h1>
 
 <body>
     <header>
-        <nav>
+        <nav class="navigation">
             <ul>
                 <a href="#">Moves</a>
                 <input type="text" placeholder="Search">
-                <a href="./html/watchlist.html">Watchlist</a>
-                <a href="./html/login.html">Login</a>
+                <a href="../html/watchlist.html">Watchlist</a>
+                <a href="../html/login.html">Login</a>
             </ul>
         </nav>
     </header>
-    <main>
+
+    <main id="mainPage">
+        <div id="gradient"></div>
         <section id="mainPageWallpaper">
-            <figure>
+            <figure id="mainPageFigure">
                 <img src="./assets/Dune_movieposter.jpg" alt="DunePoster">
             </figure>
             <article id="mainPageMovieInfo">
                 <h2>Dune (2021)</h2>
                 <p>Feature adaption of Frank Herbert's science fiction novel, about the son of a noble family entrusted
                     with the protection of the most valuable asset and most vital element in the galaxy.</p>
-                <button>+</button>
-                <a href="./html/info.html">Info</a>
+                <div class="more">
+                    <button>+</button>
+                    <a href="../html/info.html">Info</a>
+                </div>
             </article>
         </section>
     </main>
 
 
     <footer id="mainPageFooter">
-        <ul>
-            <li> <a href="./html/advanced.html">Advanced Search</a> </li>
-            <li><a href="./html/shuffle.html">Shuffle</a></li>
-        </ul>
+        <div id="footerContainer">
+            <ul id="mainPageFooterButtons">
+                <li> <a href="./html/advanced.html">Advanced Search</a> </li>
+                <li><a href="./html/shuffle.html">Shuffle</a></li>
+            </ul>
+        </div>
     </footer>
 
 </body>
