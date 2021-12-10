@@ -11,9 +11,10 @@
 
 
 ### Tools
-readme.so
+http://readme.so
+http://hex2rgba.devoth.com/
 
 ### Sources
 * w3schools
-* *WEB2:Course Mike Deryckere
+* WEB2:Course Mike Deryckere
 * WEB1: Luka Verhoeven

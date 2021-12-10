@@ -45,7 +45,8 @@ figure {
 *********************/
 
 .navigation {
-  background-color: grey;
+  background-color: rgba(121, 116, 116, 1);
+  width: 100%;
 }
 
 .navigation ul {
@@ -55,32 +56,36 @@ figure {
   justify-content: space-around;
 }
 
-.navigation a{
+.navigation a {
   text-decoration: none;
   color: white;
-  background-color: rgb(50, 138, 238);
   border-radius: 25px;
   padding: 0.5em 1em 0.5em 1em;
 }
 
-.navigation input{
-  background-color: rgb(223, 222, 222);
-  width: 35%;
+.navigation a:first-child {
+  background-color: rgba(0, 161, 239, 1);
 }
 
+.navigation input {
+  background-color: rgba(187, 187, 187, 1);
+  width: 35%;
+}
 
 /********************
 *      Body          *
 *********************/
-#mainPage{
-  position: absolute;
-}
-
-#gradient{
-  background-color: red;
+#mainPage {
   position: relative;
   width: 100%;
+}
+
+#gradient {
+  background-color: rgba(0, 0, 0, 0.226);
+  position: absolute;
+  width: 100%;
   height: 100%;
+  z-index: 0;
 }
 
 #mainPageWallpaper {
@@ -103,7 +108,6 @@ figure {
   position: absolute;
   top: 25%;
   left: 5%;
-  /* transform: translate(-50%, -50%); */
   background-color: rgba(255, 255, 255, 0);
   display: flex;
   flex-direction: column;
@@ -111,12 +115,11 @@ figure {
   width: 20%;
 }
 
-.more{
+.more {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
 }
 
 #mainPageMovieInfo h2 {
@@ -134,14 +137,15 @@ figure {
 
 #mainPageMovieInfo button {
   border-radius: 25px;
-  color: blue;
+  color: rgba(0, 161, 239, 1);
   background-color: rgba(255, 255, 255, 0);
-  border-color: blue;
+  border-color: rgba(0, 161, 239, 1);
   font-size: 2em;
   padding: 0.2em 0.5em 0.2em 0.5em;
+  margin-right: 1em;
 }
 
-#mainPageMovieInfo a{
+#mainPageMovieInfo a {
   text-align: left;
   text-decoration: none;
   color: black;
@@ -163,11 +167,11 @@ figure {
   background-color: rgba(255, 255, 255, 0);
 }
 
-#footerContainter{
+#footerContainter {
   width: 50%;
 }
 
-#mainPageFooterButtons{
+#mainPageFooterButtons {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -176,8 +180,8 @@ figure {
 #mainPageFooter a {
   text-decoration: none;
   color: white;
-  background-color: rgb(58, 171, 236);
-  padding: 2em;
+  background-color: rgba(0, 161, 239, 1);
+  padding: 1em 2em 1em 2em;
   border-radius: 25px;
   font-size: 1em;
   margin: 0em 3em 0em 3em;
@@ -197,6 +201,12 @@ figure {
 
 /***  INFO  ***/
 
+
+/********************
+*      Body          *
+*********************/
+
+
 .infoPage {
   display: flex;
   flex-direction: column;
@@ -209,15 +219,43 @@ figure {
   background-color: rgb(153, 152, 152);
 }
 
-.infoPageDescription{
+.infoPageDescription {
   background-color: rgb(71, 70, 70);
 }
 
-.infoPageTitle{
+.infoPageTitle {
   display: flex;
   flex-direction: row;
 }
 
-.infoPageTitle div{
+.infoPageTitle div {
   margin: 0em 0.5em 0em 0.5em;
+}
+
+/***   LOGIN     ***/
+
+
+/********************
+*      Body          *
+*********************/
+#login{
+  height: 100%;
+}
+
+#loginPage{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.loginContainer{
+  width: 50%;
+  margin: auto;
+}
+
+#loginForm{
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+  width: 100%;
 }
