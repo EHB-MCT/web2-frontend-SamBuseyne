@@ -16,9 +16,9 @@
 *********************/
 
 body {
-    margin: 0;
-    padding: 0;
-    font-weight: 400;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
 }
 
 
@@ -29,21 +29,86 @@ body {
 *********************/
 
 * {
-    font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+}
+
+figure {
+  margin: 0em;
 }
 
 
-
-
-/********************
-*    Main Page      *
-*********************/
+/***  MAIN PAGE  ***/
 
 
 /********************
 *       Header      *
 *********************/
 
-*{
-    background-color: rgb(53, 52, 52);
+
+/********************
+*      Body          *
+*********************/
+
+
+#mainPageWallpaper {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+#mainPageMovieInfo {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0);
+}
+
+#mainPageFooter {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0);
+  display: flex;
+}
+
+#mainPageFooter a {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(58, 171, 236);
+  padding: 2em;
+  border-radius: 25px;
+}
+
+#mainPageFooter ul {
+  list-style-type: none;
+  display: flex;
+}
+
+#mainPageFooter li {
+  margin: 2em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/***  INFO  ***/
+
+.infoPage{
+  display: flex;
+  flex-direction: column;
+}
+
+.infoPagecontainter {
+  display: flex;
+  flex-direction: row;
 }
