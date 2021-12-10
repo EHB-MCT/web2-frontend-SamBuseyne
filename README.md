@@ -14,6 +14,6 @@
 readme.so
 
 ### Sources
-w3schools
-WEB2:Course Mike Deryckere
-WEB1: Luka Verhoeven
+* w3schools
+* *WEB2:Course Mike Deryckere
+* WEB1: Luka Verhoeven
