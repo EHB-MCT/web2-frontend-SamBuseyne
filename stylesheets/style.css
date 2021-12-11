@@ -85,7 +85,6 @@ figure {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 0;
 }
 
 #mainPageWallpaper {
@@ -211,13 +210,17 @@ figure {
   display: flex;
   flex-direction: column;
   background-color: lightgrey;
+  padding: 2em;
 }
 
 .infoPagecontainter {
   display: flex;
   flex-direction: row;
   background-color: rgb(153, 152, 152);
+  padding: 2em;
+  width: 60%;
 }
+
 
 .infoPageDescription {
   background-color: rgb(71, 70, 70);
@@ -232,32 +235,84 @@ figure {
   margin: 0em 0.5em 0em 0.5em;
 }
 
+
+.infoPageStillCarousel {
+  display: flex;
+  flex-direction: row;
+}
+
+.infoPageStillCarousel figure img {
+  width: 30%;
+  height: auto;
+}
+
+
+.movieDetailsSection{
+  display: flex;
+  flex-direction: row;
+}
+
+.infoPageSide{
+  background-color: rgb(71, 70, 70);
+  width: 30%;
+  height: 100%;
+}
+
+.infoPageSide button{
+  color: white;
+  background-color: rgba(0, 161, 239, 1);
+  padding: 0.5em 2em 0.5em 2em;
+  border-radius: 25px;
+  font-size: 1em;
+  margin: 0em 3em 0em 3em;
+
+}
+
+
+
+
 /***   LOGIN     ***/
 
 
 /********************
 *      Body          *
 *********************/
-#login{
-  height: 100%;
-}
-
-#loginPage{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.loginContainer{
+#signUp {
   width: 50%;
   margin: auto;
+  margin-top: 10em;
 }
 
-#loginForm{
+/* #login{
+  background-image: url("../assets/Login_background.jpg");
+  background-repeat: round;
+} */
+
+#loginPage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: auto;
+  background-color: rgba(121, 116, 116, 1);
+
+}
+
+#loginForm {
   display: flex;
   flex-direction: column;
-  background-color: red;
-  width: 100%;
+  background-color: rgba(121, 116, 116, 1);
+  ;
+}
+
+#loginForm input[type=text],
+select {
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 
@@ -267,7 +322,7 @@ figure {
 /********************
 *      Body          *
 *********************/
-#shufflePage{
+#shufflePage {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -275,23 +330,163 @@ figure {
 }
 
 
-#shuffle{
+#shuffle {
   display: flex;
   flex-direction: row;
   margin: 3em 1em 1em 1em;
   justify-content: center;
 }
 
-#shuffle figure img{
+#shuffle figure img {
   width: 350px;
   height: auto;
   margin: 0em 2em 0em 2em;
 }
 
-#shuffleButton{
+#shuffleButton {
   background-color: rgba(255, 255, 255, 0);
   color: rgba(0, 161, 239, 1);
   border-color: rgba(0, 161, 239, 1);
   padding: 1em 2em 1em 2em;
   border-radius: 25px;
+}
+
+
+
+
+/**ADVANCED SEARCH**/
+
+
+/********************
+*      Body          *
+*********************/
+
+.searchContainer {
+  box-sizing: border-box;
+  background-color: rgba(50, 50, 50, 1);
+  display: flex;
+  flex-direction: row;
+  padding: 2em;
+}
+
+.searchResults {
+  width: 75%;
+}
+
+.searchOptions {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.dropButton {
+  background-color: rgba(101, 101, 101, 1);
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdownContent a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdownContent a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdownContent {
+  display: block;
+}
+
+.dropdown:hover .dropButton {
+  background-color: rgb(71, 70, 70)
+}
+
+.searchGenres {
+  overflow: scroll;
+}
+
+
+
+
+/***   WATCHLIST   ***/
+
+
+/********************
+*      Body          *
+*********************/
+
+.lists{
+  width: 100%;
+  background-color: rgba(121, 116, 116, 1);
+  padding: 2em;
+}
+
+
+#sectionWatchlist{
+  background-color: rgba(138, 134, 134, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6em;
+  color: rgb(255, 255, 255);
+}
+
+#sectionWatchlist h2{
+text-decoration: underline;
+text-decoration-color: rgba(0, 161, 239, 1);
+}
+
+#list1Posters{
+  display: flex;
+  flex-direction: row;
+}
+
+#list2Posters{
+  display: flex;
+  flex-direction: row;
+}
+
+#sectionWatchlist figure img{
+width: 100%;
+height: 200px;
+margin: 0.5em;
+}
+
+#sectionWatchlist figure{
+  margin: 0.5em;
+  }
+
+#addButton{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#addButton button{
+  width:5%;
+  border-radius: 25px;
+  color: rgba(0, 161, 239, 1);
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 2em;
+  border-color: rgb(0, 0, 0);
 }
