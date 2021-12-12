@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../stylesheets/style.css">
-    <script src="./scripts/script.js"></script>
+    <script type="module" src="../scripts/script.js"></script>
 </head>
 
 <body>
@@ -21,20 +21,21 @@
             </ul>
         </nav>
     </header>
-    <main id="login">
+    <main id="mainLogin">
         <section id="signUp">
             <div id="loginPage">
-                <button>Login</button>
-                <button>SignUp</button>
+                <button>LOGIN</button>
+                <button>SIGN UP</button>
             </div>
             <div class="loginContainer">
-                <form action="" id="loginForm">
-                    <input type="text" id="emailUser" placeholder="Email">
-                    <input type="text" id="passwordUser" placeholder="Password">
-                    <input type="submit" value="Login">
-                </form>
+                <div id="loginSection">
+                    <form action="" id="loginForm">
+                        <input type="text" id="emailUser" placeholder="Email">
+                        <input type="text" id="passwordUser" placeholder="Password">
+                    </form>
+                    <button id="signUpButton">Login</button>
+                </div>
             </div>
-
         </section>
     </main>
 

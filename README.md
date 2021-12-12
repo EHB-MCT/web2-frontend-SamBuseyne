@@ -17,4 +17,5 @@ http://hex2rgba.devoth.com/
 ### Sources
 * w3schools
 * WEB2:Course Mike Deryckere
-* WEB1: Luka Verhoeven
+* WEB1:Course Luka Verhoeven
+* DEV2: Course Jan Everaert 

@@ -247,18 +247,18 @@ figure {
 }
 
 
-.movieDetailsSection{
+.movieDetailsSection {
   display: flex;
   flex-direction: row;
 }
 
-.infoPageSide{
+.infoPageSide {
   background-color: rgb(71, 70, 70);
   width: 30%;
   height: 100%;
 }
 
-.infoPageSide button{
+.infoPageSide button {
   color: white;
   background-color: rgba(0, 161, 239, 1);
   padding: 0.5em 2em 0.5em 2em;
@@ -278,9 +278,11 @@ figure {
 *      Body          *
 *********************/
 #signUp {
-  width: 50%;
+  width: 40%;
   margin: auto;
   margin-top: 10em;
+  background-color: rgba(121, 116, 116, 1);
+  border-radius: 25px;
 }
 
 /* #login{
@@ -293,20 +295,53 @@ figure {
   flex-direction: row;
   justify-content: space-around;
   margin: auto;
-  background-color: rgba(121, 116, 116, 1);
+  padding-top: 2em;
+}
 
+#loginPage button {
+  background-color: rgba(252, 252, 252, 0);
+  padding: 1em;
+  border-style: none;
+  color: white;
+  font-size: 1.4rem;
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #loginForm {
   display: flex;
   flex-direction: column;
-  background-color: rgba(121, 116, 116, 1);
-  ;
+  align-items: center;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  width: 100%;
 }
+
+#loginSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2em;
+  width: 65%;
+}
+
+#signUpButton {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  padding: 1em 0em 1em 0em;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+
 
 #loginForm input[type=text],
 select {
-  width: 50%;
+  width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
@@ -435,14 +470,14 @@ select {
 *      Body          *
 *********************/
 
-.lists{
+.lists {
   width: 100%;
   background-color: rgba(121, 116, 116, 1);
   padding: 2em;
 }
 
 
-#sectionWatchlist{
+#sectionWatchlist {
   background-color: rgba(138, 134, 134, 1);
   display: flex;
   flex-direction: column;
@@ -451,39 +486,39 @@ select {
   color: rgb(255, 255, 255);
 }
 
-#sectionWatchlist h2{
-text-decoration: underline;
-text-decoration-color: rgba(0, 161, 239, 1);
+#sectionWatchlist h2 {
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 161, 239, 1);
 }
 
-#list1Posters{
+#list1Posters {
   display: flex;
   flex-direction: row;
 }
 
-#list2Posters{
+#list2Posters {
   display: flex;
   flex-direction: row;
 }
 
-#sectionWatchlist figure img{
-width: 100%;
-height: 200px;
-margin: 0.5em;
-}
-
-#sectionWatchlist figure{
+#sectionWatchlist figure img {
+  width: 100%;
+  height: 200px;
   margin: 0.5em;
-  }
+}
 
-#addButton{
+#sectionWatchlist figure {
+  margin: 0.5em;
+}
+
+#addButton {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#addButton button{
-  width:5%;
+#addButton button {
+  width: 5%;
   border-radius: 25px;
   color: rgba(0, 161, 239, 1);
   background-color: rgba(255, 255, 255, 0);
