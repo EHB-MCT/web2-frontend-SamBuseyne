@@ -213,26 +213,52 @@ figure {
   padding: 2em;
 }
 
-.infoPagecontainter {
+#infoPageContainer {
   display: flex;
   flex-direction: row;
-  background-color: rgb(153, 152, 152);
-  padding: 2em;
-  width: 60%;
 }
-
 
 .infoPageDescription {
   background-color: rgb(71, 70, 70);
+  padding: 2em;
+}
+
+.descriptionSection{
+  width: 68%;
+  text-align: left;
 }
 
 .infoPageTitle {
   display: flex;
   flex-direction: row;
+  background-color: grey;
+  margin-bottom: 1em;
+  width: 100%;
+  padding: 2em;
+  box-sizing: border-box;
+  /* justify-content: space-around; */
+}
+
+.infoPageMovieTitle{
+  margin: 0;
+  padding: 0;
+
+}
+
+.infoPageTitle h1{
+  font-size: 2rem;
+}
+
+.infoPageTitle p{
+  margin-top: 0em;
+}
+
+.infoPageTitle h3{
+  margin-bottom: 0em;
 }
 
 .infoPageTitle div {
-  margin: 0em 0.5em 0em 0.5em;
+  margin: 0em 4em 0em 0.5em;
 }
 
 
@@ -242,7 +268,8 @@ figure {
 }
 
 .infoPageStillCarousel figure img {
-  width: 30%;
+  width: 100%;
+  height: 200px;
   height: auto;
 }
 
@@ -252,10 +279,18 @@ figure {
   flex-direction: row;
 }
 
+.movieDetailsSection h2{
+  margin-bottom: 0;
+}
+
+.movieDetailsSection p{
+  margin-top: 0em;
+}
+
 .infoPageSide {
   background-color: rgb(71, 70, 70);
   width: 30%;
-  height: 100%;
+  margin-left: 2em;
 }
 
 .infoPageSide button {
@@ -264,8 +299,114 @@ figure {
   padding: 0.5em 2em 0.5em 2em;
   border-radius: 25px;
   font-size: 1em;
-  margin: 0em 3em 0em 3em;
+  margin: 2em 3em 0em 3em;
+}
 
+.movieDetailsSection{
+  color: rgb(179, 176, 176);
+}
+
+.movieDetailsSection h2{
+  color: rgb(255, 255, 255);
+
+}
+
+
+
+
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 500px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+/* .text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+} */
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
 }
 
 
@@ -362,6 +503,7 @@ select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgb(17, 16, 16);
 }
 
 
