@@ -513,18 +513,18 @@ select {
 /********************
 *      Body          *
 *********************/
-#shufflePage .switchButton{
+#shufflePage .switchButton {
   width: 100%;
   margin-top: 1em;
 }
 
-.switchButton{
+.switchButton {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 }
 
-.switchButton a{
+.switchButton a {
   text-decoration: none;
   color: white;
   border-radius: 25px;
@@ -545,7 +545,7 @@ select {
 #shuffle {
   display: flex;
   flex-direction: row;
-  margin: 3em 1em 1em 1em;
+  margin: 3em 1em 4em 1em;
   justify-content: center;
 }
 
@@ -563,7 +563,30 @@ select {
   border-radius: 25px;
 }
 
+.moviePoster {
+  display: flex;
+  flex-direction: column;
+  color: rgb(255, 255, 255);
+  align-items: center;
+}
 
+.addButton {
+  background-color: rgba(255, 255, 255, 0);
+  color: rgba(0, 161, 239, 1);
+  border-color: rgba(0, 161, 239, 1);
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-radius: 25px;
+  font-size: 1.5rem;
+}
+
+.movieInfoSection{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1em;
+  width: 100%;
+  justify-content: space-evenly;
+}
 
 
 /**ADVANCED SEARCH**/
@@ -671,11 +694,11 @@ select {
   margin-bottom: 2em;
 }
 
-.searchOptions form{
+.searchOptions form {
   padding: 1em;
 }
 
-.searchGenres div{
+.searchGenres div {
   background-color: rgba(101, 101, 101, 1);
 }
 
@@ -724,7 +747,7 @@ select {
   border-bottom: 1px solid rgba(0, 161, 239, 1);
 }
 
-#resultsContainer{
+#resultsContainer {
   color: white;
 }
 

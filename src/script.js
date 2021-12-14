@@ -68,16 +68,19 @@ window.onload = function () {
             .then(data => {
                 console.log(data)
                 let movieData = data.Search;
-                let poster = document.getElementById('moviePoster1');
+                let poster = document.getElementsByClassName("moviePoster")
                 let htmlString = "";
                 htmlString += `
-            <div id="moviePoster1">
+            <div class="moviePoster">
             <figure>
                 <img src="${movieData[1].Poster}">
             </figure>
+            <p>${movieData[1].Title}</p>
+            <p>${movieData[1].Poster}</p>
+            <button class="addButton">+</button>
         </div>
             `
-            poster.innerHTML = htmlString;
+                poster.innerHTML = htmlString;
             })
     })
 
