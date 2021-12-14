@@ -223,7 +223,7 @@ figure {
   padding: 2em;
 }
 
-.descriptionSection{
+.descriptionSection {
   width: 68%;
   text-align: left;
 }
@@ -239,21 +239,21 @@ figure {
   /* justify-content: space-around; */
 }
 
-.infoPageMovieTitle{
+.infoPageMovieTitle {
   margin: 0;
   padding: 0;
 
 }
 
-.infoPageTitle h1{
+.infoPageTitle h1 {
   font-size: 2rem;
 }
 
-.infoPageTitle p{
+.infoPageTitle p {
   margin-top: 0em;
 }
 
-.infoPageTitle h3{
+.infoPageTitle h3 {
   margin-bottom: 0em;
 }
 
@@ -279,11 +279,11 @@ figure {
   flex-direction: row;
 }
 
-.movieDetailsSection h2{
+.movieDetailsSection h2 {
   margin-bottom: 0;
 }
 
-.movieDetailsSection p{
+.movieDetailsSection p {
   margin-top: 0em;
 }
 
@@ -302,11 +302,11 @@ figure {
   margin: 2em 3em 0em 3em;
 }
 
-.movieDetailsSection{
+.movieDetailsSection {
   color: rgb(179, 176, 176);
 }
 
-.movieDetailsSection h2{
+.movieDetailsSection h2 {
   color: rgb(255, 255, 255);
 
 }
@@ -314,7 +314,9 @@ figure {
 
 
 
-* {box-sizing:border-box}
+* {
+  box-sizing: border-box
+}
 
 /* Slideshow container */
 .slideshow-container {
@@ -329,7 +331,8 @@ figure {
 }
 
 /* Next & previous buttons */
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -351,8 +354,9 @@ figure {
 }
 
 /* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* Caption text */
@@ -387,7 +391,8 @@ figure {
   transition: background-color 0.6s ease;
 }
 
-.active, .dot:hover {
+.active,
+.dot:hover {
   background-color: #717171;
 }
 
@@ -400,13 +405,23 @@ figure {
 }
 
 @-webkit-keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
+  from {
+    opacity: .4
+  }
+
+  to {
+    opacity: 1
+  }
 }
 
 @keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
+  from {
+    opacity: .4
+  }
+
+  to {
+    opacity: 1
+  }
 }
 
 
@@ -498,12 +513,32 @@ select {
 /********************
 *      Body          *
 *********************/
+#shufflePage .switchButton{
+  width: 100%;
+  margin-top: 1em;
+}
+
+.switchButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.switchButton a{
+  text-decoration: none;
+  color: white;
+  border-radius: 25px;
+  padding: 0.5em 1em 0.5em 1em;
+  background-color: rgba(0, 161, 239, 1);
+}
+
 #shufflePage {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgb(17, 16, 16);
+  padding-bottom: 5em;
 }
 
 
@@ -556,6 +591,13 @@ select {
   flex-direction: column;
 }
 
+#searchOptionsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-bottom: 3em;
+}
+
 
 .dropButton {
   background-color: rgba(101, 101, 101, 1);
@@ -563,11 +605,31 @@ select {
   padding: 12px 16px;
   font-size: 16px;
   border: none;
+  width: 100%;
 }
 
 .dropdown {
   position: relative;
   display: inline-block;
+  width: 100%;
+}
+
+#inputfield {
+  width: 100%;
+}
+
+#field {
+  width: 100%;
+  padding: 0.5em;
+}
+
+#buttonSection {
+  width: 100%;
+}
+
+#searchButton {
+  width: 100%;
+  padding: 0.5em;
 }
 
 .dropdownContent {
@@ -577,6 +639,7 @@ select {
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  width: 100%;
 }
 
 .dropdownContent a {
@@ -599,11 +662,71 @@ select {
 }
 
 .searchGenres {
-  overflow: scroll;
+  border-color: rgb(114, 114, 114);
+  color: rgb(255, 255, 255);
+  border-style: solid;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-bottom: 2em;
 }
 
+.searchOptions form{
+  padding: 1em;
+}
 
+.searchGenres div{
+  background-color: rgba(101, 101, 101, 1);
+}
 
+.searchThemes {
+  border-color: rgb(114, 114, 114);
+  color: rgb(255, 255, 255);
+  border-style: solid;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-bottom: 2em;
+}
+
+.searchYear {
+  border-color: rgb(114, 114, 114);
+  color: rgb(255, 255, 255);
+  border-style: solid;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  width: 80%;
+  margin-bottom: 2em;
+}
+
+.searchFilters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.searchFilters button {
+  margin: 1em;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  border-radius: 24px;
+  padding: 0.7em 1.2em;
+  border-style: none;
+}
+
+.filterdResults p {
+  text-align: center;
+  color: white;
+}
+
+.filterdResults {
+  border-bottom: 1px solid rgba(0, 161, 239, 1);
+}
+
+#resultsContainer{
+  color: white;
+}
 
 /***   WATCHLIST   ***/
 
