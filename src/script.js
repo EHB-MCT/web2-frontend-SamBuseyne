@@ -55,7 +55,7 @@ import User from "./classes/User.js";
 window.onload = function () {
     console.log("script loaded!")
 
-    let url = `http://www.omdbapi.com/?s=tenet&apikey=3d9f5461&`;
+    let url = `https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`;
 
 
     document.getElementById('shuffleButton').addEventListener('click', () => {
@@ -65,6 +65,7 @@ window.onload = function () {
                 return response.json();
             })
             .then(data => {
+                console.log(data)
                 let movieData = data.Search;
                 // console.log(movieData);
                 let poster = document.getElementById("moviePoster")
