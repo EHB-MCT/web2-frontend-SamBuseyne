@@ -53,10 +53,8 @@ import User from "./classes/User.js";
 
 
 window.onload = function () {
-    console.log("script loaded!")
 
     let url = `https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`;
-
 
     document.getElementById('shuffleButton').addEventListener('click', () => {
 
@@ -66,20 +64,37 @@ window.onload = function () {
             })
             .then(data => {
                 console.log(data)
-                let movieData = data.Search;
-                // console.log(movieData);
+                // let movieData = data.Search;
                 let poster = document.getElementById("moviePoster")
                 let htmlString = "";
                 htmlString += `
-                <figure id="${movieData.Title}">
-                    <img src="${movieData.Poster}" alt="${movieData.Title}">
+                <figure id="${data.name}">
+                    <img src="${data.name}" alt="${data.name}">
                 </figure>
                 <div class="movieInfoSection">
-                    <p>${movieData.Title}</p>
-                    <p>${movieData.Year}</p>
+                    <p>${data.name}</p>
+                    <p>${data.year}</p>
                     <button class="addButton">+</button>
                 </div> `;
                 poster.innerHTML = htmlString;
             })
+    });
+
+    document.getElementById('searchButton').addEventListener('click', () =>{
+        fetch(`https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`)
+        .then(response =>{
+            return response.json();
+        })
+        .then(data =>{
+            console.log(data)
+            let results = document.getElementById('resultsContainer')
+            let htmlString = "";
+            htmlString +=`
+            <p>${data.name}</p>
+            <p>${data.director}</p>
+            <p>${data.year}</p>`;
+            results.innerHTML = htmlString;
+        })
+
     });
 }
