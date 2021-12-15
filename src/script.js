@@ -59,35 +59,28 @@ window.onload = function () {
 
 
     document.getElementById('shuffleButton').addEventListener('click', () => {
-        console.log("let'shuffle!")
 
         fetch(url)
             .then(response => {
                 return response.json();
             })
             .then(data => {
-                console.log(data)
                 let movieData = data.Search;
-                let poster = document.getElementsByClassName("moviePoster")
+                // console.log(movieData);
+                let poster = document.getElementById("moviePoster1")
                 let htmlString = "";
                 htmlString += `
-            <div class="moviePoster">
-            <figure>
-                <img src="${movieData[1].Poster}">
-            </figure>
-            <p>${movieData[1].Title}</p>
-            <p>${movieData[1].Poster}</p>
-            <button class="addButton">+</button>
-        </div>
-            `
+                <div class="moviePoster">
+                <figure id="${movieData.Title}">
+                    <img src="${movieData.Poster}" alt="${movieData.Title}">
+                </figure>
+                <div class="movieInfoSection">
+                    <p>${movieData.Title}</p>
+                    <p>${movieData.Year}</p>
+                    <button class="addButton">+</button>
+                </div>
+                </div> `;
                 poster.innerHTML = htmlString;
             })
-    })
-
-
-    document.getElementById('signUpButton').addEventListener('click', () => {
-        console.log('logging in')
-    })
-
-
+    });
 }
