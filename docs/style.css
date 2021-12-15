@@ -579,7 +579,7 @@ select {
   font-size: 1.5rem;
 }
 
-.movieInfoSection{
+.movieInfoSection {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -752,14 +752,33 @@ select {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.movieContainer{
+.movieContainer {
   margin-left: 1em;
   margin-right: 1em;
+  margin-bottom: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.movieContainer img{
+.movieContainer p {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+.movieContainer figure{
+  margin-bottom: 0.5em;
+}
+
+
+
+.movieContainer img {
   height: 300px;
   width: auto;
 }
