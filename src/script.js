@@ -67,10 +67,9 @@ window.onload = function () {
             .then(data => {
                 let movieData = data.Search;
                 // console.log(movieData);
-                let poster = document.getElementById("moviePoster1")
+                let poster = document.getElementById("moviePoster")
                 let htmlString = "";
                 htmlString += `
-                <div class="moviePoster">
                 <figure id="${movieData.Title}">
                     <img src="${movieData.Poster}" alt="${movieData.Title}">
                 </figure>
@@ -78,7 +77,6 @@ window.onload = function () {
                     <p>${movieData.Title}</p>
                     <p>${movieData.Year}</p>
                     <button class="addButton">+</button>
-                </div>
                 </div> `;
                 poster.innerHTML = htmlString;
             })
