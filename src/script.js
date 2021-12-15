@@ -53,6 +53,7 @@ import User from "./classes/User.js";
 
 
 window.onload = function () {
+    console.log("Script loaded!")
 
     let url = `https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`;
 
