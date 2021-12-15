@@ -81,23 +81,22 @@ window.onload = function () {
     // });
 
     document.getElementById('searchButton').addEventListener('click', () => {
-        fetch(`https://web2-backend-sambuseyne.herokuapp.com/movie?id=1235`)
+        fetch(`https://web2-backend-sambuseyne.herokuapp.com/movies`)
             .then(response => {
                 return response.json();
             })
             .then(data => {
                 console.log(data)
-                let results = document.getElementById('resultsContainer')
-                let htmlString = "";
-                htmlString += `
-            <figure>
-            <img src="${data.poster}" alt="Tenet">
-            </figure>
-            <p>${data.name}</p>
-            <p>${data.director}</p>
-            <p>${data.year}</p>`;
-                results.innerHTML = htmlString;
-            })
 
+                for (i = 0; i < data.length; i++) {
+                document.getElementById('resultsContainer').innerHTML +=
+                `<figure>
+                <img src="${data[i].poster}" alt="Tenet">
+                </figure>
+                <p>${data[i].name}</p>
+                <p>${data[i].director}</p>
+                <p>${data[i].year}</p>`;
+                }
+            })
     });
 }
