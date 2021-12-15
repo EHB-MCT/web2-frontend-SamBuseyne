@@ -1,85 +1,61 @@
 "Use strict";
 
-import User from "./classes/User.js";
+let htmlString = "";
 
 
-
-// const server = {
-//     userID: null,
-//     searchItem: "",
-//     user: new User(),
-//     codestage: null, //variable to run different parts of the code without having issues of unfinished code
-
-
-//     init() {
-//         this.codestage = 0; //testing searchbar without having to login
-//         if (this.codestage = "0") {
-//             this.searchEngine()
-
-//         } else if (this.codestage = "1") {
-//             this.initFields();
-//             this.render();
-
-//             if (this.user.token != null) {
-//                 this.checkInput();
-//             }
-//         }
-//     },
-
-//     initFields() {
-//         document.getElementById('loginSection').addEventListener("click", (e) => {
-//             e.preventDefault();
-//             console.log("logging in")
-//             const email = document.getElementById('emailUser').value;
-//             const password = document.getElementById('passwordUser').value;
-//             console.log("credentials are:", email, password)
-//         })
-//     },
-
-//     searchEngine() {
-//         document.querySelector('#inputNavigation').addEventListener('keypress', function (e) {
-//             if (e.key === 'Enter') {
-//                 const userInput = document.getElementById('searchItem').value;
-//                 console.log(userInput)
-//             }
-//         });
-//         const content = document.getElementById("searchItem");
-
-//     }
-// }
-
-// server.init();
-
-
-
-window.onload = function () {
+window.onload = async function () {
     console.log("Script loaded!")
+    //look what pages is active by what the user clicks
+    checkPages()
+}
 
-    // let url = `https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`;
+function checkPages() {
+    let shuffle = document.getElementById('shuffleButton')
+    let advanced = document.getElementById('searchButton')
+    if (shuffle) {
+        console.log("shuffle actived!")
+        shuffleFunction()
+    } else if (advanced) {
+        console.log("advanced actived!")
+        advancedSearch()
+    }
+}
 
-    // document.getElementById('shuffleButton').addEventListener('click', () => {
-    //     fetch(url)
-    //         .then(response => {
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             console.log(data)
-    //             // let movieData = data.Search;
-    //             let poster = document.getElementById("moviePoster")
-    //             let htmlString = "";
-    //             htmlString += `
-    //             <figure id="${data.name}">
-    //                 <img src="${data.name}" alt="${data.name}">
-    //             </figure>
-    //             <div class="movieInfoSection">
-    //                 <p>${data.name}</p>
-    //                 <p>${data.year}</p>
-    //                 <button class="addButton">+</button>
-    //             </div> `;
-    //             poster.innerHTML = htmlString;
-    //         })
-    // });
+function shuffleFunction() {
+    let url = `https://web2-backend-sambuseyne.herokuapp.com/movies`;
 
+    document.getElementById('shuffleButton').addEventListener('click', () => {
+        fetch(url)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                htmlString = "";
+                console.log(data);
+                data.sort(()=> Math.random()- 0.5);
+                data = data.slice(0,3);
+                console.log(data);
+                for (let m of data) {
+                    htmlString +=
+                        `<div class="moviePoster">
+                        <figure id="${m.name}">
+                        <img src="${m.poster}" alt="${m.name}">
+                    </figure>
+                    <div class="movieInfoSection">
+                        <p>${m.name}</p>
+                        <p>${m.year}</p>
+                        <button class="addButton">+</button>
+                    </div>
+                    </div>`
+                    ;
+                }
+                document.getElementById('shuffle').innerHTML = htmlString;
+            })
+    });
+}
+
+
+function advancedSearch() {
     document.getElementById('searchButton').addEventListener('click', () => {
         fetch(`https://web2-backend-sambuseyne.herokuapp.com/movies`)
             .then(response => {
@@ -88,15 +64,19 @@ window.onload = function () {
             .then(data => {
                 console.log(data)
 
-                for (i = 0; i < data.length; i++) {
-                document.getElementById('resultsContainer').innerHTML +=
-                `<figure>
-                <img src="${data[i].poster}" alt="Tenet">
-                </figure>
-                <p>${data[i].name}</p>
-                <p>${data[i].director}</p>
-                <p>${data[i].year}</p>`;
+                for (let m of data) {
+                    htmlString +=
+                        `
+                    <div class="movieContainer">
+                    <figure>
+                    <img src="${m.poster}" alt="Tenet">
+                    </figure>
+                    <p>Title: ${m.name}</p>
+                    <p>Director: ${m.director}</p>
+                    <p>Release: ${m.year}</p>
+                    </div>`;
                 }
+                document.getElementById('resultsContainer').innerHTML = htmlString;
             })
     });
 }

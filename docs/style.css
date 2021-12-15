@@ -749,6 +749,19 @@ select {
 
 #resultsContainer {
   color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.movieContainer{
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.movieContainer img{
+  height: 300px;
+  width: auto;
 }
 
 /***   WATCHLIST   ***/
