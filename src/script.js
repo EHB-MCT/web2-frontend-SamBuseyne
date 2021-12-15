@@ -55,47 +55,49 @@ import User from "./classes/User.js";
 window.onload = function () {
     console.log("Script loaded!")
 
-    let url = `https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`;
+    // let url = `https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`;
 
-    document.getElementById('shuffleButton').addEventListener('click', () => {
+    // document.getElementById('shuffleButton').addEventListener('click', () => {
+    //     fetch(url)
+    //         .then(response => {
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             console.log(data)
+    //             // let movieData = data.Search;
+    //             let poster = document.getElementById("moviePoster")
+    //             let htmlString = "";
+    //             htmlString += `
+    //             <figure id="${data.name}">
+    //                 <img src="${data.name}" alt="${data.name}">
+    //             </figure>
+    //             <div class="movieInfoSection">
+    //                 <p>${data.name}</p>
+    //                 <p>${data.year}</p>
+    //                 <button class="addButton">+</button>
+    //             </div> `;
+    //             poster.innerHTML = htmlString;
+    //         })
+    // });
 
-        fetch(url)
+    document.getElementById('searchButton').addEventListener('click', () => {
+        fetch(`https://web2-backend-sambuseyne.herokuapp.com/movie?id=1235`)
             .then(response => {
                 return response.json();
             })
             .then(data => {
                 console.log(data)
-                // let movieData = data.Search;
-                let poster = document.getElementById("moviePoster")
+                let results = document.getElementById('resultsContainer')
                 let htmlString = "";
                 htmlString += `
-                <figure id="${data.name}">
-                    <img src="${data.name}" alt="${data.name}">
-                </figure>
-                <div class="movieInfoSection">
-                    <p>${data.name}</p>
-                    <p>${data.year}</p>
-                    <button class="addButton">+</button>
-                </div> `;
-                poster.innerHTML = htmlString;
-            })
-    });
-
-    document.getElementById('searchButton').addEventListener('click', () =>{
-        fetch(`https://web2-backend-sambuseyne.herokuapp.com/movie?id=1234`)
-        .then(response =>{
-            return response.json();
-        })
-        .then(data =>{
-            console.log(data)
-            let results = document.getElementById('resultsContainer')
-            let htmlString = "";
-            htmlString +=`
+            <figure>
+            <img src="${data.poster}" alt="Tenet">
+            </figure>
             <p>${data.name}</p>
             <p>${data.director}</p>
             <p>${data.year}</p>`;
-            results.innerHTML = htmlString;
-        })
+                results.innerHTML = htmlString;
+            })
 
     });
 }
