@@ -763,13 +763,12 @@ select {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 20%
 }
 
 .movieContainer p {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
-  word-break: break-all;
-  overflow-wrap: break-word;
 }
 
 .movieContainer figure{
@@ -779,7 +778,7 @@ select {
 
 
 .movieContainer img {
-  height: 300px;
+  height: 400px;
   width: auto;
 }
 
