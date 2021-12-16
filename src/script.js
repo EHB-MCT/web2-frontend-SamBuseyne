@@ -9,10 +9,8 @@ window.onload = async function () {
 
 
     document.getElementById("signUpButton").addEventListener('click', () => {
-        console.log("logginIn")
         let email = document.getElementById("emailUser").value;
         let pass = document.getElementById("passwordUser").value;
-        console.log("email:", email, "pass:", pass);
 
         const userCred = {
             email: email,
@@ -28,12 +26,11 @@ window.onload = async function () {
                 body: JSON.stringify(userCred)
             })
             .then(response => {
-                return response.json
+                return response.json();
             })
             .then(data => {
-                if (data.login) {
-                    console.log(data);
-
+                console.log(data);
+                if (data) {
                     sessionStorage.setItem("id", data.id);
                     sessionStorage.setItem("login", data.login);
                     window.location.assign(`${window.location.origin}/docs/index.html`);
