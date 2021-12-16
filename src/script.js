@@ -33,7 +33,7 @@ window.onload = async function () {
                 if (data) {
                     sessionStorage.setItem("id", data.id);
                     sessionStorage.setItem("login", data.login);
-                    window.location.assign(`${window.location.origin}/docs/index.html`);
+                    window.location.assign(`${window.location.origin}../index.html`);
                 } else {
                     console.log('Wrong password or email!');
                 }
