@@ -3,33 +3,74 @@
 let orderKey = "0"
 let sleutel = "";
 let htmlString = "";
-let movieList = [];
-// let sortedMovies = [];
-// let userInput = "";
+let url = `https://web2-backend-sambuseyne.herokuapp.com/movies`;
+let movies= []
 
-window.onload = async function () {
-    // await initWebsite();
-    await checkSwitchLogin();
+setup()
+
+function setup() {
     initWebsite();
+    checkSwitchLogin();
     checkPages();
 }
 
 async function getMovies() {
-    if (sessionStorage.login) {
 
+    if (sessionStorage.login) {
 
         await fetch(`https://web2-backend-sambuseyne.herokuapp.com/movies`)
             .then(response => {
                 return response.json();
             })
             .then(data => {
-                movieList = data;
+                movies = data;
                 console.log("Oops i did a fetchcall");
-
+                // renderMovies(movies);
             })
     }
-}
 
+    if (document.getElementById('releaseDate')) {
+        document.getElementById('releaseDate').addEventListener('click', e => {
+            let sortSetting = document.getElementById('releaseDate').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+
+    if (document.getElementById('mostViews')) {
+        document.getElementById('mostViews').addEventListener('click', e => {
+            let sortSetting = document.getElementById('mostViews').id;
+            updateMovieList(movies, sortSetting);
+            console.log("views")
+        })
+    }
+
+    if (document.getElementById('mostSearched')) {
+        document.getElementById('mostSearched').addEventListener('click', e => {
+            let sortSetting = document.getElementById('mostSearched').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+
+    if (document.getElementById('rating')) {
+        document.getElementById('rating').addEventListener('click', e => {
+            let sortSetting = document.getElementById('rating').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+
+    if (document.getElementById('trending')) {
+        document.getElementById('trending').addEventListener('click', e => {
+            let sortSetting = document.getElementById('trending').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+    if (document.getElementById('searchButton')) {
+        document.getElementById('searchButton').addEventListener('click', e => {
+            let input = document.getElementById('field').value;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+}
 
 
 //starting the website
@@ -74,60 +115,15 @@ function login(email, password) {
                 sessionStorage.setItem("id", data.id);
                 sessionStorage.setItem("login", data.login);
                 window.location.href = "../index.html";
-                service.checkPages();
             } else {
                 console.log('Wrong password or email!');
             }
         })
 }
 
-
-//listening to all the searchoptions on the advanced page if something is clicked
-function checkSortings(movieList) {
-    if (document.getElementById('releaseDate')) {
-        document.getElementById('releaseDate').addEventListener('click', e => {
-            let sortSetting = document.getElementById('releaseDate').id;
-            updateMovieList(movieList, sortSetting);
-        })
-    }
-
-    if (document.getElementById('mostViews')) {
-        document.getElementById('mostViews').addEventListener('click', e => {
-            let sortSetting = document.getElementById('mostViews').id;
-            updateMovieList(movieList, sortSetting);
-        })
-    }
-
-    if (document.getElementById('mostSearched')) {
-        document.getElementById('mostSearched').addEventListener('click', e => {
-            let sortSetting = document.getElementById('mostSearched').id;
-            updateMovieList(movieList, sortSetting);
-        })
-    }
-
-    if (document.getElementById('rating')) {
-        document.getElementById('rating').addEventListener('click', e => {
-            let sortSetting = document.getElementById('rating').id;
-            updateMovieList(movieList, sortSetting);
-        })
-    }
-
-    if (document.getElementById('trending')) {
-        document.getElementById('trending').addEventListener('click', e => {
-            let sortSetting = document.getElementById('trending').id;
-            updateMovieList(movieList, sortSetting);
-        })
-    }
-    if (document.getElementById('searchButton')) {
-        document.getElementById('searchButton').addEventListener('click', e => {
-            let input = document.getElementById('field').value;
-            updateMovieList(movieList, sortSetting);
-        })
-    }
-}
-
 //render the movies on the pages
 function renderMovies(movies) {
+    console.log("rendering");
     let movieHTML = "";
     movies.forEach(m => {
         movieHTML += `
@@ -145,15 +141,38 @@ function renderMovies(movies) {
     </div>`
         document.getElementById('resultsContainer').innerHTML = movieHTML;
     });
+}
 
+
+function shuffleFunction() {
+    document.getElementById('shuffleButton').addEventListener('click', () => {
+        let newList = [];
+        htmlString = "";
+        movies.sort(() => Math.random() - 0.5);
+        newList = movies.slice(0, 3);
+        for (let m of newList) {
+            htmlString +=
+                `<div class="moviePoster">
+                <figure id="${m.name}">
+                <img src="${m.poster}" alt="${m.name}">
+            </figure>
+            <div class="movieInfoSection">
+                <p>${m.name}</p>
+                <p>${m.year}</p>
+                <button class="addButton">+</button>
+            </div>
+            </div>`;
+            document.getElementById('shuffle').innerHTML = htmlString;
+        }
+    });
 }
 
 //sort movies when loading in the first time
-function sortMovies(movieList, sortSetting) {
+function sortMovies(movies, sortSetting) {
     if (sortSetting == "year") {
-        movieList.sort((a, b) => {
+        movies.sort((a, b) => {
             return b.year - a.year;
-        })
+        });
     }
 }
 
@@ -168,6 +187,7 @@ function updateMovieList(movies, sortSetting) {
         });
         newList = movies;
         orderKey = "1";
+
     } else if (sortSetting == "releaseDate" && orderKey == "1") {
         movies.sort((a, b) => {
             return b.year - a.year
@@ -176,7 +196,8 @@ function updateMovieList(movies, sortSetting) {
         newList = movies;
         orderKey = "0";
 
-    } else if (sortSetting == "rating") {
+    } else if (sortSetting == "rating"  && orderKey == "0") {
+        console.log("let's go down")
         movies.forEach(m => {
             if (m.rating) {
                 newList.push(m)
@@ -184,9 +205,27 @@ function updateMovieList(movies, sortSetting) {
         })
         newList.sort((a, b) => {
             return b.rating - a.rating
-        })
+        });
+        orderKey = "1";
 
-    } else if (sortSetting == "mostSearched") {
+
+    } else if (sortSetting == "rating"  && orderKey == "1") {
+        console.log("let's go up")
+        movies.forEach(m => {
+            if (m.rating) {
+                newList.push(m)
+            }
+        })
+        newList.sort((a, b) => {
+            return a.rating - b.rating
+        });
+        orderKey = "0";
+
+    }
+    
+    
+    
+    else if (sortSetting == "mostSearched"  && orderKey == "0") {
         movies.forEach(m => {
             if (m.searches) {
                 newList.push(m)
@@ -195,15 +234,16 @@ function updateMovieList(movies, sortSetting) {
         newList.sort((a, b) => {
             return b.searches - a.searches
         })
-    } else if (sortSetting == "trending") {
+    } else if (sortSetting == "trending"  && orderKey == "0") {
         movies.forEach(m => {
-            if (m.trending) {
+            if (m.trending == "yes") {
                 newList.push(m)
+                
             }
         })
-    } else if (sortSetting == "mostViews") {
+    } else if (sortSetting == "mostViews" && orderKey == "0") {
         movies.forEach(m => {
-            if (m.view) {
+            if (m.views) {
                 newList.push(m)
             }
         })
@@ -211,8 +251,6 @@ function updateMovieList(movies, sortSetting) {
             return b.view - a.view
         })
     }
-    console.log(movies);
-    console.log(newList)
     renderMovies(newList);
 }
 
@@ -261,12 +299,12 @@ function loadUserBasedContent(guide) {
     } else if (guide == "shuffle") {
         console.log("Let's show the shuffle page")
         getMovies()
+        shuffleFunction(movies);
     } else if (guide == "advanced") {
         console.log("Let's show the advanced page")
-        getMovies()
-        sortMovies(movieList, "year");
-        renderMovies(movieList);
-        checkSortings(movieList);
+        getMovies();
+        updateMovieList();
+        // checkSortings(movies);
     } else if (guide == "info") {
         console.log("Let's show the info page")
     } else if (guide == "login") {
@@ -336,38 +374,7 @@ function checkPages() {
 //         }
 //     },
 
-//     shuffleFunction() {
-//         let url = `https://web2-backend-sambuseyne.herokuapp.com/movies`;
 
-//         document.getElementById('shuffleButton').addEventListener('click', () => {
-
-
-//             fetch(url)
-//                 .then(response => {
-//                     return response.json();
-//                 })
-//                 .then(data => {
-//                     htmlString = "";
-//                     data.sort(() => Math.random() - 0.5);
-//                     data = data.slice(0, 3);
-//                     console.log(data);
-//                     for (let m of data) {
-//                         htmlString +=
-//                             `<div class="moviePoster">
-//                             <figure id="${m.name}">
-//                             <img src="${m.poster}" alt="${m.name}">
-//                         </figure>
-//                         <div class="movieInfoSection">
-//                             <p>${m.name}</p>
-//                             <p>${m.year}</p>
-//                             <button class="addButton">+</button>
-//                         </div>
-//                         </div>`;
-//                     }
-//                     document.getElementById('shuffle').innerHTML = htmlString;
-//                 })
-//         });
-//     },
 
 
 //         if (check) {
@@ -433,12 +440,3 @@ function checkPages() {
 //             }
 //         })
 //     },
-
-
-
-
-
-
-// }
-
-// service.init()

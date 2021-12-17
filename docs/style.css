@@ -434,6 +434,9 @@ figure {
 *      Body          *
 *********************/
 
+#mainLogin{
+  background-color: rgb(41, 40, 40);
+}
 
 #signUp {
   width: 40%;
@@ -614,7 +617,7 @@ select {
   padding: 2em;
 }
 
-.searchResults {
+#searchResults {
   width: 75%;
 }
 
@@ -704,15 +707,19 @@ select {
   margin-bottom: 2em;
 }
 
+#searchGenres h3{
+  text-align: center;
+}
+
 .searchOptions form {
   padding: 1em;
 }
 
-.searchGenres div {
+#searchGenres div {
   background-color: rgba(101, 101, 101, 1);
 }
 
-.searchThemes {
+#searchThemes {
   border-color: rgb(114, 114, 114);
   color: rgb(255, 255, 255);
   border-style: solid;
@@ -722,7 +729,7 @@ select {
   margin-bottom: 2em;
 }
 
-.searchYear {
+#searchYear {
   border-color: rgb(114, 114, 114);
   color: rgb(255, 255, 255);
   border-style: solid;
