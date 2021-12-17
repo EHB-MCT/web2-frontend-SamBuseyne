@@ -1,7 +1,5 @@
 "Use strict";
 
-import Movies from "./classes/Movies.js";
-
 let orderKey = "0"
 let sleutel = "";
 let htmlString = "";
@@ -16,7 +14,7 @@ window.onload = async function () {
     checkPages();
 }
 
-async function getMovies(){
+async function getMovies() {
     if (sessionStorage.login) {
 
 
@@ -75,7 +73,7 @@ function login(email, password) {
             if (data) {
                 sessionStorage.setItem("id", data.id);
                 sessionStorage.setItem("login", data.login);
-                window.location.assign(`${window.location.origin}/docs/index.html`);
+                window.location.href = "../index.html";
                 service.checkPages();
             } else {
                 console.log('Wrong password or email!');
@@ -263,17 +261,17 @@ function loadUserBasedContent(guide) {
     } else if (guide == "shuffle") {
         console.log("Let's show the shuffle page")
         getMovies()
-    } else if(guide == "advanced"){
+    } else if (guide == "advanced") {
         console.log("Let's show the advanced page")
         getMovies()
         sortMovies(movieList, "year");
         renderMovies(movieList);
         checkSortings(movieList);
-    }else if(guide == "info"){
+    } else if (guide == "info") {
         console.log("Let's show the info page")
-    }else if(guide == "login"){
+    } else if (guide == "login") {
         console.log("Let's show the login page")
-    }else if(guide == "index"){
+    } else if (guide == "index") {
         console.log("Let's show the homepage")
     }
 }
