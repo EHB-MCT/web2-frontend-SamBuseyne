@@ -47,33 +47,33 @@
                     </div>
 
                 </div>
-                <div class="searchGenres">
+                <div id="searchGenres">
                     <div>
                         <h3>Genres</h3>
                     </div>
                     <form action="">
-                        <input type="checkbox" id="genre1" name="genre1" value="genre">
+                        <input type="checkbox" class="genre" name="Action" value="Action">
                         <label for="genre1">Action</label><br>
-                        <input type="checkbox" id="genre2" name="genre2" value="genre">
+                        <input type="checkbox" class="genre" name="Adult" value="Adult">
                         <label for="genre2">Adult</label><br>
-                        <input type="checkbox" id="genre3" name="genre3" value="genre">
+                        <input type="checkbox" class="genre" name="Adventure" value="Adventure">
                         <label for="genre3">Adventure</label><br><br>
-                        <input type="checkbox" id="genre4" name="genre4" value="genre">
+                        <input type="checkbox" class="genre" name="Business" value="Business">
                         <label for="genre4">Business</label><br><br>
-                        <input type="checkbox" id="genre5" name="genre5" value="genre">
+                        <input type="checkbox" class="genre" name="Children" value="Children">
                         <label for="genre5">Children</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
+                        <input type="checkbox" class="genre" name="Comedy" value="Comedy">
                         <label for="genre6">Comedy</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
+                        <input type="checkbox" class="genre" name="Crime" value="Crime">
                         <label for="genre6">Crime</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
+                        <input type="checkbox" class="genre" name="Education" value="Education">
                         <label for="genre6">Education</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
+                        <input type="checkbox" class="genre" name="Fantasy" value="Fantasy">
                         <label for="genre6">Fantasy</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
+                        <input type="checkbox" class="genre" name="Music" value="Music">
                         <label for="genre6">Music</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
-                        <label for="genre6">Mysterie</label><br><br>
+                        <input type="checkbox" class="genre" name="Mystery" value="Mystery">
+                        <label for="genre6">Mystery</label><br><br>
                     </form>
                 </div>
 
@@ -82,23 +82,23 @@
                         <h3>Movie themes</h3>
                     </div>
                     <form action="">
-                        <input type="checkbox" id="genre1" name="genre1" value="genre">
+                        <input type="checkbox" class="genre" name="Adoption" value="genre">
                         <label for="genre1">Adoption</label><br>
-                        <input type="checkbox" id="genre2" name="genre2" value="genre">
+                        <input type="checkbox" class="genre" name="Air disasters" value="genre">
                         <label for="genre2">Air disasters</label><br>
-                        <input type="checkbox" id="genre3" name="genre3" value="genre">
+                        <input type="checkbox" class="genre" name="Alcoholism" value="genre">
                         <label for="genre3">Alcoholism</label><br><br>
-                        <input type="checkbox" id="genre4" name="genre4" value="genre">
+                        <input type="checkbox" class="genre" name="Angels" value="genre">
                         <label for="genre4">Angels</label><br><br>
-                        <input type="checkbox" id="genre5" name="genre5" value="genre">
+                        <input type="checkbox" class="genre" name="Blackmail" value="genre">
                         <label for="genre5">Blackmail</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
+                        <input type="checkbox" class="genre" name="Chosen one" value="genre">
                         <label for="genre6">Chosen one</label><br><br>
-                        <input type="checkbox" id="genre4" name="genre4" value="genre">
+                        <input type="checkbox" class="genre" name="genre4" value="genre">
                         <label for="genre4">Ghosts</label><br><br>
-                        <input type="checkbox" id="genre5" name="genre5" value="genre">
+                        <input type="checkbox" class="genre" name="genre5" value="genre">
                         <label for="genre5">Pirates</label><br><br>
-                        <input type="checkbox" id="genre6" name="genre6" value="genre">
+                        <input type="checkbox" class="genre" name="genre6" value="genre">
                         <label for="genre6">Vikings</label><br><br>
                     </form>
                 </div>
@@ -107,10 +107,18 @@
                     <div>
                         <h3>Release Year</h3>
                     </div>
-                    <form action="">
-                        <input type="checkbox" id="genre1" name="genre1" value="genre">
-                        <label for="genre1">Action</label><br>
-                    </form>
+                    <select name="Years" id="yearList">
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2014">2014</option>
+                        <option value="2013">2013</option>
+                        <option value="2012">2012</option>
+                        <option value="0">All</option>
+                    </select>
                 </div>
 
             </div>
@@ -119,11 +127,11 @@
                     <a href="../html/shuffle.html">Shuffle</a>
                 </section>
                 <div class="searchFilters">
-                    <button class="mostSearched">Most Searched</button>
-                    <button class="trending">Trending</button>
-                    <button class="mostViews">Most views</button>
-                    <button class="rating">Rating</button>
-                    <button class="releaseDate">Release Date</button>
+                    <button id="mostSearched">Most Searched</button>
+                    <button id="trending">Trending</button>
+                    <button id="mostViews">Most views</button>
+                    <button id="rating">Rating</button>
+                    <button id="releaseDate">Release Date</button>
                 </div>
                 <div class="filterdResults">
                     <p>No filter active!</p>
