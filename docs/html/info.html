@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
-    <script type="module" src="./docs/main.js"></script>
+    <script type="module" src="../main.js"></script>
     <title>Info</title>
 </head>
 
@@ -17,7 +17,7 @@
                 <a href="../index.html">Moves</a>
                 <input type="text" placeholder="Search">
                 <a href="../html/watchlist.html">Watchlist</a>
-                <a href="../html/login.html">Login</a>
+                <a class="profileName" href="../html/login.html">Login</a>
             </ul>
         </nav>
     </header>
@@ -59,31 +59,35 @@
             <script>
                 var slideIndex = 1;
                 showSlides(slideIndex);
-                
+
                 function plusSlides(n) {
-                  showSlides(slideIndex += n);
+                    showSlides(slideIndex += n);
                 }
-                
+
                 function currentSlide(n) {
-                  showSlides(slideIndex = n);
+                    showSlides(slideIndex = n);
                 }
-                
+
                 function showSlides(n) {
-                  var i;
-                  var slides = document.getElementsByClassName("mySlides");
-                  var dots = document.getElementsByClassName("dot");
-                  if (n > slides.length) {slideIndex = 1}    
-                  if (n < 1) {slideIndex = slides.length}
-                  for (i = 0; i < slides.length; i++) {
-                      slides[i].style.display = "none";  
-                  }
-                  for (i = 0; i < dots.length; i++) {
-                      dots[i].className = dots[i].className.replace(" active", "");
-                  }
-                  slides[slideIndex-1].style.display = "block";  
-                  dots[slideIndex-1].className += " active";
+                    var i;
+                    var slides = document.getElementsByClassName("mySlides");
+                    var dots = document.getElementsByClassName("dot");
+                    if (n > slides.length) {
+                        slideIndex = 1
+                    }
+                    if (n < 1) {
+                        slideIndex = slides.length
+                    }
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
+                    }
+                    for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                    }
+                    slides[slideIndex - 1].style.display = "block";
+                    dots[slideIndex - 1].className += " active";
                 }
-                </script>
+            </script>
 
 
 

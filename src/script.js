@@ -4,7 +4,7 @@ let orderKey = "0"
 let sleutel = "";
 let htmlString = "";
 let url = `https://web2-backend-sambuseyne.herokuapp.com/movies`;
-let movies= []
+let movies = []
 
 setup()
 
@@ -12,6 +12,16 @@ function setup() {
     initWebsite();
     checkSwitchLogin();
     checkPages();
+    changeProfile();
+}
+
+function changeProfile() {
+    if (sessionStorage.name) {
+        const listItem = document.querySelector("a:last-child")
+        const newItem = document.createElement('a');
+        newItem.innerHTML = `<a id="profileName" href="../html/profile.html">${sessionStorage.name}</a>`;
+        listItem.parentNode.replaceChild(newItem, listItem);
+    }
 }
 
 async function getMovies() {
@@ -114,6 +124,7 @@ function login(email, password) {
             if (data) {
                 sessionStorage.setItem("id", data.id);
                 sessionStorage.setItem("login", data.login);
+                sessionStorage.setItem("name", data.name);
                 window.location.href = "../index.html";
             } else {
                 console.log('Wrong password or email!');
@@ -196,7 +207,7 @@ function updateMovieList(movies, sortSetting) {
         newList = movies;
         orderKey = "0";
 
-    } else if (sortSetting == "rating"  && orderKey == "0") {
+    } else if (sortSetting == "rating" && orderKey == "0") {
         console.log("let's go down")
         movies.forEach(m => {
             if (m.rating) {
@@ -209,7 +220,7 @@ function updateMovieList(movies, sortSetting) {
         orderKey = "1";
 
 
-    } else if (sortSetting == "rating"  && orderKey == "1") {
+    } else if (sortSetting == "rating" && orderKey == "1") {
         console.log("let's go up")
         movies.forEach(m => {
             if (m.rating) {
@@ -221,11 +232,7 @@ function updateMovieList(movies, sortSetting) {
         });
         orderKey = "0";
 
-    }
-    
-    
-    
-    else if (sortSetting == "mostSearched"  && orderKey == "0") {
+    } else if (sortSetting == "mostSearched" && orderKey == "0") {
         movies.forEach(m => {
             if (m.searches) {
                 newList.push(m)
@@ -234,11 +241,11 @@ function updateMovieList(movies, sortSetting) {
         newList.sort((a, b) => {
             return b.searches - a.searches
         })
-    } else if (sortSetting == "trending"  && orderKey == "0") {
+    } else if (sortSetting == "trending" && orderKey == "0") {
         movies.forEach(m => {
             if (m.trending == "yes") {
                 newList.push(m)
-                
+
             }
         })
     } else if (sortSetting == "mostViews" && orderKey == "0") {
@@ -266,7 +273,8 @@ async function checkSwitchLogin() {
                         <p>Create a new account</p>
                         <form action="" id="loginForm">
                             <input type="text" id="emailUser" placeholder="Email">
-                            <input type="text" id="passwordUser" placeholder="Password">
+                            <input type="password" id="passwordUser" placeholder="Password">
+                            <input type="password" id="passwordUser" placeholder="Confirm Password">
                         </form>
                         <button id="signUpButton">Sign</button>
                     </div>

@@ -45,7 +45,7 @@ figure {
 *********************/
 
 .navigation {
-  background-color: rgba(121, 116, 116, 1);
+  background-color: rgba(75, 81, 93, 1);
   width: 100%;
 }
 
@@ -433,8 +433,11 @@ figure {
 /********************
 *      Body          *
 *********************/
+#bodyLogin {
+  background-color: rgb(41, 40, 40);
+}
 
-#mainLogin{
+#mainLogin {
   background-color: rgb(41, 40, 40);
 }
 
@@ -446,10 +449,6 @@ figure {
   border-radius: 25px;
 }
 
-/* #login{
-  background-image: url("../assets/Login_background.jpg");
-  background-repeat: round;
-} */
 
 #loginPage {
   display: flex;
@@ -463,14 +462,22 @@ figure {
   padding: 1em 1em 0em 1em;
   color: white;
   font-size: 1.4rem;
+  background-color: rgba(121, 116, 116, 1);
+  border-style: none;
+
 }
 
-.non-activeButton{
+#loginPage button:focus {
+  border-style: solid;
+  border-bottom: 5px solid rgba(75, 81, 93, 1)
+}
+
+.non-activeButton {
   border-style: solid;
   background-color: rgba(252, 252, 252, 0);
 }
 
-.activeButton{
+.activeButton {
   border-style: solid;
   background-color: rgba(252, 252, 252, 0);
 }
@@ -509,6 +516,17 @@ figure {
 
 
 #loginForm input[type=text],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#loginForm input[type=password],
 select {
   width: 100%;
   padding: 12px 20px;
@@ -611,7 +629,7 @@ select {
 
 .searchContainer {
   box-sizing: border-box;
-  background-color: rgba(50, 50, 50, 1);
+  background-color: rgba(62, 69, 81, 1);
   display: flex;
   flex-direction: row;
   padding: 2em;
@@ -707,7 +725,7 @@ select {
   margin-bottom: 2em;
 }
 
-#searchGenres h3{
+#searchGenres h3 {
   text-align: center;
 }
 
@@ -788,7 +806,7 @@ select {
   margin-bottom: 0.2em;
 }
 
-.movieContainer figure{
+.movieContainer figure {
   margin-bottom: 0.5em;
 }
 
