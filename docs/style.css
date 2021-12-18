@@ -747,15 +747,37 @@ select {
   margin-bottom: 2em;
 }
 
+#searchThemes h3{
+text-align: center;
+}
+
+#searchYear div{
+  background-color: rgba(101, 101, 101, 1);
+}
+
+#searchThemes div{
+  background-color: rgba(101, 101, 101, 1);
+}
+
 #searchYear {
   border-color: rgb(114, 114, 114);
   color: rgb(255, 255, 255);
   border-style: solid;
   display: flex;
   flex-direction: column;
-  padding: 1em;
   width: 80%;
   margin-bottom: 2em;
+}
+
+#yearList{
+  width: 80%;
+  margin: auto;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+#searchYear h3{
+  text-align: center;
 }
 
 .searchFilters {
@@ -771,6 +793,10 @@ select {
   border-radius: 24px;
   padding: 0.7em 1.2em;
   border-style: none;
+}
+
+.searchFilters button:hover {
+  background-color: rgba(0, 161, 239, 1);
 }
 
 .filterdResults p {
@@ -798,7 +824,14 @@ select {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  width: 20%
+  width: 25%;
+  text-decoration: none;
+  color: white;
+  text-align: center;
+}
+
+.movieContainer div{
+  width: 100%;
 }
 
 .movieContainer p {
@@ -810,11 +843,11 @@ select {
   margin-bottom: 0.5em;
 }
 
-
-
 .movieContainer img {
-  height: 400px;
-  width: auto;
+  /* height: 400px;
+  width: auto; */
+  height: auto;
+  width: 100%;
 }
 
 /***   WATCHLIST   ***/

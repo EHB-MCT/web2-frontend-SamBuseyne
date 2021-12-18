@@ -138,7 +138,8 @@ function renderMovies(movies) {
     let movieHTML = "";
     movies.forEach(m => {
         movieHTML += `
-    <div class="movieContainer">
+    <a class="movieContainer" href="../html/info.html">
+    <div>
     <figure>
     <img src="${m.poster}" alt="${m.name}">
     </figure>
@@ -149,7 +150,9 @@ function renderMovies(movies) {
     <p>Searches: ${m.searches}</p>
     <p>Rating: ${m.rating}/100</p>
     <p>Trending: ${m.trending}</p>
-    </div>`
+    </div>
+    </a>
+`
         document.getElementById('resultsContainer').innerHTML = movieHTML;
     });
 }
