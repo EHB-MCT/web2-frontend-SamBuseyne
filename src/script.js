@@ -19,7 +19,7 @@ function changeProfile() {
     if (sessionStorage.name) {
         const listItem = document.querySelector("a:last-child")
         const newItem = document.createElement('a');
-        newItem.innerHTML = `<a id="profileName" href="../html/profile.html">${sessionStorage.name}</a>`;
+        newItem.innerHTML = `<a id="profileName" href="./html/profile.html">${sessionStorage.name}</a>`;
         listItem.parentNode.replaceChild(newItem, listItem);
     }
 }
