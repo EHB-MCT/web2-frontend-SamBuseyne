@@ -151,6 +151,11 @@ figure {
   background-color: white;
   padding: 0.5em 1em 0.5em 1em;
   border-radius: 10px;
+  transition-duration: 0.4s;
+}
+
+#mainPageMovieInfo a:hover {
+  background-color: rgb(218, 218, 218);
 }
 
 
@@ -184,6 +189,11 @@ figure {
   border-radius: 25px;
   font-size: 1em;
   margin: 0em 3em 0em 3em;
+  transition-duration: 0.4s;
+}
+
+#mainPageFooter a:hover {
+  background-color: rgb(7, 141, 207);
 }
 
 #mainPageFooter ul {
@@ -514,6 +524,10 @@ figure {
   border: 1px solid #ccc;
 }
 
+#signUpButton:hover {
+  background-color: rgb(189, 188, 188);
+}
+
 
 #loginForm input[type=text],
 select {
@@ -747,15 +761,15 @@ select {
   margin-bottom: 2em;
 }
 
-#searchThemes h3{
-text-align: center;
+#searchThemes h3 {
+  text-align: center;
 }
 
-#searchYear div{
+#searchYear div {
   background-color: rgba(101, 101, 101, 1);
 }
 
-#searchThemes div{
+#searchThemes div {
   background-color: rgba(101, 101, 101, 1);
 }
 
@@ -769,14 +783,14 @@ text-align: center;
   margin-bottom: 2em;
 }
 
-#yearList{
+#yearList {
   width: 80%;
   margin: auto;
   margin-top: 2em;
   margin-bottom: 2em;
 }
 
-#searchYear h3{
+#searchYear h3 {
   text-align: center;
 }
 
@@ -793,10 +807,12 @@ text-align: center;
   border-radius: 24px;
   padding: 0.7em 1.2em;
   border-style: none;
+  transition-duration: 0.4s;
 }
 
 .searchFilters button:hover {
   background-color: rgba(0, 161, 239, 1);
+  color: white;
 }
 
 .filterdResults p {
@@ -830,7 +846,7 @@ text-align: center;
   text-align: center;
 }
 
-.movieContainer div{
+.movieContainer div {
   width: 100%;
 }
 

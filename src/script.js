@@ -10,9 +10,28 @@ setup()
 
 function setup() {
     initWebsite();
+    checkLoginState();
     checkSwitchLogin();
     checkPages();
     changeProfile();
+}
+
+
+function checkLoginState() {
+    if (sessionStorage.id || sessionStorage.name || sessionStorage.login) {
+        //hier all functies runnen wanneer user ingelogd is
+        console.log("running userbased functions")
+    }
+}
+
+function logOut() {
+    if (sessionStorage.name) {
+        document.getElementById("logOut").addEventListener('click', e => {
+            sessionStorage.clear();
+            window.location.href = "../index.html";
+        })
+    }
+
 }
 
 function changeProfile() {
@@ -85,13 +104,23 @@ async function getMovies() {
 
 //starting the website
 function initWebsite() {
-    if (!sessionStorage.login) {
-        document.getElementById("signUpButton").addEventListener('click', async event => {
+    if (!sessionStorage.login && document.getElementById("loginButton")) {
+        document.getElementById("loginButton").addEventListener('click', async event => {
             event.preventDefault();
             let userDetails = await checkUserInput();
             if (userDetails) {
                 login(userDetails[0], userDetails[1]);
             }
+        });
+    } else if (!sessionStorage.login && document.getElementById("signUpButton")) {
+        console.log("signup")
+        document.getElementById("signUpButton").addEventListener('click', async event => {
+            event.preventDefault();
+            console.log("signup")
+            //     let userDetails = await checkUserInput();
+            //     if (userDetails) {
+            //         login(userDetails[0], userDetails[1]);
+            //     }
         });
     }
 }
@@ -277,7 +306,7 @@ async function checkSwitchLogin() {
                         <form action="" id="loginForm">
                             <input type="text" id="emailUser" placeholder="Email">
                             <input type="password" id="passwordUser" placeholder="Password">
-                            <input type="password" id="passwordUser" placeholder="Confirm Password">
+                            <input type="password" id="passwordUserConfirmation" placeholder="Confirm Password">
                         </form>
                         <button id="signUpButton">Sign</button>
                     </div>
@@ -322,27 +351,34 @@ function loadUserBasedContent(guide) {
         console.log("Let's show the login page")
     } else if (guide == "index") {
         console.log("Let's show the homepage")
+    } else if (guide == "profile") {
+        console.log("Let's show the profile page")
+        logOut();
     }
 }
+
 
 
 //check on which pages the user => load code according to the page
 function checkPages() {
     if (document.URL.includes("shuffle")) {
-        console.log("you are on the shuffle pages")
+        console.log("you are on the shuffle pages");
         loadUserBasedContent("shuffle");
 
     } else if (document.URL.includes("advanced")) {
-        console.log("you are on the advanced pages")
+        console.log("you are on the advanced pages");
         loadUserBasedContent("advanced");
 
     } else if (document.URL.includes("index")) {
-        console.log("you are on the home pages")
+        console.log("you are on the home pages");
         loadUserBasedContent("index");
 
     } else if (document.URL.includes("watchlist")) {
-        console.log("you are on the watchlist pages")
+        console.log("you are on the watchlist pages");
         loadUserBasedContent("watch");
+    } else if (document.URL.includes("profile")) {
+        console.log("you are on the profile page");
+        loadUserBasedContent("profile");
     }
 }
 
