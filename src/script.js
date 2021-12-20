@@ -375,10 +375,25 @@ async function checkSwitchLogin() {
 }
 
 function addFavourite() {
-    document.getElementsByClassName("addFavourite").addEventListener('click', e => {
-        e.preventDefault();
-        console.log("added to favourites")
+    document.getElementById("shufflePage").addEventListener('click', event => {
+        const favourite = event.target.className.indexOf("movieContainer");
+        if (favourite) {
+            if (event.target.className.indexOf('addFavourite') !== -1) {
+                console.log("got add button!")
+                //function that shows message (added movie) and function that adds movie to the userdata
+            }
+        }
     })
+
+
+
+
+
+
+    // document.querySelectorAll('.addFavourite').addEventListener('click', e => {
+    //     e.preventDefault();
+    //     console.log("added to favourites")
+    // })
 
 }
 
@@ -389,10 +404,11 @@ function loadUserBasedContent(guide) {
         console.log("Let's show the watchlist page")
     } else if (guide == "shuffle") {
         getMovies()
-        shuffleFunction(movies);
+        shuffleFunction(movies, null, null);
+        addFavourite();
     } else if (guide == "advanced") {
         getMovies();
-        updateMovieList(movies, sortSetting, input);
+        updateMovieList(movies, null, null);
         addFavourite();
         // checkSortings(movies);
     } else if (guide == "info") {

@@ -1,23 +1,20 @@
-<div class="movieContainer">
-    <a class="movieContainer" href="../html/info.html"></a>
-    <figure>
-        <img src="${m.poster}" alt="${m.name}">
-    </figure>
-    </a>
-    <div class="moviePosterContainer">
-        <p>${m.name}</p>
-        <p>${m.director}</p>
-        <p>${m.year}</p>
-        <div class="infoS">
-            <div class="infoS1">
-                <p>Views: ${m.views}</p>
-                <p>Searches: ${m.searches}</p>
-            </div>
-            <div class="infoS2">
-                <p>Rating: ${m.rating}/100</p>
-                <p>Trending: ${m.trending}</p>
-            </div>
+<div class="game" value="${game.id}">
+    <div class="name">
+        <p>${newString}</p>
+    </div>
+    <div class="data">
+        <p class="rating">${game.rank}</p>
+        <div class="buttons">
+            <button class="wishlist"><i class="fas fa-heart fa-2x like_${game.id} ${likeClass}"
+                    id="${partOfSite}_like_${game.id}"></i></button>
+            <button class="shelf"><i class="fas fa-bookmark fa-2x shelf_${game.id} ${shelfClass}"
+                    id="${partOfSite}_shelf_${game.id}"></i></button>
+        </div>
+        <img src="${game.image_url}" alt="Scythe">
+        <div class="bottomBar">
+            <p class="players">${game.min_players}-${game.max_players} <i class="fas fa-users"></i></p>
+            <p class="duration">${game.min_playtime}-${game.max_playtime} <i class="fas fa-clock"></i></p>
+            <p class="age">${game.min_age}+</p>
         </div>
     </div>
-    <button class="addFavourite">Add</button>
 </div>
