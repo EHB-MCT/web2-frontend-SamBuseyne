@@ -607,12 +607,6 @@ select {
   justify-content: center;
 }
 
-#shuffle figure img {
-  width: 350px;
-  height: auto;
-  margin: 0em 2em 0em 2em;
-}
-
 #shuffleButton {
   background-color: rgba(255, 255, 255, 0);
   color: rgba(0, 161, 239, 1);
@@ -628,23 +622,6 @@ select {
   align-items: center;
 }
 
-.addButton {
-  background-color: rgba(255, 255, 255, 0);
-  color: rgba(0, 161, 239, 1);
-  border-color: rgba(0, 161, 239, 1);
-  padding: 0.2em 0.5em 0.2em 0.5em;
-  border-radius: 25px;
-  font-size: 1.5rem;
-}
-
-.movieInfoSection {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 1em;
-  width: 100%;
-  justify-content: space-evenly;
-}
 
 
 /**ADVANCED SEARCH**/
@@ -870,7 +847,7 @@ select {
   position: relative;
 }
 
-.movieContainer:hover{
+.movieContainer:hover {
   transform: scale(1.1) perspective(1px)
 }
 
@@ -911,13 +888,6 @@ select {
   align-items: flex-end;
 }
 
-.moviePosterContainer {
-  /* border-style: solid;
-  border-color: rgba(0, 161, 239, 1);
-  box-sizing: border-box;
-  border-radius: 25px;
-  padding: 1em; */
-}
 
 .movieContainer div {
   width: 100%;

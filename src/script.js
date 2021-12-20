@@ -215,16 +215,29 @@ function shuffleFunction() {
         movies.sort(() => Math.random() - 0.5);
         newList = movies.slice(0, 3);
         for (let m of newList) {
-            htmlString +=
-                `<div class="moviePoster">
-                <figure id="${m.name}">
-                <img src="${m.poster}" alt="${m.name}">
-            </figure>
-            <div class="movieInfoSection">
-                <p>${m.name}</p>
-                <p>${m.year}</p>
-                <button class="addButton">+</button>
-            </div>
+            htmlString += `
+            <div class="movieContainer">
+                <a href="../html/info.html">
+                <figure>
+                    <img src="${m.poster}" alt="${m.name}">
+                </figure>
+                </a>
+                <div class="moviePosterContainer">
+                    <p>${m.name}</p>
+                    <p>${m.director}</p>
+                    <p>${m.year}</p>
+                    <div class="infoS">
+                        <div class="infoS1">
+                            <p>Views: ${m.views}</p>
+                            <p>Searches: ${m.searches}</p>
+                        </div>
+                        <div class="infoS2">
+                            <p>Rating: ${m.rating}/100</p>
+                            <p>Trending: ${m.trending}</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="addFavourite">+</button>
             </div>`;
             document.getElementById('shuffle').innerHTML = htmlString;
         }
@@ -315,7 +328,7 @@ function updateMovieList(movies, sortSetting, input) {
             let title = movieTitle.toLowerCase()
             if (title.includes(input.toLowerCase())) {
                 newList.push(m)
-            }else{
+            } else {
                 //render message => no movies found
             }
         })
