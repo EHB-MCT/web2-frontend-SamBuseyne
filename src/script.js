@@ -100,9 +100,15 @@ async function getMovies() {
     }
     if (document.getElementById('searchButton')) {
         document.getElementById('searchButton').addEventListener('click', e => {
+            console.log("search button clicked")
+            let sortSetting = document.getElementById('searchButton').id;
             let input = document.getElementById('field').value;
-            updateMovieList(movies, sortSetting);
+            console.log(sortSetting, input);
+            updateMovieList(movies, sortSetting, input);
         })
+    }
+    if (document.getElementById("yearList")) {
+
     }
 }
 
@@ -172,20 +178,30 @@ function renderMovies(movies) {
     let movieHTML = "";
     movies.forEach(m => {
         movieHTML += `
-    <a class="movieContainer" href="../html/info.html">
-    <div>
-    <figure>
-    <img src="${m.poster}" alt="${m.name}">
-    </figure>
-    <p>${m.name}</p>
-    <p>${m.director}</p>
-    <p>${m.year}</p>
-    <p>Views: ${m.views}</p>
-    <p>Searches: ${m.searches}</p>
-    <p>Rating: ${m.rating}/100</p>
-    <p>Trending: ${m.trending}</p>
+        <div class="movieContainer">
+        <a href="../html/info.html">
+        <figure>
+            <img src="${m.poster}" alt="${m.name}">
+        </figure>
+        </a>
+        <div class="moviePosterContainer">
+            <p>${m.name}</p>
+            <p>${m.director}</p>
+            <p>${m.year}</p>
+            <div class="infoS">
+                <div class="infoS1">
+                    <p>Views: ${m.views}</p>
+                    <p>Searches: ${m.searches}</p>
+                </div>
+                <div class="infoS2">
+                    <p>Rating: ${m.rating}/100</p>
+                    <p>Trending: ${m.trending}</p>
+                </div>
+            </div>
+        </div>
+        <button class="addFavourite">+</button>
     </div>
-    </a>
+
 `
         document.getElementById('resultsContainer').innerHTML = movieHTML;
     });
@@ -225,8 +241,7 @@ function sortMovies(movies, sortSetting) {
 }
 
 //big sorting machine, sort/filter the movies and put them in new list
-function updateMovieList(movies, sortSetting) {
-
+function updateMovieList(movies, sortSetting, input) {
     let newList = [];
     if (sortSetting == "releaseDate" && orderKey == "0") {
         movies.sort((a, b) => {
@@ -294,6 +309,16 @@ function updateMovieList(movies, sortSetting) {
         newList.sort((a, b) => {
             return b.view - a.view
         })
+    } else if (sortSetting == "searchButton") {
+        movies.forEach(m => {
+            let movieTitle = m.name
+            let title = movieTitle.toLowerCase()
+            if (title.includes(input.toLowerCase())) {
+                newList.push(m)
+            }else{
+                //render message => no movies found
+            }
+        })
     }
     renderMovies(newList);
 }
@@ -336,6 +361,14 @@ async function checkSwitchLogin() {
     }
 }
 
+function addFavourite() {
+    document.getElementsByClassName("addFavourite").addEventListener('click', e => {
+        e.preventDefault();
+        console.log("added to favourites")
+    })
+
+}
+
 
 function loadUserBasedContent(guide) {
     console.log("You are logged in bro!")
@@ -346,7 +379,8 @@ function loadUserBasedContent(guide) {
         shuffleFunction(movies);
     } else if (guide == "advanced") {
         getMovies();
-        updateMovieList();
+        updateMovieList(movies, sortSetting, input);
+        addFavourite();
         // checkSortings(movies);
     } else if (guide == "info") {
         console.log("Let's show the info page")
@@ -400,17 +434,6 @@ function checkPages() {
 //             // console.log(this.input, this.check, this.year, searchOption);
 //         }
 //     },
-
-//     async checkPages() {
-//         let shuffle = document.getElementById('shuffleButton')
-//         let advanced = document.getElementById('searchButton')
-//         if (shuffle) {
-//             this.shuffleFunction()
-//         } else if (advanced) {
-//             this.checkInputUser()
-//         }
-//     },
-
 
 
 
