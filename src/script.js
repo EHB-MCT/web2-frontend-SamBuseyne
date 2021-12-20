@@ -35,9 +35,14 @@ function logOut() {
 }
 
 function changeProfile() {
-    if (sessionStorage.name) {
-        const listItem = document.querySelector("a:last-child")
-        const newItem = document.createElement('a');
+    if (sessionStorage.name && !document.URL.includes("index")) {
+        let listItem = document.querySelector("a:last-child")
+        let newItem = document.createElement('a');
+        newItem.innerHTML = `<a id="profileName" href="../html/profile.html">${sessionStorage.name}</a>`;
+        listItem.parentNode.replaceChild(newItem, listItem);
+    } else if (document.URL.includes("index") && sessionStorage.name) {
+        let listItem = document.querySelector("a:last-child")
+        let newItem = document.createElement('a');
         newItem.innerHTML = `<a id="profileName" href="./html/profile.html">${sessionStorage.name}</a>`;
         listItem.parentNode.replaceChild(newItem, listItem);
     }
@@ -321,7 +326,7 @@ async function checkSwitchLogin() {
                             <input type="text" id="emailUser" placeholder="Email">
                             <input type="text" id="passwordUser" placeholder="Password">
                         </form>
-                        <button id="signUpButton">Login</button>
+                        <button id="loginButton">Login</button>
                     </div>
                     `;
                 document.getElementById('loginContainer').innerHTML = htmlString;
@@ -337,11 +342,9 @@ function loadUserBasedContent(guide) {
     if (guide == "watch") {
         console.log("Let's show the watchlist page")
     } else if (guide == "shuffle") {
-        console.log("Let's show the shuffle page")
         getMovies()
         shuffleFunction(movies);
     } else if (guide == "advanced") {
-        console.log("Let's show the advanced page")
         getMovies();
         updateMovieList();
         // checkSortings(movies);
@@ -362,30 +365,17 @@ function loadUserBasedContent(guide) {
 //check on which pages the user => load code according to the page
 function checkPages() {
     if (document.URL.includes("shuffle")) {
-        console.log("you are on the shuffle pages");
         loadUserBasedContent("shuffle");
-
     } else if (document.URL.includes("advanced")) {
-        console.log("you are on the advanced pages");
         loadUserBasedContent("advanced");
-
     } else if (document.URL.includes("index")) {
-        console.log("you are on the home pages");
         loadUserBasedContent("index");
-
     } else if (document.URL.includes("watchlist")) {
-        console.log("you are on the watchlist pages");
         loadUserBasedContent("watch");
     } else if (document.URL.includes("profile")) {
-        console.log("you are on the profile page");
         loadUserBasedContent("profile");
     }
 }
-
-
-
-
-
 
 
 // const service = {
