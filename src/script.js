@@ -3,136 +3,60 @@
 let orderKey = "0"
 let sleutel = "";
 let htmlString = "";
-let url = `https://web2-backend-sambuseyne.herokuapp.com/movies`;
-let movies = []
+let movies = [];
 
 setup()
 
 function setup() {
     initWebsite();
     checkLoginState();
-    checkSwitchLogin();
     checkPages();
     changeProfile();
+    checkInputIndexPage();
+    //functie die mogelijk maakt om te zoeken via hoofdpagina op woorden
+    //input doorgeven aan functie die gebruikt wordt om op naam te zoeken bij advanced
+}
+
+function checkInputIndexPage() {
+    console.log("Work this out")
+    //dit nog verder uitwerken zie hierboven
+}
+
+
+//starting the website
+function initWebsite() {
+    if (document.URL.includes("login")) {
+        checkSwitchLogin();
+        console.log("trying to login")
+        if (!sessionStorage.login && document.getElementById("loginButton")) {
+            document.getElementById("loginButton").addEventListener('click', async event => {
+                event.preventDefault();
+                let userDetails = await checkUserInput();
+                if (userDetails) {
+                    login(userDetails[0], userDetails[1]);
+                }
+            });
+        } else if (!sessionStorage.login && document.getElementById("signUpButton")) {
+            console.log("signup")
+            document.getElementById("signUpButton").addEventListener('click', async event => {
+                event.preventDefault();
+                console.log("signup")
+                //     let userDetails = await checkUserInput();
+                //     if (userDetails) {
+                //         login(userDetails[0], userDetails[1]);
+                //     }
+            });
+        }
+    }
+    return;
 }
 
 
 function checkLoginState() {
     if (sessionStorage.id || sessionStorage.name || sessionStorage.login) {
         //hier all functies runnen wanneer user ingelogd is
+        // functie hierin plaatsen die anders met if check session storage werken
         console.log("running userbased functions")
-    }
-}
-
-function logOut() {
-    if (sessionStorage.name) {
-        document.getElementById("logOut").addEventListener('click', e => {
-            sessionStorage.clear();
-            window.location.href = "../index.html";
-        })
-    }
-
-}
-
-function changeProfile() {
-    if (sessionStorage.name && !document.URL.includes("index")) {
-        let listItem = document.querySelector("a:last-child")
-        let newItem = document.createElement('a');
-        newItem.innerHTML = `<a id="profileName" href="../html/profile.html">${sessionStorage.name}</a>`;
-        listItem.parentNode.replaceChild(newItem, listItem);
-    } else if (document.URL.includes("index") && sessionStorage.name) {
-        let listItem = document.querySelector("a:last-child")
-        let newItem = document.createElement('a');
-        newItem.innerHTML = `<a id="profileName" href="./html/profile.html">${sessionStorage.name}</a>`;
-        listItem.parentNode.replaceChild(newItem, listItem);
-    }
-}
-
-async function getMovies() {
-
-    if (sessionStorage.login) {
-
-        await fetch(`https://web2-backend-sambuseyne.herokuapp.com/movies`)
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                movies = data;
-                console.log("Oops i did a fetchcall");
-                // renderMovies(movies);
-            })
-    }
-
-    if (document.getElementById('releaseDate')) {
-        document.getElementById('releaseDate').addEventListener('click', e => {
-            let sortSetting = document.getElementById('releaseDate').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
-
-    if (document.getElementById('mostViews')) {
-        document.getElementById('mostViews').addEventListener('click', e => {
-            let sortSetting = document.getElementById('mostViews').id;
-            updateMovieList(movies, sortSetting);
-            console.log("views")
-        })
-    }
-
-    if (document.getElementById('mostSearched')) {
-        document.getElementById('mostSearched').addEventListener('click', e => {
-            let sortSetting = document.getElementById('mostSearched').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
-
-    if (document.getElementById('rating')) {
-        document.getElementById('rating').addEventListener('click', e => {
-            let sortSetting = document.getElementById('rating').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
-
-    if (document.getElementById('trending')) {
-        document.getElementById('trending').addEventListener('click', e => {
-            let sortSetting = document.getElementById('trending').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
-    if (document.getElementById('searchButton')) {
-        document.getElementById('searchButton').addEventListener('click', e => {
-            console.log("search button clicked")
-            let sortSetting = document.getElementById('searchButton').id;
-            let input = document.getElementById('field').value;
-            console.log(sortSetting, input);
-            updateMovieList(movies, sortSetting, input);
-        })
-    }
-    if (document.getElementById("yearList")) {
-
-    }
-}
-
-
-//starting the website
-function initWebsite() {
-    if (!sessionStorage.login && document.getElementById("loginButton")) {
-        document.getElementById("loginButton").addEventListener('click', async event => {
-            event.preventDefault();
-            let userDetails = await checkUserInput();
-            if (userDetails) {
-                login(userDetails[0], userDetails[1]);
-            }
-        });
-    } else if (!sessionStorage.login && document.getElementById("signUpButton")) {
-        console.log("signup")
-        document.getElementById("signUpButton").addEventListener('click', async event => {
-            event.preventDefault();
-            console.log("signup")
-            //     let userDetails = await checkUserInput();
-            //     if (userDetails) {
-            //         login(userDetails[0], userDetails[1]);
-            //     }
-        });
     }
 }
 
@@ -144,6 +68,21 @@ async function checkUserInput() {
     return [email, pass];
 }
 
+
+//check on which pages the user => load code according to the page
+function checkPages() {
+    if (document.URL.includes("shuffle")) {
+        loadUserBasedContent("shuffle");
+    } else if (document.URL.includes("advanced")) {
+        loadUserBasedContent("advanced");
+    } else if (document.URL.includes("index")) {
+        loadUserBasedContent("index");
+    } else if (document.URL.includes("watchlist")) {
+        loadUserBasedContent("watch");
+    } else if (document.URL.includes("profile")) {
+        loadUserBasedContent("profile");
+    }
+}
 //login fetch
 function login(email, password) {
     fetch(`https://web2-backend-sambuseyne.herokuapp.com/login`, {
@@ -172,6 +111,193 @@ function login(email, password) {
         })
 }
 
+//register fetch
+function register(email, password, name) {
+    fetch(`https://web2-backend-sambuseyne.herokuapp.com/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                name: name
+            })
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if (data) {
+                sessionStorage.setItem("id", data.id);
+                sessionStorage.setItem("login", data.login);
+                sessionStorage.setItem("name", data.name);
+                window.location.href = "../index.html";
+            } else {
+                console.log('Wrong password or email!');
+            }
+        })
+}
+
+function logOut(event) {
+    console.log("logout function is running")
+    if (sessionStorage.name) {
+        clickedItem = event.target.value;
+        if (clickedItem) {
+            console.log(clickedItem);
+        }
+
+        // document.getElementById("logOut").addEventListener('click', e => {
+        //     sessionStorage.clear();
+        //     window.location.href = "../index.html";
+        // })
+    }
+
+}
+
+function changeProfile() {
+    if (sessionStorage.name && !document.URL.includes("index")) {
+        let listItem = document.querySelector("a:last-child")
+        let newItem = document.createElement('a');
+        newItem.innerHTML = `
+        <div class="dropdown">
+        <a href="#" class="dropbtn">${sessionStorage.name}</a>
+        <div class="dropdown-content">
+            <button class="logOut">Log out</button>
+        </div>
+        </div>`;
+
+        // <a id="profileName" href="../html/profile.html">${sessionStorage.name}</a>;
+        listItem.parentNode.replaceChild(newItem, listItem);
+
+    } else if (document.URL.includes("index") && sessionStorage.name) {
+        let listItem = document.querySelector("a:last-child")
+        let newItem = document.createElement('a');
+        newItem.innerHTML = `
+        <div class="dropdown">
+        <a href="#" class="dropbtn">${sessionStorage.name}</a>
+        <div class="dropdown-content">
+            <button class="logOut">Log out</button>
+        </div>
+    </div>`;
+
+        // `<a id="profileName" href="./html/profile.html">${sessionStorage.name}</a>`;
+        listItem.parentNode.replaceChild(newItem, listItem);
+    } else if (sessionStorage.name) {
+        logOutItem = document.getElementsByClassName()
+    }
+}
+
+async function getMovies() {
+    let selection = document.getElementById('yearList');
+    if (sessionStorage.login) {
+        await fetch(`https://web2-backend-sambuseyne.herokuapp.com/movies`)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                movies = data;
+                console.log("fetched the data");
+            })
+    }
+
+    if (document.getElementById('releaseDate')) {
+        document.getElementById('releaseDate').addEventListener('click', e => {
+            let sortSetting = document.getElementById('releaseDate').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+
+    if (document.getElementById('mostViews')) {
+        document.getElementById('mostViews').addEventListener('click', e => {
+            let sortSetting = document.getElementById('mostViews').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+
+    if (document.getElementById('mostSearched')) {
+        document.getElementById('mostSearched').addEventListener('click', e => {
+            let sortSetting = document.getElementById('mostSearched').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+
+    if (document.getElementById('rating')) {
+        document.getElementById('rating').addEventListener('click', e => {
+            let sortSetting = document.getElementById('rating').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+
+    if (document.getElementById('trending')) {
+        document.getElementById('trending').addEventListener('click', e => {
+            let sortSetting = document.getElementById('trending').id;
+            updateMovieList(movies, sortSetting);
+        })
+    }
+    if (document.getElementById('searchButton') && !(document.querySelector('.genre:checked'))) {
+        console.log('LOOK AT THIS!');
+        console.log(document.querySelector('.genre:checked'));
+        document.getElementById('searchButton').addEventListener('click', e => {
+            console.log("search button clicked")
+            let sortSetting = document.getElementById('searchButton').id;
+            let input = document.getElementById('field').value;
+            updateMovieList(movies, sortSetting, input);
+        })
+    }
+    if (document.getElementById("yearList") && !(selection.options[selection.selectedIndex].value == "0")) {
+        document.getElementById('searchButton').addEventListener('click', e => {
+            console.log("searching by year")
+            let selection = document.getElementById('yearList');
+            let selectionResult = selection.options[selection.selectedIndex].value;
+            console.log(selectionResult)
+            let sortSetting = document.getElementById('yearList').id;
+            let input = null;
+            updateMovieList(movies, sortSetting, input);
+        })
+    }
+    if (document.querySelector('.genre:checked') && !(selection.options[selection.selectedIndex].value == "0")) {
+        console.log('LOOK AT THISSSSSSSSSSSSSSS!')
+        // document.getElementById("searchButton").addEventListener('click', e => {
+        //     let checkedBoxes = document.querySelector('.genre:checked').value;
+        //     let input = null;
+        //     console.log(checkedBoxes);
+        //     updateMovieList(movies, sortSetting, input);
+        // })
+    }
+
+    //klopt niet checkt onmiddelijk bij inladen en dan kan er nog geen genres aangeklikt zijn
+    // is nu normaal gefixt
+}
+
+
+
+// document.getElementById('buttonSection').addEventListener('click', () => {
+
+//     if (document.querySelector('.genre:checked')) {
+//         let checkedBoxes = document.querySelector('.genre:checked').value;
+//         let userInput = null;
+//         this.advancedSearch(userInput, checkedBoxes)
+//     } else if (document.getElementById("field").value) {
+//         userInput = document.getElementById("field").value;
+//         let checkedBoxes = null;
+//         this.advancedSearch(userInput, checkedBoxes)
+//     } else if (!selectionResult == "0") {
+//         let userInput = null;
+//         let checkedBoxes = null;
+//         let selection = document.getElementById('yearList');
+//         let selectionResult = selection.options[selection.selectedIndex].value;
+//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
+//     } else {
+//         let userInput = null;
+//         let checkedBoxes = null;
+//         let selectionResult = null;
+//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
+//     }
+// })
+// }
+
 //render the movies on the pages
 function renderMovies(movies) {
     console.log("rendering");
@@ -199,16 +325,37 @@ function renderMovies(movies) {
                 </div>
             </div>
         </div>
-        <button class="addFavourite">+</button>
+        <button value="${m.movieid}" class="addFavourite">+</button>
     </div>
-
 `
         document.getElementById('resultsContainer').innerHTML = movieHTML;
     });
 }
 
 
-function shuffleFunction() {
+function shuffleFunction(event) {
+    // document.getElementById("shufflePage").addEventListener('click', event => {
+    //     // event.preventDefault();
+    //     const hyperlinks = document.querySelectorAll("img").value;
+    //     console.log(hyperlinks);
+    //     const favourite = event.target.className.indexOf("movieContainer");
+    //     if (favourite) {
+    //         console.log('step1')
+    //         console.log(event.target)
+    //         const item = event.target.value;
+    //         console.log(item);
+    //         sessionStorage.setItem("movieid", item);
+    //         // if (event.target.className.indexOf('infoLink')) {
+    //         //     console.log('step2')
+    //         //     console.log(event.target)
+    //         //     const item = event.target.value;
+    //         //     console.log(item);
+    //         //     sessionStorage.setItem("movieid", item);
+    //         // }
+    //     }
+    // })
+
+
     document.getElementById('shuffleButton').addEventListener('click', () => {
         let newList = [];
         htmlString = "";
@@ -217,12 +364,12 @@ function shuffleFunction() {
         for (let m of newList) {
             htmlString += `
             <div class="movieContainer">
-                <a href="../html/info.html">
+                <a href="">
                 <figure>
                     <img src="${m.poster}" alt="${m.name}">
                 </figure>
                 </a>
-                <div class="moviePosterContainer">
+                <div class="moviePosterContainer" value ="${m.movieid}">
                     <p>${m.name}</p>
                     <p>${m.director}</p>
                     <p>${m.year}</p>
@@ -242,6 +389,8 @@ function shuffleFunction() {
             document.getElementById('shuffle').innerHTML = htmlString;
         }
     });
+
+
 }
 
 //sort movies when loading in the first time
@@ -255,8 +404,10 @@ function sortMovies(movies, sortSetting) {
 
 //big sorting machine, sort/filter the movies and put them in new list
 function updateMovieList(movies, sortSetting, input) {
+    console.log(movies);
     let newList = [];
     if (sortSetting == "releaseDate" && orderKey == "0") {
+        console.log("by ascending year")
         movies.sort((a, b) => {
             return a.year - b.year
 
@@ -265,6 +416,7 @@ function updateMovieList(movies, sortSetting, input) {
         orderKey = "1";
 
     } else if (sortSetting == "releaseDate" && orderKey == "1") {
+        console.log("by descending year")
         movies.sort((a, b) => {
             return b.year - a.year
 
@@ -273,7 +425,7 @@ function updateMovieList(movies, sortSetting, input) {
         orderKey = "0";
 
     } else if (sortSetting == "rating" && orderKey == "0") {
-        console.log("let's go down")
+        console.log("by ascending rating")
         movies.forEach(m => {
             if (m.rating) {
                 newList.push(m)
@@ -286,7 +438,7 @@ function updateMovieList(movies, sortSetting, input) {
 
 
     } else if (sortSetting == "rating" && orderKey == "1") {
-        console.log("let's go up")
+        console.log("by descending rating")
         movies.forEach(m => {
             if (m.rating) {
                 newList.push(m)
@@ -298,6 +450,7 @@ function updateMovieList(movies, sortSetting, input) {
         orderKey = "0";
 
     } else if (sortSetting == "mostSearched" && orderKey == "0") {
+        console.log("by descending searches")
         movies.forEach(m => {
             if (m.searches) {
                 newList.push(m)
@@ -305,23 +458,57 @@ function updateMovieList(movies, sortSetting, input) {
         })
         newList.sort((a, b) => {
             return b.searches - a.searches
-        })
+        });
+        orderKey = "1";
+    } else if ((sortSetting == "mostSearched" && orderKey == "1")) {
+        console.log("by ascending searches")
+        movies.forEach(m => {
+            if (m.searches) {
+                newList.push(m)
+            }
+        });
+        newList.sort((a, b) => {
+            return a.searches - b.searches
+        });
+        orderKey = "0";
     } else if (sortSetting == "trending" && orderKey == "0") {
+        console.log("by descending trends")
         movies.forEach(m => {
             if (m.trending == "yes") {
                 newList.push(m)
-
             }
-        })
+        });
+        orderKey = "1";
+    } else if (sortSetting == "trending" && orderKey == "1") {
+        console.log("by ascending trends")
+        movies.forEach(m => {
+            if (m.trending == "no") {
+                newList.push(m)
+            }
+        });
+        orderKey = "0";
     } else if (sortSetting == "mostViews" && orderKey == "0") {
+        console.log("by descending views")
         movies.forEach(m => {
             if (m.views) {
                 newList.push(m)
             }
         })
         newList.sort((a, b) => {
-            return b.view - a.view
-        })
+            return b.views - a.views
+        });
+        orderKey = "1";
+    } else if (sortSetting == "mostViews" && orderKey == "1") {
+        console.log("by ascending views")
+        movies.forEach(m => {
+            if (m.views) {
+                newList.push(m)
+            }
+        });
+        newList.sort((a, b) => {
+            return a.views - b.views
+        });
+        orderKey = "0";
     } else if (sortSetting == "searchButton") {
         movies.forEach(m => {
             let movieTitle = m.name
@@ -332,6 +519,18 @@ function updateMovieList(movies, sortSetting, input) {
                 //render message => no movies found
             }
         })
+    } else if (sortSetting == "yearList") {
+        console.log("by one exact year")
+        movies.forEach(m => {
+            if (m.year = "2017") {
+                newList.push(m)
+            }
+        });
+        newList.sort((a, b) => {
+            return b.year - a.year
+        });
+        console.log("Here still working on")
+        //verder uittypen
     }
     renderMovies(newList);
 }
@@ -340,7 +539,6 @@ function updateMovieList(movies, sortSetting, input) {
 async function checkSwitchLogin() {
     if (!sessionStorage.login) {
         document.getElementById("loginPage").addEventListener('click', event => {
-            console.log(event.target.className)
             if (event.target.className = "non-activeButton" && sleutel == 0) {
                 htmlString = ""
                 htmlString += `
@@ -374,158 +572,159 @@ async function checkSwitchLogin() {
     }
 }
 
+//function that shows message (added movie) and function that adds movie to the userdata
 function addFavourite() {
-    document.getElementById("shufflePage").addEventListener('click', event => {
-        const favourite = event.target.className.indexOf("movieContainer");
-        if (favourite) {
-            if (event.target.className.indexOf('addFavourite') !== -1) {
-                console.log("got add button!")
-                //function that shows message (added movie) and function that adds movie to the userdata
+    if (document.URL.includes("shuffle")) {
+        document.getElementById("shufflePage").addEventListener('click', event => {
+            const favourite = event.target.className.indexOf("movieContainer");
+            if (favourite) {
+                if (event.target.className.indexOf('addFavourite') !== -1) {
+                    const item = event.target.value;
+                    console.log(item);
+                    let fMovie = {
+                        email: sessionStorage.name,
+                        movieid: item,
+                        favourite: true
+                    }
+                    console.log(fMovie);
+                }
             }
-        }
-    })
+        })
+    } else if (document.URL.includes("advanced")) {
+        document.getElementById("searchResults").addEventListener('click', event => {
+            const favourite = event.target.className.indexOf("movieContainer");
+            if (favourite) {
+                if (event.target.className.indexOf('addFavourite') !== -1) {
+                    const item = event.target.value;
+                    console.log(item);
+                    let fMovie = {
+                        email: sessionStorage.name,
+                        movieid: item,
+                        favourite: true
+                    }
+                    sendFavourite()
+                }
+            }
+        })
+    }
+}
 
+function sendFavourite(event) {
+    console.log("Sending favourite movies to database")
+    fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourite`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: sessionStorage.name,
+                movieid: event.target.value,
+                favourite: true
+            })
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+}
 
+function loadProfileContent() {
+    let favMovies = [];
+    console.log("rendering profile content");
+    fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            movies.forEach(m => {
+                if (m.movieid == data.movieid) {
+                    favMovies.push(m)
+                }
+            })
+            console.log(favMovies);
+            // let movieHTML = "";
+            // data.forEach(d => {
+            //     movieHTML += `
+            //     <div class="movieContainer">
+            //     <div class="moviePosterContainer">
+            //         <p>The Green Mile</p>
+            //         <p>Frank Darabont</p>
+            //         <p>1999</p>
+            //     </div>
+            //     <button class="addFavourite">-</button>
+            // </div>`;
+            //     document.getElementById('profileContent').innerHTML = movieHTML;
+            // });
+        })
+}
 
+function infoPage(event) {
+    console.log("Running infopage function")
+    let clicked = event.target.value;
+    console.log(clicked);
 
+    // if (document.URL.includes("shuffle")) {
+    //     document.getElementById("shufflePage").addEventListener('click', event => {
+    //         const favourite = event.target.className.indexOf("movieContainer");
+    //         if (favourite) {
+    //             if (event.target.className.indexOf('addFavourite') !== -1) {
+    //                 const item = event.target.value;
+    //                 console.log(item);
+    //                 let fMovie = {
+    //                     email: sessionStorage.name,
+    //                     movieid: item,
+    //                     favourite: true
+    //                 }
+    //                 console.log(fMovie);
+    //             }
+    //         }
+    //     })
+    // }
+}
 
-
-    // document.querySelectorAll('.addFavourite').addEventListener('click', e => {
-    //     e.preventDefault();
-    //     console.log("added to favourites")
-    // })
-
+function renderWatchPage() {
+    console.log("showing watchlist page")
+    let htmlString = "";
+    htmlString +=
+        `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
+    document.getElementById("favouritesTitle").innerHTML = htmlString;
 }
 
 
 function loadUserBasedContent(guide) {
-    console.log("You are logged in bro!")
     if (guide == "watch") {
-        console.log("Let's show the watchlist page")
+        renderWatchPage();
+        logOut();
     } else if (guide == "shuffle") {
         getMovies()
         shuffleFunction(movies, null, null);
         addFavourite();
+        logOut();
+        // infoPage();
     } else if (guide == "advanced") {
         getMovies();
         updateMovieList(movies, null, null);
         addFavourite();
+        logOut();
         // checkSortings(movies);
     } else if (guide == "info") {
-        console.log("Let's show the info page")
+        infoPage();
+        logOut();
     } else if (guide == "login") {
         console.log("Let's show the login page")
     } else if (guide == "index") {
         console.log("Let's show the homepage")
+        logOut();
     } else if (guide == "profile") {
-        console.log("Let's show the profile page")
+        getMovies();
+        loadProfileContent(movies);
         logOut();
     }
 }
-
-
-
-//check on which pages the user => load code according to the page
-function checkPages() {
-    if (document.URL.includes("shuffle")) {
-        loadUserBasedContent("shuffle");
-    } else if (document.URL.includes("advanced")) {
-        loadUserBasedContent("advanced");
-    } else if (document.URL.includes("index")) {
-        loadUserBasedContent("index");
-    } else if (document.URL.includes("watchlist")) {
-        loadUserBasedContent("watch");
-    } else if (document.URL.includes("profile")) {
-        loadUserBasedContent("profile");
-    }
-}
-
-
-// const service = {
-
-//     sortedMovies: [],
-//     input: "",
-//     check: "",
-//     year: "",
-
-
-//     init() {
-//         this.checkPages()
-//         this.checkSwitchLogin()
-//         this.checkSearchCriteria();
-//         sortedMovies = [];
-//     },
-
-//     checkSearchCriteria() {
-//         window.onclick = e => {
-//             let searchOption = e.target.id;
-//             this.advancedSearch(this.input, this.check, this.year, searchOption)
-//             // console.log(this.input, this.check, this.year, searchOption);
-//         }
-//     },
-
-
-
-//         if (check) {
-//             console.log(check)
-//             document.getElementById('searchButton').addEventListener('click', () => {
-//                 fetch(`https://web2-backend-sambuseyne.herokuapp.com/movies`)
-//                     .then(response => {
-//                         return response.json();
-//                     })
-//                     .then(data => {
-//                         console.log(data);
-
-//                         let sortedMovies = data.filter(function (data) {
-//                             return data.genres == check
-//                         })
-
-//                         sortedMovies.forEach(function (m) {
-//                             htmlString = "";
-//                             htmlString +=
-//                                 `
-//                         <div class="movieContainer">
-//                         <figure>
-//                         <img src="${m.poster}" alt="${m.name}">
-//                         </figure>
-//                         <p>${m.name}</p>
-//                         <p>${m.director}</p>
-//                         <p>${m.year}</p>
-//                         </div>`;
-//                             document.getElementById('resultsContainer').innerHTML = htmlString;
-//                         })
-//                     })
-//             });
-
-//         }
-//         if (sort) {
-
-//         }
-
-
-//     checkInputUser() {
-//         document.getElementById('buttonSection').addEventListener('click', () => {
-//             let selection = document.getElementById('yearList');
-//             let selectionResult = selection.options[selection.selectedIndex].value;
-//             if (document.querySelector('.genre:checked')) {
-//                 let checkedBoxes = document.querySelector('.genre:checked').value;
-//                 let userInput = null;
-//                 this.advancedSearch(userInput, checkedBoxes)
-//             } else if (document.getElementById("field").value) {
-//                 userInput = document.getElementById("field").value;
-//                 let checkedBoxes = null;
-//                 this.advancedSearch(userInput, checkedBoxes)
-//             } else if (!selectionResult == "0") {
-//                 let userInput = null;
-//                 let checkedBoxes = null;
-//                 let selection = document.getElementById('yearList');
-//                 let selectionResult = selection.options[selection.selectedIndex].value;
-//                 this.advancedSearch(userInput, checkedBoxes, selectionResult);
-//             } else {
-//                 let userInput = null;
-//                 let checkedBoxes = null;
-//                 let selectionResult = null;
-//                 this.advancedSearch(userInput, checkedBoxes, selectionResult);
-//             }
-//         })
-//     },

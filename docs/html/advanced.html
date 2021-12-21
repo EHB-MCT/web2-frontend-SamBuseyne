@@ -15,8 +15,7 @@
         <nav class="navigation">
             <ul>
                 <a href="../index.html">Moves</a>
-                <input type="text" placeholder="Search">
-                <a href="../html/watchlist.html">Watchlist</a>
+                <a href="../html/watchlist.html">Favourites</a>
                 <a class="profileName" href="../html/login.html">Login</a>
             </ul>
         </nav>
@@ -29,12 +28,6 @@
                     <div class="searchKeys">
                         <div class="dropdown">
                             <button class="dropButton">Keyword</button>
-                            <div class="dropdownContent">
-                                <a href="#">Keyword</a>
-                                <a href="#">Plot</a>
-                                <a href="#">Soundtrack</a>
-                                <a href="#">Qoutes</a>
-                            </div>
                         </div>
                     </div>
                     <div id="inputField">
@@ -77,37 +70,12 @@
                     </form>
                 </div>
 
-                <div id="searchThemes">
-                    <div>
-                        <h3>Movie themes</h3>
-                    </div>
-                    <form action="">
-                        <input type="checkbox" class="genre" name="Adoption" value="genre">
-                        <label for="genre1">Adoption</label><br>
-                        <input type="checkbox" class="genre" name="Air disasters" value="genre">
-                        <label for="genre2">Air disasters</label><br>
-                        <input type="checkbox" class="genre" name="Alcoholism" value="genre">
-                        <label for="genre3">Alcoholism</label><br><br>
-                        <input type="checkbox" class="genre" name="Angels" value="genre">
-                        <label for="genre4">Angels</label><br><br>
-                        <input type="checkbox" class="genre" name="Blackmail" value="genre">
-                        <label for="genre5">Blackmail</label><br><br>
-                        <input type="checkbox" class="genre" name="Chosen one" value="genre">
-                        <label for="genre6">Chosen one</label><br><br>
-                        <input type="checkbox" class="genre" name="genre4" value="genre">
-                        <label for="genre4">Ghosts</label><br><br>
-                        <input type="checkbox" class="genre" name="genre5" value="genre">
-                        <label for="genre5">Pirates</label><br><br>
-                        <input type="checkbox" class="genre" name="genre6" value="genre">
-                        <label for="genre6">Vikings</label><br><br>
-                    </form>
-                </div>
-
                 <div id="searchYear">
                     <div>
                         <h3>Release Year</h3>
                     </div>
                     <select name="Years" id="yearList">
+                        <option value="0">All</option>
                         <option value="2021">2021</option>
                         <option value="2020">2020</option>
                         <option value="2019">2019</option>
@@ -117,7 +85,6 @@
                         <option value="2014">2014</option>
                         <option value="2013">2013</option>
                         <option value="2012">2012</option>
-                        <option value="0">All</option>
                     </select>
                 </div>
 
