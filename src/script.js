@@ -13,6 +13,7 @@ function setup() {
     checkPages();
     changeProfile();
     checkInputIndexPage();
+    // logOut();
     //functie die mogelijk maakt om te zoeken via hoofdpagina op woorden
     //input doorgeven aan functie die gebruikt wordt om op naam te zoeken bij advanced
 }
@@ -27,8 +28,8 @@ function checkInputIndexPage() {
 function initWebsite() {
     if (document.URL.includes("login")) {
         checkSwitchLogin();
-        console.log("trying to login")
         if (!sessionStorage.login && document.getElementById("loginButton")) {
+            console.log("this is now working")
             document.getElementById("loginButton").addEventListener('click', async event => {
                 event.preventDefault();
                 let userDetails = await checkUserInput();
@@ -40,7 +41,7 @@ function initWebsite() {
             console.log("signup")
             document.getElementById("signUpButton").addEventListener('click', async event => {
                 event.preventDefault();
-                console.log("signup")
+                console.log("signuppppp")
                 //     let userDetails = await checkUserInput();
                 //     if (userDetails) {
                 //         login(userDetails[0], userDetails[1]);
@@ -140,21 +141,19 @@ function register(email, password, name) {
         })
 }
 
-function logOut(event) {
-    console.log("logout function is running")
-    if (sessionStorage.name) {
-        clickedItem = event.target.value;
-        if (clickedItem) {
-            console.log(clickedItem);
-        }
-
-        // document.getElementById("logOut").addEventListener('click', e => {
-        //     sessionStorage.clear();
-        //     window.location.href = "../index.html";
-        // })
-    }
-
-}
+// function logOut(event) {
+//     console.log("logout function is running")
+//     if (sessionStorage.name) {
+//         document.getElementById("inputNavigation").addEventListener('click', event => {
+//             let logOutButton = event.target.className;
+//             if (logOutButton) {
+//                 sessionStorage.clear();
+//                 // window.location.href = "../index.html";
+//                 location.reload();
+//             }
+//         })
+//     }
+// }
 
 function changeProfile() {
     if (sessionStorage.name && !document.URL.includes("index")) {
@@ -167,11 +166,9 @@ function changeProfile() {
             <button class="logOut">Log out</button>
         </div>
         </div>`;
-
-        // <a id="profileName" href="../html/profile.html">${sessionStorage.name}</a>;
         listItem.parentNode.replaceChild(newItem, listItem);
-
     } else if (document.URL.includes("index") && sessionStorage.name) {
+        console.log("found the last a element on main page")
         let listItem = document.querySelector("a:last-child")
         let newItem = document.createElement('a');
         newItem.innerHTML = `
@@ -181,11 +178,7 @@ function changeProfile() {
             <button class="logOut">Log out</button>
         </div>
     </div>`;
-
-        // `<a id="profileName" href="./html/profile.html">${sessionStorage.name}</a>`;
         listItem.parentNode.replaceChild(newItem, listItem);
-    } else if (sessionStorage.name) {
-        logOutItem = document.getElementsByClassName()
     }
 }
 
@@ -199,6 +192,7 @@ async function getMovies() {
             .then(data => {
                 movies = data;
                 console.log("fetched the data");
+                renderWatchPage(movies);
             })
     }
 
@@ -389,8 +383,6 @@ function shuffleFunction(event) {
             document.getElementById('shuffle').innerHTML = htmlString;
         }
     });
-
-
 }
 
 //sort movies when loading in the first time
@@ -410,7 +402,6 @@ function updateMovieList(movies, sortSetting, input) {
         console.log("by ascending year")
         movies.sort((a, b) => {
             return a.year - b.year
-
         });
         newList = movies;
         orderKey = "1";
@@ -419,7 +410,6 @@ function updateMovieList(movies, sortSetting, input) {
         console.log("by descending year")
         movies.sort((a, b) => {
             return b.year - a.year
-
         });
         newList = movies;
         orderKey = "0";
@@ -643,12 +633,15 @@ function loadProfileContent() {
             return response.json();
         })
         .then(data => {
+            data.filter(data =>data.email == sessionStorage.name)
+            console.log(data);
             movies.forEach(m => {
                 if (m.movieid == data.movieid) {
                     favMovies.push(m)
                 }
             })
             console.log(favMovies);
+
             // let movieHTML = "";
             // data.forEach(d => {
             //     movieHTML += `
@@ -689,8 +682,9 @@ function infoPage(event) {
     // }
 }
 
-function renderWatchPage() {
+function renderWatchPage(movies, favourites) {
     console.log("showing watchlist page")
+    console.log(movies);
     let htmlString = "";
     htmlString +=
         `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
@@ -700,31 +694,24 @@ function renderWatchPage() {
 
 function loadUserBasedContent(guide) {
     if (guide == "watch") {
+        getMovies();
         renderWatchPage();
-        logOut();
+        loadProfileContent(movies);
     } else if (guide == "shuffle") {
         getMovies()
         shuffleFunction(movies, null, null);
         addFavourite();
-        logOut();
         // infoPage();
     } else if (guide == "advanced") {
         getMovies();
         updateMovieList(movies, null, null);
         addFavourite();
-        logOut();
         // checkSortings(movies);
     } else if (guide == "info") {
         infoPage();
-        logOut();
     } else if (guide == "login") {
         console.log("Let's show the login page")
     } else if (guide == "index") {
         console.log("Let's show the homepage")
-        logOut();
-    } else if (guide == "profile") {
-        getMovies();
-        loadProfileContent(movies);
-        logOut();
     }
 }
