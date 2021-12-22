@@ -192,7 +192,9 @@ async function getMovies() {
             .then(data => {
                 movies = data;
                 console.log("fetched the data");
-                renderWatchPage(movies);
+                if (document.URL.includes("watch")){
+                    renderWatchPage(movies);
+                }
             })
     }
 
@@ -633,7 +635,7 @@ function loadProfileContent() {
             return response.json();
         })
         .then(data => {
-            data.filter(data =>data.email == sessionStorage.name)
+            data.filter(data => data.email == sessionStorage.name)
             console.log(data);
             movies.forEach(m => {
                 if (m.movieid == data.movieid) {
