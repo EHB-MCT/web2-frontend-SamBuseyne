@@ -192,7 +192,7 @@ async function getMovies() {
             .then(data => {
                 movies = data;
                 console.log("fetched the data");
-                if (document.URL.includes("watch")){
+                if (document.URL.includes("watch")) {
                     renderWatchPage(movies);
                 }
             })
@@ -466,7 +466,7 @@ function updateMovieList(movies, sortSetting, input) {
     } else if (sortSetting == "trending" && orderKey == "0") {
         console.log("by descending trends")
         movies.forEach(m => {
-            if (m.trending == "yes") {
+            if (m.movieid == "yes") {
                 newList.push(m)
             }
         });
@@ -622,43 +622,43 @@ function sendFavourite(event) {
         })
 }
 
-function loadProfileContent() {
-    let favMovies = [];
-    console.log("rendering profile content");
-    fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            data.filter(data => data.email == sessionStorage.name)
-            console.log(data);
-            movies.forEach(m => {
-                if (m.movieid == data.movieid) {
-                    favMovies.push(m)
-                }
-            })
-            console.log(favMovies);
+// async function loadProfileContent() {
+//     let favMovies;
+//     console.log("rendering profile content");
+//     await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
+//             method: "GET",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             }
+//         })
+//         .then(response => {
+//             return response.json();
+//         })
+//         .then(data => {
+//             data.forEach(d =>{
+//                 if(data.email == sessionStorage.name){
+//                     favMovies.push(m)
+//                 }
+//             })
+//             console.log(favMovies);
 
-            // let movieHTML = "";
-            // data.forEach(d => {
-            //     movieHTML += `
-            //     <div class="movieContainer">
-            //     <div class="moviePosterContainer">
-            //         <p>The Green Mile</p>
-            //         <p>Frank Darabont</p>
-            //         <p>1999</p>
-            //     </div>
-            //     <button class="addFavourite">-</button>
-            // </div>`;
-            //     document.getElementById('profileContent').innerHTML = movieHTML;
-            // });
-        })
-}
+//             console.log(favMovies);
+
+//             let movieHTML = "";
+//             data.forEach(d => {
+//                 movieHTML += `
+//                 <div class="movieContainer">
+//                 <div class="moviePosterContainer">
+//                     <p>The Green Mile</p>
+//                     <p>Frank Darabont</p>
+//                     <p>1999</p>
+//                 </div>
+//                 <button class="addFavourite">-</button>
+//             </div>`;
+//                 document.getElementById('profileContent').innerHTML = movieHTML;
+//             });
+//         })
+// }
 
 function infoPage(event) {
     console.log("Running infopage function")
@@ -684,13 +684,84 @@ function infoPage(event) {
     // }
 }
 
-function renderWatchPage(movies, favourites) {
-    console.log("showing watchlist page")
+async function renderWatchPage() {
     console.log(movies);
+    let favMovies = [];
+    let favContent = [];
+    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            data.forEach(data => {
+                if (data.email == sessionStorage.name) {
+                    favMovies.push(data)
+                }
+            })
+
+
+            // console.log(favMovies);
+
+            // let movieHTML = "";
+            // data.forEach(d => {
+            //     movieHTML += `
+            //     <div class="movieContainer">
+            //     <div class="moviePosterContainer">
+            //         <p>The Green Mile</p>
+            //         <p>Frank Darabont</p>
+            //         <p>1999</p>
+            //     </div>
+            //     <button class="addFavourite">-</button>
+            // </div>`;
+            //     document.getElementById('profileContent').innerHTML = movieHTML;
+            // });
+        })
+    movies.forEach(m => {
+        if (m.movieid == "1234") {
+            favContent.push(m)
+        }
+    })
+
+    for (let f of favContent) {
+        let htmlString = "";
+        htmlString += `
+        <div class="movieContainer">
+            <a href="">
+            <figure>
+                <img src="${f.poster}" alt="${f.name}">
+            </figure>
+            </a>
+            <div class="moviePosterContainer" value ="${f.movieid}">
+                <p>${f.name}</p>
+                <p>${f.director}</p>
+                <p>${f.year}</p>
+                <div class="infoS">
+                    <div class="infoS1">
+                        <p>Views: ${f.views}</p>
+                        <p>Searches: ${f.searches}</p>
+                    </div>
+                    <div class="infoS2">
+                        <p>Rating: ${f.rating}/100</p>
+                        <p>Trending: ${f.trending}</p>
+                    </div>
+                </div>
+            </div>
+            <button class="addFavourite">+</button>
+        </div>`;
+        document.getElementById('favSection').innerHTML = htmlString;
+    }
+
     let htmlString = "";
     htmlString +=
         `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
     document.getElementById("favouritesTitle").innerHTML = htmlString;
+
 }
 
 
@@ -698,7 +769,7 @@ function loadUserBasedContent(guide) {
     if (guide == "watch") {
         getMovies();
         renderWatchPage();
-        loadProfileContent(movies);
+        // loadProfileContent(movies);
     } else if (guide == "shuffle") {
         getMovies()
         shuffleFunction(movies, null, null);
