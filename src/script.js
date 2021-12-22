@@ -1,5 +1,9 @@
 "Use strict";
 
+const {
+    data
+} = require("browserslist");
+
 let orderKey = "0"
 let sleutel = "";
 let htmlString = "";
@@ -9,19 +13,12 @@ setup()
 
 function setup() {
     initWebsite();
-    checkLoginState();
+    // checkLoginState();
     checkPages();
     changeProfile();
-    checkInputIndexPage();
     // logOut();
-    //functie die mogelijk maakt om te zoeken via hoofdpagina op woorden
-    //input doorgeven aan functie die gebruikt wordt om op naam te zoeken bij advanced
 }
 
-function checkInputIndexPage() {
-    console.log("Work this out")
-    //dit nog verder uitwerken zie hierboven
-}
 
 
 //starting the website
@@ -53,13 +50,13 @@ function initWebsite() {
 }
 
 
-function checkLoginState() {
-    if (sessionStorage.id || sessionStorage.name || sessionStorage.login) {
-        //hier all functies runnen wanneer user ingelogd is
-        // functie hierin plaatsen die anders met if check session storage werken
-        console.log("running userbased functions")
-    }
-}
+// function checkLoginState() {
+//     if (sessionStorage.id || sessionStorage.name || sessionStorage.login) {
+//         //hier all functies runnen wanneer user ingelogd is
+//         // functie hierin plaatsen die anders met if check session storage werken
+//         console.log("running userbased functions")
+//     }
+// }
 
 //get the userdata
 async function checkUserInput() {
@@ -688,47 +685,33 @@ async function renderWatchPage() {
     console.log(movies);
     let favMovies = [];
     let favContent = [];
-    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            data.forEach(data => {
-                if (data.email == sessionStorage.name) {
-                    favMovies.push(data)
-                }
-            })
+    let favID = [];
+    // await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //     .then(response => {
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //         console.log(data);
+    //         data.forEach(data => {
+    //             if (data.email == sessionStorage.name) {
+    //                 favMovies.push(data)
+    //             }
+    //         })
+    //     })
 
+    //     favMovies.forEach(favMovies => {
+    //         if(favMovies.movieid){
+    //             favID.push(favMovies.movieid);
+    //         }  
+    //     });
+    //     console.log(favID);
 
-            // console.log(favMovies);
-
-            // let movieHTML = "";
-            // data.forEach(d => {
-            //     movieHTML += `
-            //     <div class="movieContainer">
-            //     <div class="moviePosterContainer">
-            //         <p>The Green Mile</p>
-            //         <p>Frank Darabont</p>
-            //         <p>1999</p>
-            //     </div>
-            //     <button class="addFavourite">-</button>
-            // </div>`;
-            //     document.getElementById('profileContent').innerHTML = movieHTML;
-            // });
-        })
-    movies.forEach(m => {
-        if (m.movieid == "1234") {
-            favContent.push(m)
-        }
-    })
-
-    for (let f of favContent) {
+    for (let f of favMovies) {
         let htmlString = "";
         htmlString += `
         <div class="movieContainer">
@@ -752,7 +735,7 @@ async function renderWatchPage() {
                     </div>
                 </div>
             </div>
-            <button class="addFavourite">+</button>
+            <button class="addFavourite">-</button>
         </div>`;
         document.getElementById('favSection').innerHTML = htmlString;
     }

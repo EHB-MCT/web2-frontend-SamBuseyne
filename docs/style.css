@@ -633,6 +633,8 @@ select {
   border-radius: 25px;
   padding: 0.5em 1em 0.5em 1em;
   background-color: rgba(0, 161, 239, 1);
+  width: 10%;
+  text-align: center;
 }
 
 #shufflePage {
@@ -864,7 +866,6 @@ select {
   color: white;
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
   flex-wrap: wrap;
   margin-top: 1em;
 }
@@ -967,6 +968,8 @@ select {
   padding-bottom: 4em;
 }
 
+
+
 #favSection {
   display: flex;
   flex-direction: row;
@@ -1037,7 +1040,7 @@ select {
 
 #mainWatchlist {
   background-color: rgb(41, 40, 40);
-  padding-bottom: 16em;
+  padding-bottom: 25em;
 }
 
 #mainWatchlist #favSection {
@@ -1050,8 +1053,16 @@ select {
 }
 
 #mainWatchlist .addFavourite {
-  left: 85%;
-  top: -30%;
+  left: 90%;
+  top: -5%;
+}
+
+#favouritesTitle{
+  margin-bottom: 2em;
+}
+
+#favouritesTitle:first-child{
+  margin-left: 0em;
 }
 
 
