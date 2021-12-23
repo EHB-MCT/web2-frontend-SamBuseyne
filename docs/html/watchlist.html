@@ -43,35 +43,35 @@
                     </div>
 
                     <div id="favSection">
-
-                        <div class="movieContainer">
-                            <button value="1234">
-                                <figure>
-                                    <img class="posterName" src="../assets/The_Green_Mile_poster.jpg"
-                                        alt="The Green Mile">
-                                </figure>
-                            </button>
-                            <div class="moviePosterContainer" value="1234">
-                                <p>The Green Mile</p>
-                                <p>Frank Darabont</p>
-                                <p>1999</p>
-                                <div class="infoS">
-                                    <div class="infoS1">
-                                        <p>Views: 152.261</p>
-                                        <p>Searches: 25.369</p>
-                                    </div>
-                                    <div class="infoS2">
-                                        <p>Rating: 89/100</p>
-                                        <p>Trending: No</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <button value="1234" class="deleteFavourite">-</button>
-                        </div>
-
+                        <p>Create account to use favourite movies</p>
                     </div>
                 </div>
 
+            </div>
+
+            <div id="profileSettings">
+            <div id="prefence">
+                <form id="editPreference">
+                    <div class="editFormInput">
+                        <label for="name">Name:</label>
+                        <input id="name" name="name" placeholder="Jan" type="text">
+                    </div>
+                    <div class="editFormInput">
+                        <label for="email">Email:</label>
+                        <input id="email" name="email" placeholder="example@ehb.be" type="text">
+                    </div>
+                    <div class="editFormInput">
+                        <label for="fMovie">Favourite movie:</label>
+                        <input id="fMovie" name="fMovie" placeholder="movie title" type="text">
+                    </div>
+                    <button class="submitButton" id="submitEditButton" type="submit">Edit user settings</button>
+                </form>
+            </div>
+            <div id="settings">
+                <p id="settingsName">Name</p>
+                <p id="settingsName">Email</p>
+                <p id="settingsName">Favourite movie</p>
+            </div>
             </div>
         </section>
     </main>

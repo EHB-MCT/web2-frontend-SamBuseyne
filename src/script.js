@@ -6,7 +6,7 @@ let movies = [];
 let counter = "0";
 let favMovies = [];
 let htmlString = "";
-let switchMessage= "0";
+let switchMessage = "0";
 setup()
 
 function setup() {
@@ -51,8 +51,8 @@ function checkLoginState() {
 //starting the website
 function initWebsite() {
     if (document.URL.includes("login")) {
-
         if (!sessionStorage.login && document.getElementById("loginButton")) {
+            console.log("running log in button")
             document.getElementById("loginButton").addEventListener('click', async event => {
                 event.preventDefault();
                 let userDetails = await checkUserInput();
@@ -61,10 +61,13 @@ function initWebsite() {
                 }
             });
         } else if (!sessionStorage.login && document.getElementById("signUpButton")) {
+            console.log("running sign in button")
             document.getElementById("signUpButton").addEventListener('click', async event => {
                 event.preventDefault();
-                console.log("signuppppp")
-                register();
+                let userDetails = await checkUserInput();
+                if (userDetails) {
+                    register(userDetails[0], userDetails[1], userDetails[2], userDetails[3]);
+                }
             });
         }
     }
@@ -85,33 +88,20 @@ function checkPages() {
         addFavourite();
         // checkSortings(movies);
     } else if (document.URL.includes("index")) {
+
     } else if (document.URL.includes("watchlist")) {
         getMovies();
         deleteFavourite();
-        // renderWatchPage();
-        // loadProfileContent(movies);
+        showUserSettings();
+        adjustSettings();
     } else if (document.URL.includes("profile")) {
         loadUserBasedContent("profile");
 
     } else if (document.URL.includes("login")) {
-        // infoPage();
         initWebsite();
     }
-
 }
 
-// function searchButtons() {
-//     console.log("running")
-//     const btns = document.querySelectorAll('button')
-//     btns.forEach(btn => {
-//         btn.addEventListener('click', event => {
-//             console.log(event.target.id);
-//         });
-
-//     });
-//     document.getElementById('searchButton').addEventListener('click', event => {
-//     })
-// }
 
 //change login form
 async function checkSwitchLogin() {
@@ -124,15 +114,16 @@ async function checkSwitchLogin() {
                         <p>Create a new account</p>
                         <form action="" id="loginForm">
                             <input type="text" id="emailUser" placeholder="Email">
+                            <input type="text" id="name" placeholder="Name">
                             <input type="password" id="passwordUser" placeholder="Password">
-                            <input type="password" id="passwordUserConfirmation" placeholder="Confirm Password">
+                            <input type="text" id="fMovie" placeholder="Favourite Movie">
                         </form>
                         <button id="signUpButton">Sign</button>
                     </div>
                     `;
                 document.getElementById('loginContainer').innerHTML = htmlString;
                 sleutel = 1;
-
+                initWebsite();
             } else if (event.target.className = "non-activeButton" && sleutel == 1) {
                 htmlString = ""
                 htmlString += `
@@ -147,15 +138,18 @@ async function checkSwitchLogin() {
                 document.getElementById('loginContainer').innerHTML = htmlString;
                 sleutel = 0;
             }
+            initWebsite();
         })
     }
 }
 
 //get the userdata
 async function checkUserInput() {
-    console.log(sessionStorage.login)
+    // console.log(sessionStorage.login)
     let email = document.getElementById("emailUser").value;
     let pass = document.getElementById("passwordUser").value;
+    // let name = document.getElementById("name").value;
+    // let fMovie = document.getElementById("fMovie").value;
     return [email, pass];
 }
 
@@ -182,6 +176,7 @@ function login(email, password) {
                 sessionStorage.setItem("login", data.login);
                 sessionStorage.setItem("name", data.name);
                 sessionStorage.setItem("email", data.email);
+                sessionStorage.setItem("favouriteMovie", data.fMovie);
                 window.location.href = "../index.html";
             } else {
                 console.log('Wrong password or email!');
@@ -190,7 +185,7 @@ function login(email, password) {
 }
 
 //register fetch
-function register(email, password, name) {
+function register(email, password, name, fMovie) {
     fetch(`https://web2-backend-sambuseyne.herokuapp.com/register`, {
             method: "POST",
             headers: {
@@ -199,7 +194,9 @@ function register(email, password, name) {
             body: JSON.stringify({
                 email: email,
                 password: password,
-                name: name
+                name: name,
+                fMovie: fMovie
+
             })
         })
         .then(response => {
@@ -210,10 +207,12 @@ function register(email, password, name) {
             if (data) {
                 sessionStorage.setItem("id", data.id);
                 sessionStorage.setItem("login", data.login);
-                sessionStorage.setItem("name", data.email);
+                sessionStorage.setItem("email", data.email);
+                sessionStorage.setItem("name", data.name);
+                sessionStorage.setItem("favouriteMovie", data.fMovie);
                 window.location.href = "../index.html";
             } else {
-                console.log('Wrong password or email!');
+                console.log('Welcome to the movie guide!');
             }
         })
 }
@@ -390,7 +389,7 @@ function renderMovies(movies) {
             document.getElementById('results').innerHTML = movieHTML;
         });
     }
-    switchMessage +=1;
+    switchMessage += 1;
 }
 
 
@@ -605,12 +604,9 @@ function renderMessage() {
     movieHTML += `
         <p>No movies where found!</p>
 `
-    document.getElementById('filterMessage').innerHTML = movieHTML;
+    document.getElementById('results').innerHTML = movieHTML;
 }
 
-
-
-//TO WORK ON!!//////////////////////////////////////////////////////////
 
 
 function deleteFavourite() {
@@ -675,11 +671,11 @@ function shuffleFunction(e) {
             movieHTML += `
     
             <div class="movieContainer">
-            <a href="../html/info.html">
+            <button value="${m.movieid}">
             <figure>
                 <img src="${m.poster}" alt="${m.name}">
             </figure>
-            </a>
+            </button>
             <div class="moviePosterContainer">
                 <p>${m.name}</p>
                 <p>${m.director}</p>
@@ -726,6 +722,9 @@ async function renderWatchPage() {
                 }
             })
         })
+    for (let i = 0; i < favMovies.length; i++) {
+        sessionStorage.setItem(`"favouriteID${i}"`, `${favMovies[i]._id}`)
+    }
 
     favMovies.forEach(favMovies => {
         if (favMovies.movieid) {
@@ -737,6 +736,7 @@ async function renderWatchPage() {
 
 
 function getSingleMovie(id) {
+    console.log("getting single movies")
     let favMoviesList = [];
     id.forEach(id => {
         fetch(`https://web2-backend-sambuseyne.herokuapp.com/movie/?movieid=${id}`, {
@@ -752,42 +752,89 @@ function getSingleMovie(id) {
                 favMoviesList.push(data)
             })
         console.log(favMoviesList);
-        renderFavMovies(favMoviesList)
     })
+    renderFavMovies(favMoviesList)
 }
 
 function renderFavMovies(favMoviesList) {
-    console.log(favMoviesList[0])
+    console.log("rendering favourites")
     let htmlString = "";
     htmlString +=
         `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
     document.getElementById("favouritesTitle").innerHTML = htmlString;
 
-    for(let i = 0; i<favMoviesList.length; i++){
+    let movieHTML = "";
+    for (let i = 0; i < movies.length; i++) {
         movieHTML += `
         <div class="movieContainer">
-            <a class="posterLink" href="">
+            <button>
             <figure>
-                <img src="${favMoviesList[i].poster}" alt="${favMoviesList[i].name}">
+                <img src="${movies[i].poster}" alt="${movies[i].name}">
             </figure>
-            </a>
-            <div class="moviePosterContainer" value ="${favMoviesList[i].movieid}">
-                <p>${favMoviesList[i].name}</p>
-                <p>${favMoviesList[i].director}</p>
-                <p>${favMoviesList[i].year}</p>
+            </button>
+            <div class="moviePosterContainer" value ="${movies[i].movieid}">
+                <p>${movies[i].name}</p>
+                <p>${movies[i].director}</p>
+                <p>${movies[i].year}</p>
                 <div class="infoS">
                     <div class="infoS1">
-                        <p>Views: ${favMoviesList[i].views}</p>
-                        <p>Searches: ${favMoviesList[i].searches}</p>
+                        <p>Views: ${movies[i].views}</p>
+                        <p>Searches: ${movies[i].searches}</p>
                     </div>
                     <div class="infoS2">
-                        <p>Rating: ${favMoviesList[i].rating}/100</p>
-                        <p>Trending: ${favMoviesList[i].trending}</p>
+                        <p>Rating: ${movies[i].rating}/100</p>
+                        <p>Trending: ${movies[i].trending}</p>
                     </div>
                 </div>
             </div>
-            <button class="addFavourite">+</button>
-        </div>`
-    document.getElementById('favSection').innerHTML = movieHTML;;
+            <button class="deleteFavourite">-</button>
+        </div>`;
+        document.getElementById("favSection").innerHTML = movieHTML;
     }
+}
+
+
+function showUserSettings() {
+    let settingsHTLM = "";
+    settingsHTLM += `
+    <p id="settingsName">Your name: ${sessionStorage.name}</p>
+    <p id="settingsName">Your email: ${sessionStorage.email}</p>
+    <p id="settingsName">Your favourite movie: ${sessionStorage.favouriteMovie}</p>
+    `
+    document.getElementById("settings").innerHTML = settingsHTLM;
+}
+
+
+
+function adjustSettings() {
+    document.getElementById('editPreference').addEventListener('submit', e => {
+        e.preventDefault('submit');
+        let userName = document.getElementById("name").value;
+        let userEmail = document.getElementById('email').value;
+        let userfMovie = document.getElementById('fMovie').value;
+        let userID = sessionStorage.id;
+
+        const update = {
+            "_id": userID,
+            "name": userName,
+            "email": userEmail,
+            "fMovie": userfMovie
+        }
+        fetch(`https://web2-backend-sambuseyne.herokuapp.com/users/${userID}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(update)
+            }).then(res => {
+                res.json()
+            })
+            .then(data => {
+                console.log(data);
+                if (data == undefined) {
+                    location.reload();
+                    login();
+                }
+            });
+    })
 }
