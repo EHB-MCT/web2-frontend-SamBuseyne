@@ -649,7 +649,7 @@ select {
 }
 
 
-#shuffle {
+.shuffle {
   display: flex;
   flex-direction: row;
   margin: 3em 1em 4em 1em;

@@ -2,9 +2,11 @@
 
 let orderKey = "0"
 let sleutel = "";
-let htmlString = "";
 let movies = [];
 let counter = "0";
+let favMovies = [];
+let htmlString = "";
+let switchMessage= "0";
 setup()
 
 function setup() {
@@ -83,13 +85,14 @@ function checkPages() {
         addFavourite();
         // checkSortings(movies);
     } else if (document.URL.includes("index")) {
-        runIndexPage();
     } else if (document.URL.includes("watchlist")) {
         getMovies();
-        renderWatchPage();
+        deleteFavourite();
+        // renderWatchPage();
         // loadProfileContent(movies);
     } else if (document.URL.includes("profile")) {
         loadUserBasedContent("profile");
+
     } else if (document.URL.includes("login")) {
         // infoPage();
         initWebsite();
@@ -174,9 +177,11 @@ function login(email, password) {
         .then(data => {
             console.log(data);
             if (data) {
+                console.log(data);
                 sessionStorage.setItem("id", data.id);
                 sessionStorage.setItem("login", data.login);
                 sessionStorage.setItem("name", data.name);
+                sessionStorage.setItem("email", data.email);
                 window.location.href = "../index.html";
             } else {
                 console.log('Wrong password or email!');
@@ -205,7 +210,7 @@ function register(email, password, name) {
             if (data) {
                 sessionStorage.setItem("id", data.id);
                 sessionStorage.setItem("login", data.login);
-                sessionStorage.setItem("name", data.name);
+                sessionStorage.setItem("name", data.email);
                 window.location.href = "../index.html";
             } else {
                 console.log('Wrong password or email!');
@@ -272,87 +277,87 @@ async function getMovies() {
             .then(data => {
                 movies = data;
                 console.log("fetched the data");
-                if (document.URL.includes("watch")) {
-                    renderWatchPage(movies);
-                }
+
             })
     }
+    if (document.URL.includes("watch")) {
+        renderWatchPage(movies);
+    } else if (document.URL.includes("advanced")) {
+        document.getElementById("searchContainer").addEventListener('click', e => {
+            if (document.getElementById('releaseDate')) {
+                document.getElementById('releaseDate').addEventListener('click', e => {
+                    let sortSetting = document.getElementById('releaseDate').id;
+                    updateMovieList(movies, sortSetting);
+                })
+            }
 
-    document.getElementById("searchContainer").addEventListener('click', e => {
-        if (document.getElementById('releaseDate')) {
-            document.getElementById('releaseDate').addEventListener('click', e => {
-                let sortSetting = document.getElementById('releaseDate').id;
-                updateMovieList(movies, sortSetting);
-            })
-        }
+            if (document.getElementById('mostViews')) {
+                document.getElementById('mostViews').addEventListener('click', e => {
+                    let sortSetting = document.getElementById('mostViews').id;
+                    updateMovieList(movies, sortSetting);
+                })
+            }
 
-        if (document.getElementById('mostViews')) {
-            document.getElementById('mostViews').addEventListener('click', e => {
-                let sortSetting = document.getElementById('mostViews').id;
-                updateMovieList(movies, sortSetting);
-            })
-        }
+            if (document.getElementById('mostSearched')) {
+                document.getElementById('mostSearched').addEventListener('click', e => {
+                    let sortSetting = document.getElementById('mostSearched').id;
+                    updateMovieList(movies, sortSetting);
+                })
+            }
 
-        if (document.getElementById('mostSearched')) {
-            document.getElementById('mostSearched').addEventListener('click', e => {
-                let sortSetting = document.getElementById('mostSearched').id;
-                updateMovieList(movies, sortSetting);
-            })
-        }
+            if (document.getElementById('rating')) {
+                document.getElementById('rating').addEventListener('click', e => {
+                    let sortSetting = document.getElementById('rating').id;
+                    updateMovieList(movies, sortSetting);
+                })
+            }
 
-        if (document.getElementById('rating')) {
-            document.getElementById('rating').addEventListener('click', e => {
-                let sortSetting = document.getElementById('rating').id;
-                updateMovieList(movies, sortSetting);
-            })
-        }
-
-        if (document.getElementById('trending')) {
-            document.getElementById('trending').addEventListener('click', e => {
-                let sortSetting = document.getElementById('trending').id;
-                updateMovieList(movies, sortSetting);
-            })
-        }
-        if (document.getElementById('searchButton') && !(document.querySelector('.genre:checked')) && (selection.options[selection.selectedIndex].value == "0")) {
-            console.log('LOOK AT THIS!');
-            console.log(document.querySelector('.genre:checked'));
-            document.getElementById('searchButton').addEventListener('click', e => {
-                console.log("search button clicked")
-                let sortSetting = document.getElementById('searchButton').id;
-                let input = document.getElementById('field').value;
-                updateMovieList(movies, sortSetting, input);
-            })
-        }
-        if (document.getElementById("yearList") && !(selection.options[selection.selectedIndex].value == "0")) {
-            document.getElementById('searchButton').addEventListener('click', e => {
-                console.log("searching by year")
-                let selection = document.getElementById('yearList');
-                let selectionResult = selection.options[selection.selectedIndex].value;
-                console.log(selectionResult)
-                let sortSetting = document.getElementById('yearList').id;
-                let input = null;
-                updateMovieList(movies, sortSetting, input);
-            })
-        }
-        if (document.querySelector('.genre:checked') && (selection.options[selection.selectedIndex].value == "0")) {
-            console.log('LOOK AT THISSSSSSSSSSSSSSS!')
-            document.getElementById("searchButton").addEventListener('click', e => {
-                let checkedBoxes = document.querySelector('.genre:checked').value;
-                let sortSetting = document.getElementById('searchGenres').id;
-                let input = null;
-                console.log(checkedBoxes);
-                updateMovieList(movies, sortSetting, input, checkedBoxes);
-            })
-        }
-
-    })
+            if (document.getElementById('trending')) {
+                document.getElementById('trending').addEventListener('click', e => {
+                    let sortSetting = document.getElementById('trending').id;
+                    updateMovieList(movies, sortSetting);
+                })
+            }
+            if (document.getElementById('searchButton') && !(document.querySelector('.genre:checked')) && (selection.options[selection.selectedIndex].value == "0")) {
+                console.log('LOOK AT THIS!');
+                console.log(document.querySelector('.genre:checked'));
+                document.getElementById('searchButton').addEventListener('click', e => {
+                    console.log("search button clicked")
+                    let sortSetting = document.getElementById('searchButton').id;
+                    let input = document.getElementById('field').value;
+                    updateMovieList(movies, sortSetting, input);
+                })
+            }
+            if (document.getElementById("yearList") && !(selection.options[selection.selectedIndex].value == "0")) {
+                document.getElementById('searchButton').addEventListener('click', e => {
+                    console.log("searching by year")
+                    let selection = document.getElementById('yearList');
+                    let selectionResult = selection.options[selection.selectedIndex].value;
+                    console.log(selectionResult)
+                    let sortSetting = document.getElementById('yearList').id;
+                    let input = null;
+                    updateMovieList(movies, sortSetting, input);
+                })
+            }
+            if (document.querySelector('.genre:checked') && (selection.options[selection.selectedIndex].value == "0")) {
+                console.log('LOOK AT THISSSSSSSSSSSSSSS!')
+                document.getElementById("searchButton").addEventListener('click', e => {
+                    let checkedBoxes = document.querySelector('.genre:checked').value;
+                    let sortSetting = document.getElementById('searchGenres').id;
+                    let input = null;
+                    console.log(checkedBoxes);
+                    updateMovieList(movies, sortSetting, input, checkedBoxes);
+                })
+            }
+        })
+    }
 }
 
 //render the movies on the pages
 function renderMovies(movies) {
-    if(movies.length === 0){
+    if (movies.length === 0 && !(switchMessage == "0")) {
         renderMessage();
-    }else{
+    } else {
         console.log("rendering");
         let movieHTML = "";
         movies.forEach(m => {
@@ -385,6 +390,7 @@ function renderMovies(movies) {
             document.getElementById('results').innerHTML = movieHTML;
         });
     }
+    switchMessage +=1;
 }
 
 
@@ -511,8 +517,7 @@ function updateMovieList(movies, sortSetting, input, checked) {
             let title = movieTitle.toLowerCase()
             if (title.includes(input.toLowerCase())) {
                 newList.push(m)
-            } else {
-            }
+            } else {}
         })
     } else if (sortSetting == "yearList" && selectionResult) {
         resultsContainer.style.margin = "4em";
@@ -548,13 +553,10 @@ function addFavourite() {
             if (favourite) {
                 if (event.target.className.indexOf('addFavourite') !== -1) {
                     const item = event.target.value;
-                    console.log(item);
-                    let fMovie = {
-                        email: sessionStorage.name,
-                        movieid: item,
-                        favourite: true
-                    }
-                    console.log(fMovie);
+                    sessionStorage.setItem("movieid", item);
+                    sessionStorage.setItem("favourite", true);
+                    sessionStorage.setItem("email", sessionStorage.email);
+                    sendFavourite();
                 }
             }
         })
@@ -564,20 +566,17 @@ function addFavourite() {
             if (favourite) {
                 if (event.target.className.indexOf('addFavourite') !== -1) {
                     const item = event.target.value;
-                    console.log(item);
-                    let fMovie = {
-                        email: sessionStorage.name,
-                        movieid: item,
-                        favourite: true
-                    }
-                    sendFavourite()
+                    sessionStorage.setItem("movieid", item);
+                    sessionStorage.setItem("favourite", true);
+                    sessionStorage.setItem("email", sessionStorage.email);
+                    sendFavourite();
                 }
             }
         })
     }
 }
 
-function sendFavourite(event) {
+function sendFavourite() {
     console.log("Sending favourite movies to database")
     fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourite`, {
             method: "POST",
@@ -585,8 +584,8 @@ function sendFavourite(event) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                email: sessionStorage.name,
-                movieid: event.target.value,
+                email: sessionStorage.email,
+                movieid: sessionStorage.movieid,
                 favourite: true
             })
         })
@@ -595,45 +594,10 @@ function sendFavourite(event) {
         })
         .then(data => {
             console.log(data);
+
         })
 }
 
-function infoPage(event) {
-    let clicked = event.target.value;
-    console.log(clicked);
-
-    // if (document.URL.includes("shuffle")) {
-    //     document.getElementById("shufflePage").addEventListener('click', event => {
-    //         const favourite = event.target.className.indexOf("movieContainer");
-    //         if (favourite) {
-    //             if (event.target.className.indexOf('addFavourite') !== -1) {
-    //                 const item = event.target.value;
-    //                 console.log(item);
-    //                 let fMovie = {
-    //                     email: sessionStorage.name,
-    //                     movieid: item,
-    //                     favourite: true
-    //                 }
-    //                 console.log(fMovie);
-    //             }
-    //         }
-    //     })
-    // }
-}
-
-
-
-
-
-function runIndexPage() {
-    console.log("running info link function")
-    document.getElementById("infoButton").addEventListener('click', event => {
-        event.preventDefault();
-        console.log("clicked info button")
-        sessionStorage.setItem("movieTitle", "Space Jam");
-        window.location.href = "./html/info.html";
-    })
-}
 
 function renderMessage() {
     console.log("function is running")
@@ -641,117 +605,110 @@ function renderMessage() {
     movieHTML += `
         <p>No movies where found!</p>
 `
-    document.getElementById('results').innerHTML = movieHTML;
+    document.getElementById('filterMessage').innerHTML = movieHTML;
 }
-
 
 
 
 //TO WORK ON!!//////////////////////////////////////////////////////////
 
 
+function deleteFavourite() {
+    let deleteData = document.getElementsByClassName("deleteFavourite");
+    for (let i = 0; i < deleteData.length; i++) {
+        console.log("deleting");
+        deleteData[i].addEventListener("click", e => {
+            e.preventDefault();
+            const item = e.target.value
+            fetch(`https://web2-fullstack-teamwork.herokuapp.com/favourite`, {
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: {
+                        email: sessionStorage.email,
+                        movieid: item
+                    }
+                })
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    console.log('Favourite succesfully removed:', data);
+                    if (data) {
+                        location.reload();
+                    }
+                })
+        })
+    }
+
+}
+
 
 function shuffleFunction(e) {
+    document.getElementById("shufflePage").addEventListener('click', e => {
+        // e.preventDefault();
+        let target = e.path[2].className;
+        const favourite = e.target.className.indexOf("movieContainer");
+        if (favourite) {
+            if (e.target.className.indexOf('posterName')) {
+                const item = e.target.className;
+                if (target == "posterName") {
+                    console.log("here comes the info link function")
 
-    document.getElementById("shuffle").addEventListener('click', event => {
-        event.preventDefault();
-        let click = e.target.closest('.movieContainer').className
-        if (click) {
-            console.log(click, e.target)
+                } else if (target == "shuffle") {
+                    sessionStorage.setItem("movieid", item);
+                    sessionStorage.setItem("favourite", true);
+                    sessionStorage.setItem("email", sessionStorage.name);
+                    sendFavourite();
+                }
+            }
         }
     })
 
-    // document.getElementById("shufflePage").addEventListener('click', e => {
-    //     e.preventDefault();
-    //     console.log(e.path[2].className);
-    //     const favourite = e.target.className.indexOf("movieContainer");
-    //     if (favourite) {
-    //         console.log("running")
-    //         if (e.target.className.indexOf('posterName')) {
-    //             console.log("running to")
-    //             const item = e.target.className;
-    //             console.log(item);
-    //             let fMovie = {
-    //                 email: sessionStorage.name,
-    //                 movieid: item,
-    //                 favourite: true
-    //             }
-    //             console.log(fMovie);
-    //         }
-    //     }
-
-
-    //     if (target = "posterName") {
-    //         console.log("here comes the info link function")
-
-    //     } else if (target = "addFavourite") {
-    //         console.log("here comes the add favourite function")
-    //     }
-
-
-    // })
-
-    // document.getElementById("shufflePage").addEventListener('click', event => {
-    //     // event.preventDefault();
-    //     console.log(event.target.value);
-    //     const favourite = event.target.className.indexOf("movieContainer");
-    //     if (favourite) {
-    //         let movieid = document.getElementsByClassName("moviePosterContainer").value;
-
-
-    //         sessionStorage.setItem("movieid", item);
-    //         if (event.target.className.indexOf('infoLink')) {
-    //             console.log('step2')
-    //             console.log(event.target)
-    //             const item = event.target.value;
-    //             console.log(item);
-    //             sessionStorage.setItem("movieid", item);
-    //         }
-    //     }
-    // })
-
-
-
     document.getElementById('shuffleButton').addEventListener('click', () => {
-
         let newList = [];
-        htmlString = "";
         movies.sort(() => Math.random() - 0.5);
         newList = movies.slice(0, 3);
-        for (let m of newList) {
-            htmlString += `
+        let movieHTML = "";
+        newList.forEach(m => {
+            movieHTML += `
+    
             <div class="movieContainer">
-                <a class="posterLink" href="">
-                <figure>
-                    <img src="${m.poster}" alt="${m.name}">
-                </figure>
-                </a>
-                <div class="moviePosterContainer" value ="${m.movieid}">
-                    <p>${m.name}</p>
-                    <p>${m.director}</p>
-                    <p>${m.year}</p>
-                    <div class="infoS">
-                        <div class="infoS1">
-                            <p>Views: ${m.views}</p>
-                            <p>Searches: ${m.searches}</p>
-                        </div>
-                        <div class="infoS2">
-                            <p>Rating: ${m.rating}/100</p>
-                            <p>Trending: ${m.trending}</p>
-                        </div>
+            <a href="../html/info.html">
+            <figure>
+                <img src="${m.poster}" alt="${m.name}">
+            </figure>
+            </a>
+            <div class="moviePosterContainer">
+                <p>${m.name}</p>
+                <p>${m.director}</p>
+                <p>${m.year}</p>
+                <div class="infoS">
+                    <div class="infoS1">
+                        <p>Views: ${m.views}</p>
+                        <p>Searches: ${m.searches}</p>
+                    </div>
+                    <div class="infoS2">
+                        <p>Rating: ${m.rating}/100</p>
+                        <p>Trending: ${m.trending}</p>
                     </div>
                 </div>
-                <button class="addFavourite">+</button>
-            </div>`;
-            document.getElementById('shuffle').innerHTML = htmlString;
-        }
+            </div>
+            <button value="${m.movieid}" class="addFavourite">+</button>
+        </div>
+    `
+            document.getElementById('shuffle').innerHTML = movieHTML;
+        });
     });
 }
 
 
-async function loadProfileContent() {
-    let favMovies;
-    console.log("rendering profile content");
+
+async function renderWatchPage() {
+    console.log(movies);
+    let favMovies = [];
+    let favID = [];
     await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
             method: "GET",
             headers: {
@@ -762,132 +719,75 @@ async function loadProfileContent() {
             return response.json();
         })
         .then(data => {
-            data.forEach(d => {
+            console.log(data);
+            data.forEach(data => {
                 if (data.email == sessionStorage.name) {
-                    favMovies.push(m)
+                    favMovies.push(data)
                 }
             })
-            console.log(favMovies);
-
-            console.log(favMovies);
-
-            let movieHTML = "";
-            data.forEach(d => {
-                movieHTML += `
-                <div class="movieContainer">
-                <div class="moviePosterContainer">
-                    <p>The Green Mile</p>
-                    <p>Frank Darabont</p>
-                    <p>1999</p>
-                </div>
-                <button class="addFavourite">-</button>
-            </div>`;
-                document.getElementById('profileContent').innerHTML = movieHTML;
-            });
         })
+
+    favMovies.forEach(favMovies => {
+        if (favMovies.movieid) {
+            favID.push(favMovies.movieid);
+        }
+    });
+    getSingleMovie(favID)
 }
 
 
-async function renderWatchPage() {
-    console.log(movies);
-    let favMovies = [];
-    let favContent = [];
-    let favID = [];
-    // await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     })
-    //     .then(response => {
-    //         return response.json();
-    //     })
-    //     .then(data => {
-    //         console.log(data);
-    //         data.forEach(data => {
-    //             if (data.email == sessionStorage.name) {
-    //                 favMovies.push(data)
-    //             }
-    //         })
-    //     })
+function getSingleMovie(id) {
+    let favMoviesList = [];
+    id.forEach(id => {
+        fetch(`https://web2-backend-sambuseyne.herokuapp.com/movie/?movieid=${id}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                favMoviesList.push(data)
+            })
+        console.log(favMoviesList);
+        renderFavMovies(favMoviesList)
+    })
+}
 
-    //     favMovies.forEach(favMovies => {
-    //         if(favMovies.movieid){
-    //             favID.push(favMovies.movieid);
-    //         }  
-    //     });
-    //     console.log(favID);
-
-    for (let f of favMovies) {
-        let htmlString = "";
-        htmlString += `
-        <div class="movieContainer">
-            <a href="">
-            <figure>
-                <img src="${f.poster}" alt="${f.name}">
-            </figure>
-            </a>
-            <div class="moviePosterContainer" value ="${f.movieid}">
-                <p>${f.name}</p>
-                <p>${f.director}</p>
-                <p>${f.year}</p>
-                <div class="infoS">
-                    <div class="infoS1">
-                        <p>Views: ${f.views}</p>
-                        <p>Searches: ${f.searches}</p>
-                    </div>
-                    <div class="infoS2">
-                        <p>Rating: ${f.rating}/100</p>
-                        <p>Trending: ${f.trending}</p>
-                    </div>
-                </div>
-            </div>
-            <button class="addFavourite">-</button>
-        </div>`;
-        document.getElementById('favSection').innerHTML = htmlString;
-    }
-
+function renderFavMovies(favMoviesList) {
+    console.log(favMoviesList[0])
     let htmlString = "";
     htmlString +=
         `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
     document.getElementById("favouritesTitle").innerHTML = htmlString;
 
+    for(let i = 0; i<favMoviesList.length; i++){
+        movieHTML += `
+        <div class="movieContainer">
+            <a class="posterLink" href="">
+            <figure>
+                <img src="${favMoviesList[i].poster}" alt="${favMoviesList[i].name}">
+            </figure>
+            </a>
+            <div class="moviePosterContainer" value ="${favMoviesList[i].movieid}">
+                <p>${favMoviesList[i].name}</p>
+                <p>${favMoviesList[i].director}</p>
+                <p>${favMoviesList[i].year}</p>
+                <div class="infoS">
+                    <div class="infoS1">
+                        <p>Views: ${favMoviesList[i].views}</p>
+                        <p>Searches: ${favMoviesList[i].searches}</p>
+                    </div>
+                    <div class="infoS2">
+                        <p>Rating: ${favMoviesList[i].rating}/100</p>
+                        <p>Trending: ${favMoviesList[i].trending}</p>
+                    </div>
+                </div>
+            </div>
+            <button class="addFavourite">+</button>
+        </div>`
+    document.getElementById('favSection').innerHTML = movieHTML;;
+    }
 }
-
-
-
-
-
-
-
-
-
-// document.getElementById('buttonSection').addEventListener('click', () => {
-
-//     if (document.querySelector('.genre:checked')) {
-//         let checkedBoxes = document.querySelector('.genre:checked').value;
-//         let userInput = null;
-//         this.advancedSearch(userInput, checkedBoxes)
-//     } else if (document.getElementById("field").value) {
-//         userInput = document.getElementById("field").value;
-//         let checkedBoxes = null;
-//         this.advancedSearch(userInput, checkedBoxes)
-//     } else if (!selectionResult == "0") {
-//         let userInput = null;
-//         let checkedBoxes = null;
-//         let selection = document.getElementById('yearList');
-//         let selectionResult = selection.options[selection.selectedIndex].value;
-//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
-//     } else {
-//         let userInput = null;
-//         let checkedBoxes = null;
-//         let selectionResult = null;
-//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
-//     }
-// })
-// }
-
-
-
-// let filterMessage = document.getElementById('filterMessage');
-// filterMessage.style.display = "none";
