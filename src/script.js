@@ -4,11 +4,27 @@ let orderKey = "0"
 let sleutel = "";
 let htmlString = "";
 let movies = [];
-
+let counter = "0";
 setup()
 
 function setup() {
     checkLoginState();
+    addYears()
+}
+
+function addYears() {
+    if(document.URL.includes("advanced")){
+        if (counter == "0") {
+            let year = 1970;
+            let till = 2014;
+            let options = "";
+            for (var y = year; y <= till; y++) {
+                options += "<option>" + y + "</option>";
+            }
+            document.getElementById("yearStart").insertAdjacentHTML('afterend', options);
+        }
+        counter +=1;
+    }
 }
 
 //check if an user is logged in
@@ -61,6 +77,7 @@ function checkPages() {
         addFavourite();
         // infoPage();
     } else if (document.URL.includes("advanced")) {
+        // searchButtons();
         getMovies();
         updateMovieList(movies, null, null);
         addFavourite();
@@ -79,6 +96,19 @@ function checkPages() {
     }
 
 }
+
+// function searchButtons() {
+//     console.log("running")
+//     const btns = document.querySelectorAll('button')
+//     btns.forEach(btn => {
+//         btn.addEventListener('click', event => {
+//             console.log(event.target.id);
+//         });
+
+//     });
+//     document.getElementById('searchButton').addEventListener('click', event => {
+//     })
+// }
 
 //change login form
 async function checkSwitchLogin() {
@@ -192,9 +222,9 @@ function logOut() {
                     let logOutButton = event.target.className;
                     if (logOutButton) {
                         sessionStorage.clear();
-                        if(document.URL.includes("index")){
-                        location.reload();
-                        }else{
+                        if (document.URL.includes("index")) {
+                            location.reload();
+                        } else {
                             window.location.href = "../index.html";
                         }
                     }
@@ -248,70 +278,76 @@ async function getMovies() {
             })
     }
 
-    if (document.getElementById('releaseDate')) {
-        document.getElementById('releaseDate').addEventListener('click', e => {
-            let sortSetting = document.getElementById('releaseDate').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
+    document.getElementById("searchContainer").addEventListener('click', e => {
+        if (document.getElementById('releaseDate')) {
+            document.getElementById('releaseDate').addEventListener('click', e => {
+                let sortSetting = document.getElementById('releaseDate').id;
+                updateMovieList(movies, sortSetting);
+            })
+        }
 
-    if (document.getElementById('mostViews')) {
-        document.getElementById('mostViews').addEventListener('click', e => {
-            let sortSetting = document.getElementById('mostViews').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
+        if (document.getElementById('mostViews')) {
+            document.getElementById('mostViews').addEventListener('click', e => {
+                let sortSetting = document.getElementById('mostViews').id;
+                updateMovieList(movies, sortSetting);
+            })
+        }
 
-    if (document.getElementById('mostSearched')) {
-        document.getElementById('mostSearched').addEventListener('click', e => {
-            let sortSetting = document.getElementById('mostSearched').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
+        if (document.getElementById('mostSearched')) {
+            document.getElementById('mostSearched').addEventListener('click', e => {
+                let sortSetting = document.getElementById('mostSearched').id;
+                updateMovieList(movies, sortSetting);
+            })
+        }
 
-    if (document.getElementById('rating')) {
-        document.getElementById('rating').addEventListener('click', e => {
-            let sortSetting = document.getElementById('rating').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
+        if (document.getElementById('rating')) {
+            document.getElementById('rating').addEventListener('click', e => {
+                let sortSetting = document.getElementById('rating').id;
+                updateMovieList(movies, sortSetting);
+            })
+        }
 
-    if (document.getElementById('trending')) {
-        document.getElementById('trending').addEventListener('click', e => {
-            let sortSetting = document.getElementById('trending').id;
-            updateMovieList(movies, sortSetting);
-        })
-    }
-    if (document.getElementById('searchButton') && !(document.querySelector('.genre:checked'))) {
-        console.log('LOOK AT THIS!');
-        console.log(document.querySelector('.genre:checked'));
-        document.getElementById('searchButton').addEventListener('click', e => {
-            console.log("search button clicked")
-            let sortSetting = document.getElementById('searchButton').id;
-            let input = document.getElementById('field').value;
-            updateMovieList(movies, sortSetting, input);
-        })
-    }
-    if (document.getElementById("yearList") && !(selection.options[selection.selectedIndex].value == "0")) {
-        document.getElementById('searchButton').addEventListener('click', e => {
-            console.log("searching by year")
-            let selection = document.getElementById('yearList');
-            let selectionResult = selection.options[selection.selectedIndex].value;
-            console.log(selectionResult)
-            let sortSetting = document.getElementById('yearList').id;
-            let input = null;
-            updateMovieList(movies, sortSetting, input);
-        })
-    }
-    if (document.querySelector('.genre:checked') && !(selection.options[selection.selectedIndex].value == "0")) {
-        console.log('LOOK AT THISSSSSSSSSSSSSSS!')
-        // document.getElementById("searchButton").addEventListener('click', e => {
-        //     let checkedBoxes = document.querySelector('.genre:checked').value;
-        //     let input = null;
-        //     console.log(checkedBoxes);
-        //     updateMovieList(movies, sortSetting, input);
-        // })
-    }
+        if (document.getElementById('trending')) {
+            document.getElementById('trending').addEventListener('click', e => {
+                let sortSetting = document.getElementById('trending').id;
+                updateMovieList(movies, sortSetting);
+            })
+        }
+        if (document.getElementById('searchButton') && !(document.querySelector('.genre:checked')) && (selection.options[selection.selectedIndex].value == "0")) {
+            console.log('LOOK AT THIS!');
+            console.log(document.querySelector('.genre:checked'));
+            document.getElementById('searchButton').addEventListener('click', e => {
+                console.log("search button clicked")
+                let sortSetting = document.getElementById('searchButton').id;
+                let input = document.getElementById('field').value;
+                updateMovieList(movies, sortSetting, input);
+            })
+        }
+        if (document.getElementById("yearList") && !(selection.options[selection.selectedIndex].value == "0")) {
+            document.getElementById('searchButton').addEventListener('click', e => {
+                console.log("searching by year")
+                let selection = document.getElementById('yearList');
+                let selectionResult = selection.options[selection.selectedIndex].value;
+                console.log(selectionResult)
+                let sortSetting = document.getElementById('yearList').id;
+                let input = null;
+                updateMovieList(movies, sortSetting, input);
+            })
+        }
+        if (document.querySelector('.genre:checked') && (selection.options[selection.selectedIndex].value == "0")) {
+            console.log('LOOK AT THISSSSSSSSSSSSSSS!')
+            document.getElementById("searchButton").addEventListener('click', e => {
+                let checkedBoxes = document.querySelector('.genre:checked').value;
+                let sortSetting = document.getElementById('searchGenres').id;
+                let input = null;
+                console.log(checkedBoxes);
+                updateMovieList(movies, sortSetting, input, checkedBoxes);
+            })
+        }
+
+    })
+
+
 
     //klopt niet checkt onmiddelijk bij inladen en dan kan er nog geen genres aangeklikt zijn
     // is nu normaal gefixt
@@ -323,6 +359,7 @@ function renderMovies(movies) {
     let movieHTML = "";
     movies.forEach(m => {
         movieHTML += `
+
         <div class="movieContainer">
         <a href="../html/info.html">
         <figure>
@@ -347,7 +384,7 @@ function renderMovies(movies) {
         <button value="${m.movieid}" class="addFavourite">+</button>
     </div>
 `
-        document.getElementById('resultsContainer').innerHTML = movieHTML;
+        document.getElementById('results').innerHTML = movieHTML;
     });
 }
 
@@ -364,11 +401,13 @@ function sortMovies(movies, sortSetting) {
 }
 
 //big sorting machine, sort/filter the movies and put them in new list
-function updateMovieList(movies, sortSetting, input) {
-    console.log(movies);
+function updateMovieList(movies, sortSetting, input, checked) {
+    let resultsContainer = document.getElementById("results");
+    let selection = document.getElementById('yearList');
+    let selectionResult = selection.options[selection.selectedIndex].value;
     let newList = [];
     if (sortSetting == "releaseDate" && orderKey == "0") {
-        console.log("by ascending year")
+        resultsContainer.style.margin = "4em";
         movies.sort((a, b) => {
             return a.year - b.year
         });
@@ -376,7 +415,7 @@ function updateMovieList(movies, sortSetting, input) {
         orderKey = "1";
 
     } else if (sortSetting == "releaseDate" && orderKey == "1") {
-        console.log("by descending year")
+        resultsContainer.style.margin = "4em";
         movies.sort((a, b) => {
             return b.year - a.year
         });
@@ -384,7 +423,7 @@ function updateMovieList(movies, sortSetting, input) {
         orderKey = "0";
 
     } else if (sortSetting == "rating" && orderKey == "0") {
-        console.log("by ascending rating")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.rating) {
                 newList.push(m)
@@ -394,10 +433,8 @@ function updateMovieList(movies, sortSetting, input) {
             return b.rating - a.rating
         });
         orderKey = "1";
-
-
     } else if (sortSetting == "rating" && orderKey == "1") {
-        console.log("by descending rating")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.rating) {
                 newList.push(m)
@@ -409,7 +446,7 @@ function updateMovieList(movies, sortSetting, input) {
         orderKey = "0";
 
     } else if (sortSetting == "mostSearched" && orderKey == "0") {
-        console.log("by descending searches")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.searches) {
                 newList.push(m)
@@ -420,7 +457,7 @@ function updateMovieList(movies, sortSetting, input) {
         });
         orderKey = "1";
     } else if ((sortSetting == "mostSearched" && orderKey == "1")) {
-        console.log("by ascending searches")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.searches) {
                 newList.push(m)
@@ -431,7 +468,7 @@ function updateMovieList(movies, sortSetting, input) {
         });
         orderKey = "0";
     } else if (sortSetting == "trending" && orderKey == "0") {
-        console.log("by descending trends")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.movieid == "yes") {
                 newList.push(m)
@@ -439,7 +476,7 @@ function updateMovieList(movies, sortSetting, input) {
         });
         orderKey = "1";
     } else if (sortSetting == "trending" && orderKey == "1") {
-        console.log("by ascending trends")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.trending == "no") {
                 newList.push(m)
@@ -447,7 +484,7 @@ function updateMovieList(movies, sortSetting, input) {
         });
         orderKey = "0";
     } else if (sortSetting == "mostViews" && orderKey == "0") {
-        console.log("by descending views")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.views) {
                 newList.push(m)
@@ -458,7 +495,7 @@ function updateMovieList(movies, sortSetting, input) {
         });
         orderKey = "1";
     } else if (sortSetting == "mostViews" && orderKey == "1") {
-        console.log("by ascending views")
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.views) {
                 newList.push(m)
@@ -468,7 +505,8 @@ function updateMovieList(movies, sortSetting, input) {
             return a.views - b.views
         });
         orderKey = "0";
-    } else if (sortSetting == "searchButton") {
+    } else if (sortSetting == "searchButton" && selectionResult == "0") {
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             let movieTitle = m.name
             let title = movieTitle.toLowerCase()
@@ -478,18 +516,26 @@ function updateMovieList(movies, sortSetting, input) {
                 //render message => no movies found
             }
         })
-    } else if (sortSetting == "yearList") {
-        console.log("by one exact year")
+    } else if (sortSetting == "yearList" && selectionResult) {
+        resultsContainer.style.margin = "4em";
         movies.forEach(m => {
-            if (m.year = "2017") {
+            if (m.year == selectionResult) {
                 newList.push(m)
             }
         });
         newList.sort((a, b) => {
             return b.year - a.year
         });
-        console.log("Here still working on")
-        //verder uittypen
+    }else if(sortSetting == "searchGenres"){
+        resultsContainer.style.margin = "4em";
+        movies.forEach(m => {
+            if (m.genres == checked) {
+                newList.push(m)
+            }
+        });
+        newList.sort((a, b) => {
+            return b.year - a.year
+        });
     }
     renderMovies(newList);
 }
@@ -834,3 +880,8 @@ async function renderWatchPage() {
 //     }
 // })
 // }
+
+
+
+// let filterMessage = document.getElementById('filterMessage');
+// filterMessage.style.display = "none";

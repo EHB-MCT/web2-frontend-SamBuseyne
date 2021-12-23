@@ -627,10 +627,12 @@ select {
   justify-content: flex-end;
 }
 
+
 .switchButton a {
   text-decoration: none;
   color: white;
-  border-radius: 25px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
   padding: 0.5em 1em 0.5em 1em;
   background-color: rgba(0, 161, 239, 1);
   width: 10%;
@@ -678,7 +680,12 @@ select {
 *      Body          *
 *********************/
 
-.searchContainer {
+#mainAdvanced .switchButton{
+  position: relative;
+  left: 32px;
+}
+
+#searchContainer {
   box-sizing: border-box;
   background-color: rgba(62, 69, 81, 1);
   display: flex;
@@ -853,16 +860,16 @@ select {
   transform: scale(1.2) perspective(1px)
 }
 
-.filterdResults p {
+#filterMessage p {
   text-align: center;
   color: white;
 }
 
-.filterdResults {
+#filterMessage {
   border-bottom: 1px solid rgba(0, 161, 239, 1);
 }
 
-#resultsContainer {
+#results {
   color: white;
   display: flex;
   flex-direction: row;
@@ -968,8 +975,6 @@ select {
   padding-bottom: 4em;
 }
 
-
-
 #favSection {
   display: flex;
   flex-direction: row;
@@ -987,6 +992,8 @@ select {
 
 #mainWatchlist .switchButton {
   margin-top: 1em;
+  position: relative;
+  left: 96px;
 }
 
 #sectionWatchlist {
