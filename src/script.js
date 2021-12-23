@@ -577,7 +577,7 @@ function addFavourite() {
 
 function sendFavourite() {
     console.log("Sending favourite movies to database")
-    fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourite`, {
+    fetch(`https://web2-backend-sambuseyne.herokuapp.com/favorite`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -616,7 +616,7 @@ function deleteFavourite() {
         deleteData[i].addEventListener("click", e => {
             e.preventDefault();
             const item = e.target.value
-            fetch(`https://web2-fullstack-teamwork.herokuapp.com/favourite`, {
+            fetch(`https://web2-fullstack-teamwork.herokuapp.com/favorite`, {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json',
@@ -705,7 +705,7 @@ async function renderWatchPage() {
     console.log(movies);
     let favMovies = [];
     let favID = [];
-    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
+    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favorites`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
