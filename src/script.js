@@ -33,7 +33,6 @@ function addYears() {
 function checkLoginState() {
     checkPages();
     if (sessionStorage.id || sessionStorage.name || sessionStorage.login) {
-        // functie hierin plaatsen die anders met if check session storage werken
         console.log("logged in")
         changeProfile();
         checkSwitchLogin();
@@ -105,7 +104,7 @@ function checkPages() {
 
 //change login form
 async function checkSwitchLogin() {
-    if (!sessionStorage.login) {
+    if (!sessionStorage.login && document.URL.includes("login")) {
         document.getElementById("loginPage").addEventListener('click', event => {
             if (event.target.className = "non-activeButton" && sleutel == 0) {
                 htmlString = ""
@@ -154,8 +153,8 @@ async function checkUserInput() {
 }
 
 //login fetch
-function login(email, password) {
-    fetch(`https://web2-backend-sambuseyne.herokuapp.com/login`, {
+async function login(email, password) {
+    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -169,7 +168,6 @@ function login(email, password) {
             return response.json();
         })
         .then(data => {
-            console.log(data);
             if (data) {
                 console.log(data);
                 sessionStorage.setItem("id", data.id);
@@ -185,8 +183,8 @@ function login(email, password) {
 }
 
 //register fetch
-function register(email, password, name, fMovie) {
-    fetch(`https://web2-backend-sambuseyne.herokuapp.com/register`, {
+async function register(email, password, name, fMovie) {
+    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -240,7 +238,6 @@ function logOut() {
 
 function changeProfile() {
     if (sessionStorage.name && !(document.URL.includes("index"))) {
-        console.log("changing profile figure")
         let listItem = document.querySelector("a:last-child")
         let newItem = document.createElement('a');
         newItem.innerHTML = `
@@ -318,10 +315,7 @@ async function getMovies() {
                 })
             }
             if (document.getElementById('searchButton') && !(document.querySelector('.genre:checked')) && (selection.options[selection.selectedIndex].value == "0")) {
-                console.log('LOOK AT THIS!');
-                console.log(document.querySelector('.genre:checked'));
                 document.getElementById('searchButton').addEventListener('click', e => {
-                    console.log("search button clicked")
                     let sortSetting = document.getElementById('searchButton').id;
                     let input = document.getElementById('field').value;
                     updateMovieList(movies, sortSetting, input);
@@ -329,22 +323,18 @@ async function getMovies() {
             }
             if (document.getElementById("yearList") && !(selection.options[selection.selectedIndex].value == "0")) {
                 document.getElementById('searchButton').addEventListener('click', e => {
-                    console.log("searching by year")
                     let selection = document.getElementById('yearList');
                     let selectionResult = selection.options[selection.selectedIndex].value;
-                    console.log(selectionResult)
                     let sortSetting = document.getElementById('yearList').id;
                     let input = null;
                     updateMovieList(movies, sortSetting, input);
                 })
             }
             if (document.querySelector('.genre:checked') && (selection.options[selection.selectedIndex].value == "0")) {
-                console.log('LOOK AT THISSSSSSSSSSSSSSS!')
                 document.getElementById("searchButton").addEventListener('click', e => {
                     let checkedBoxes = document.querySelector('.genre:checked').value;
                     let sortSetting = document.getElementById('searchGenres').id;
                     let input = null;
-                    console.log(checkedBoxes);
                     updateMovieList(movies, sortSetting, input, checkedBoxes);
                 })
             }
@@ -363,11 +353,11 @@ function renderMovies(movies) {
             movieHTML += `
     
             <div class="movieContainer">
-            <a href="../html/info.html">
+            <button  value="${m.movieid}">
             <figure>
                 <img src="${m.poster}" alt="${m.name}">
             </figure>
-            </a>
+            </button>
             <div class="moviePosterContainer">
                 <p>${m.name}</p>
                 <p>${m.director}</p>
@@ -544,7 +534,6 @@ function updateMovieList(movies, sortSetting, input, checked) {
 
 
 
-//function that shows message (added movie) and function that adds movie to the userdata
 function addFavourite() {
     if (document.URL.includes("shuffle")) {
         document.getElementById("shufflePage").addEventListener('click', event => {
@@ -599,7 +588,6 @@ function sendFavourite() {
 
 
 function renderMessage() {
-    console.log("function is running")
     let movieHTML = "";
     movieHTML += `
         <p>No movies where found!</p>
@@ -702,41 +690,42 @@ function shuffleFunction(e) {
 
 
 async function renderWatchPage() {
-    console.log(movies);
-    let favMovies = [];
-    let favID = [];
-    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favorites`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            data.forEach(data => {
-                if (data.email == sessionStorage.name) {
-                    favMovies.push(data)
+    if (sessionStorage.login) {
+        console.log(movies);
+        let favMovies = [];
+        let favID = [];
+        await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favorites`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
                 }
             })
-        })
-    for (let i = 0; i < favMovies.length; i++) {
-        sessionStorage.setItem(`"favouriteID${i}"`, `${favMovies[i]._id}`)
-    }
-
-    favMovies.forEach(favMovies => {
-        if (favMovies.movieid) {
-            favID.push(favMovies.movieid);
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                data.forEach(data => {
+                    if (data.email == sessionStorage.name) {
+                        favMovies.push(data)
+                    }
+                })
+            })
+        for (let i = 0; i < favMovies.length; i++) {
+            sessionStorage.setItem(`"favouriteID${i}"`, `${favMovies[i]._id}`)
         }
-    });
-    getSingleMovie(favID)
+
+        favMovies.forEach(favMovies => {
+            if (favMovies.movieid) {
+                favID.push(favMovies.movieid);
+            }
+        });
+        getSingleMovie(favID)
+    }
 }
 
 
 function getSingleMovie(id) {
-    console.log("getting single movies")
     let favMoviesList = [];
     id.forEach(id => {
         fetch(`https://web2-backend-sambuseyne.herokuapp.com/movie/?movieid=${id}`, {
@@ -757,13 +746,13 @@ function getSingleMovie(id) {
 }
 
 function renderFavMovies(favMoviesList) {
-    if(sessionStorage.login){
+    if (sessionStorage.login) {
         console.log("rendering favourites")
         let htmlString = "";
         htmlString +=
             `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
         document.getElementById("favouritesTitle").innerHTML = htmlString;
-    
+
         let movieHTML = "";
         for (let i = 0; i < movies.length; i++) {
             movieHTML += `
@@ -792,14 +781,12 @@ function renderFavMovies(favMoviesList) {
             </div>`;
             document.getElementById("favSection").innerHTML = movieHTML;
         }
-
     }
-
 }
 
 
 function showUserSettings() {
-    if(sessionStorage.login){
+    if (sessionStorage.login) {
         let settingsHTLM = "";
         settingsHTLM += `
         <p id="settingsName">Your name: ${sessionStorage.name}</p>
@@ -809,7 +796,6 @@ function showUserSettings() {
         document.getElementById("settings").innerHTML = settingsHTLM;
     }
 }
-
 
 
 function adjustSettings() {
