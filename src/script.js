@@ -757,51 +757,57 @@ function getSingleMovie(id) {
 }
 
 function renderFavMovies(favMoviesList) {
-    console.log("rendering favourites")
-    let htmlString = "";
-    htmlString +=
-        `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
-    document.getElementById("favouritesTitle").innerHTML = htmlString;
-
-    let movieHTML = "";
-    for (let i = 0; i < movies.length; i++) {
-        movieHTML += `
-        <div class="movieContainer">
-            <button>
-            <figure>
-                <img src="${movies[i].poster}" alt="${movies[i].name}">
-            </figure>
-            </button>
-            <div class="moviePosterContainer" value ="${movies[i].movieid}">
-                <p>${movies[i].name}</p>
-                <p>${movies[i].director}</p>
-                <p>${movies[i].year}</p>
-                <div class="infoS">
-                    <div class="infoS1">
-                        <p>Views: ${movies[i].views}</p>
-                        <p>Searches: ${movies[i].searches}</p>
-                    </div>
-                    <div class="infoS2">
-                        <p>Rating: ${movies[i].rating}/100</p>
-                        <p>Trending: ${movies[i].trending}</p>
+    if(sessionStorage.login){
+        console.log("rendering favourites")
+        let htmlString = "";
+        htmlString +=
+            `<h3>Favourite movies of ${sessionStorage.name}  </h3>`;
+        document.getElementById("favouritesTitle").innerHTML = htmlString;
+    
+        let movieHTML = "";
+        for (let i = 0; i < movies.length; i++) {
+            movieHTML += `
+            <div class="movieContainer">
+                <button>
+                <figure>
+                    <img src="${movies[i].poster}" alt="${movies[i].name}">
+                </figure>
+                </button>
+                <div class="moviePosterContainer" value ="${movies[i].movieid}">
+                    <p>${movies[i].name}</p>
+                    <p>${movies[i].director}</p>
+                    <p>${movies[i].year}</p>
+                    <div class="infoS">
+                        <div class="infoS1">
+                            <p>Views: ${movies[i].views}</p>
+                            <p>Searches: ${movies[i].searches}</p>
+                        </div>
+                        <div class="infoS2">
+                            <p>Rating: ${movies[i].rating}/100</p>
+                            <p>Trending: ${movies[i].trending}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <button class="deleteFavourite">-</button>
-        </div>`;
-        document.getElementById("favSection").innerHTML = movieHTML;
+                <button class="deleteFavourite">-</button>
+            </div>`;
+            document.getElementById("favSection").innerHTML = movieHTML;
+        }
+
     }
+
 }
 
 
 function showUserSettings() {
-    let settingsHTLM = "";
-    settingsHTLM += `
-    <p id="settingsName">Your name: ${sessionStorage.name}</p>
-    <p id="settingsName">Your email: ${sessionStorage.email}</p>
-    <p id="settingsName">Your favourite movie: ${sessionStorage.favouriteMovie}</p>
-    `
-    document.getElementById("settings").innerHTML = settingsHTLM;
+    if(sessionStorage.login){
+        let settingsHTLM = "";
+        settingsHTLM += `
+        <p id="settingsName">Your name: ${sessionStorage.name}</p>
+        <p id="settingsName">Your email: ${sessionStorage.email}</p>
+        <p id="settingsName">Your favourite movie: ${sessionStorage.favouriteMovie}</p>
+        `
+        document.getElementById("settings").innerHTML = settingsHTLM;
+    }
 }
 
 
