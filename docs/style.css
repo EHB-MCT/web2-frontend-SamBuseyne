@@ -891,7 +891,7 @@ select {
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  background-color: rgba(0, 161, 239, 1);
+  background-color: rgba(75, 81, 93, 1);
   padding-top: 2em;
   padding-bottom: 2em;
 }
