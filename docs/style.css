@@ -88,21 +88,21 @@ figure {
   display: none;
   position: absolute;
   top: 150%;
-  left: 25%;
-  background-color: #f1f1f1;
+  left: 30%;
   min-width: 100px;
   z-index: 1;
+  border-radius: 25px;
 }
 
 .dropdown-content button {
   color: rgb(255, 255, 255);
-  padding: 12px 16px;
+  padding: 15px 30px 15px 30px;
   text-decoration: none;
   display: block;
 }
 
 .dropdown-content button:hover {
-  background-color: rgb(224, 12, 12);
+  background-color: rgba(19, 54, 131, 0.507);
   border-radius: 0px;
 }
 
@@ -1057,11 +1057,11 @@ select {
   top: -5%;
 }
 
-#favouritesTitle{
+#favouritesTitle {
   margin-bottom: 2em;
 }
 
-#favouritesTitle:first-child{
+#favouritesTitle:first-child {
   margin-left: 0em;
 }
 

@@ -1,9 +1,5 @@
 "Use strict";
 
-const {
-    data
-} = require("browserslist");
-
 let orderKey = "0"
 let sleutel = "";
 let htmlString = "";
@@ -12,21 +8,33 @@ let movies = [];
 setup()
 
 function setup() {
-    initWebsite();
-    // checkLoginState();
-    checkPages();
-    changeProfile();
-    // logOut();
+    checkLoginState();
 }
+
+//check if an user is logged in
+function checkLoginState() {
+    checkPages();
+    if (sessionStorage.id || sessionStorage.name || sessionStorage.login) {
+        // functie hierin plaatsen die anders met if check session storage werken
+        console.log("logged in")
+        changeProfile();
+        checkSwitchLogin();
+
+    } else {
+        console.log("not logged in");
+        initWebsite();
+        checkSwitchLogin();
+    }
+}
+
 
 
 
 //starting the website
 function initWebsite() {
     if (document.URL.includes("login")) {
-        checkSwitchLogin();
+
         if (!sessionStorage.login && document.getElementById("loginButton")) {
-            console.log("this is now working")
             document.getElementById("loginButton").addEventListener('click', async event => {
                 event.preventDefault();
                 let userDetails = await checkUserInput();
@@ -35,28 +43,80 @@ function initWebsite() {
                 }
             });
         } else if (!sessionStorage.login && document.getElementById("signUpButton")) {
-            console.log("signup")
             document.getElementById("signUpButton").addEventListener('click', async event => {
                 event.preventDefault();
                 console.log("signuppppp")
-                //     let userDetails = await checkUserInput();
-                //     if (userDetails) {
-                //         login(userDetails[0], userDetails[1]);
-                //     }
+                register();
             });
         }
     }
-    return;
 }
 
+//check on which pages the user => load code according to the page
+function checkPages() {
 
-// function checkLoginState() {
-//     if (sessionStorage.id || sessionStorage.name || sessionStorage.login) {
-//         //hier all functies runnen wanneer user ingelogd is
-//         // functie hierin plaatsen die anders met if check session storage werken
-//         console.log("running userbased functions")
-//     }
-// }
+    if (document.URL.includes("shuffle")) {
+        getMovies()
+        shuffleFunction(movies, null, null);
+        addFavourite();
+        // infoPage();
+    } else if (document.URL.includes("advanced")) {
+        getMovies();
+        updateMovieList(movies, null, null);
+        addFavourite();
+        // checkSortings(movies);
+    } else if (document.URL.includes("index")) {
+        runIndexPage();
+    } else if (document.URL.includes("watchlist")) {
+        getMovies();
+        renderWatchPage();
+        // loadProfileContent(movies);
+    } else if (document.URL.includes("profile")) {
+        loadUserBasedContent("profile");
+    } else if (document.URL.includes("login")) {
+        // infoPage();
+        initWebsite();
+    }
+
+}
+
+//change login form
+async function checkSwitchLogin() {
+    if (!sessionStorage.login) {
+        document.getElementById("loginPage").addEventListener('click', event => {
+            if (event.target.className = "non-activeButton" && sleutel == 0) {
+                htmlString = ""
+                htmlString += `
+                    <div id="loginSection">
+                        <p>Create a new account</p>
+                        <form action="" id="loginForm">
+                            <input type="text" id="emailUser" placeholder="Email">
+                            <input type="password" id="passwordUser" placeholder="Password">
+                            <input type="password" id="passwordUserConfirmation" placeholder="Confirm Password">
+                        </form>
+                        <button id="signUpButton">Sign</button>
+                    </div>
+                    `;
+                document.getElementById('loginContainer').innerHTML = htmlString;
+                sleutel = 1;
+
+            } else if (event.target.className = "non-activeButton" && sleutel == 1) {
+                htmlString = ""
+                htmlString += `
+                    <div id="loginSection">
+                        <form action="" id="loginForm">
+                            <input type="text" id="emailUser" placeholder="Email">
+                            <input type="text" id="passwordUser" placeholder="Password">
+                        </form>
+                        <button id="loginButton">Login</button>
+                    </div>
+                    `;
+                document.getElementById('loginContainer').innerHTML = htmlString;
+                sleutel = 0;
+            }
+        })
+    }
+}
 
 //get the userdata
 async function checkUserInput() {
@@ -66,21 +126,6 @@ async function checkUserInput() {
     return [email, pass];
 }
 
-
-//check on which pages the user => load code according to the page
-function checkPages() {
-    if (document.URL.includes("shuffle")) {
-        loadUserBasedContent("shuffle");
-    } else if (document.URL.includes("advanced")) {
-        loadUserBasedContent("advanced");
-    } else if (document.URL.includes("index")) {
-        loadUserBasedContent("index");
-    } else if (document.URL.includes("watchlist")) {
-        loadUserBasedContent("watch");
-    } else if (document.URL.includes("profile")) {
-        loadUserBasedContent("profile");
-    }
-}
 //login fetch
 function login(email, password) {
     fetch(`https://web2-backend-sambuseyne.herokuapp.com/login`, {
@@ -138,22 +183,30 @@ function register(email, password, name) {
         })
 }
 
-// function logOut(event) {
-//     console.log("logout function is running")
-//     if (sessionStorage.name) {
-//         document.getElementById("inputNavigation").addEventListener('click', event => {
-//             let logOutButton = event.target.className;
-//             if (logOutButton) {
-//                 sessionStorage.clear();
-//                 // window.location.href = "../index.html";
-//                 location.reload();
-//             }
-//         })
-//     }
-// }
+function logOut() {
+    if (sessionStorage.name) {
+        let checkLogOutButton = document.querySelector("ul")
+        if (checkLogOutButton) {
+            document.querySelectorAll(".logOut").forEach(item => {
+                item.addEventListener('click', event => {
+                    let logOutButton = event.target.className;
+                    if (logOutButton) {
+                        sessionStorage.clear();
+                        if(document.URL.includes("index")){
+                        location.reload();
+                        }else{
+                            window.location.href = "../index.html";
+                        }
+                    }
+                })
+            })
+        }
+    }
+}
 
 function changeProfile() {
-    if (sessionStorage.name && !document.URL.includes("index")) {
+    if (sessionStorage.name && !(document.URL.includes("index"))) {
+        console.log("changing profile figure")
         let listItem = document.querySelector("a:last-child")
         let newItem = document.createElement('a');
         newItem.innerHTML = `
@@ -165,7 +218,6 @@ function changeProfile() {
         </div>`;
         listItem.parentNode.replaceChild(newItem, listItem);
     } else if (document.URL.includes("index") && sessionStorage.name) {
-        console.log("found the last a element on main page")
         let listItem = document.querySelector("a:last-child")
         let newItem = document.createElement('a');
         newItem.innerHTML = `
@@ -177,6 +229,7 @@ function changeProfile() {
     </div>`;
         listItem.parentNode.replaceChild(newItem, listItem);
     }
+    logOut();
 }
 
 async function getMovies() {
@@ -264,33 +317,6 @@ async function getMovies() {
     // is nu normaal gefixt
 }
 
-
-
-// document.getElementById('buttonSection').addEventListener('click', () => {
-
-//     if (document.querySelector('.genre:checked')) {
-//         let checkedBoxes = document.querySelector('.genre:checked').value;
-//         let userInput = null;
-//         this.advancedSearch(userInput, checkedBoxes)
-//     } else if (document.getElementById("field").value) {
-//         userInput = document.getElementById("field").value;
-//         let checkedBoxes = null;
-//         this.advancedSearch(userInput, checkedBoxes)
-//     } else if (!selectionResult == "0") {
-//         let userInput = null;
-//         let checkedBoxes = null;
-//         let selection = document.getElementById('yearList');
-//         let selectionResult = selection.options[selection.selectedIndex].value;
-//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
-//     } else {
-//         let userInput = null;
-//         let checkedBoxes = null;
-//         let selectionResult = null;
-//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
-//     }
-// })
-// }
-
 //render the movies on the pages
 function renderMovies(movies) {
     console.log("rendering");
@@ -326,63 +352,7 @@ function renderMovies(movies) {
 }
 
 
-function shuffleFunction(event) {
-    // document.getElementById("shufflePage").addEventListener('click', event => {
-    //     // event.preventDefault();
-    //     const hyperlinks = document.querySelectorAll("img").value;
-    //     console.log(hyperlinks);
-    //     const favourite = event.target.className.indexOf("movieContainer");
-    //     if (favourite) {
-    //         console.log('step1')
-    //         console.log(event.target)
-    //         const item = event.target.value;
-    //         console.log(item);
-    //         sessionStorage.setItem("movieid", item);
-    //         // if (event.target.className.indexOf('infoLink')) {
-    //         //     console.log('step2')
-    //         //     console.log(event.target)
-    //         //     const item = event.target.value;
-    //         //     console.log(item);
-    //         //     sessionStorage.setItem("movieid", item);
-    //         // }
-    //     }
-    // })
 
-
-    document.getElementById('shuffleButton').addEventListener('click', () => {
-        let newList = [];
-        htmlString = "";
-        movies.sort(() => Math.random() - 0.5);
-        newList = movies.slice(0, 3);
-        for (let m of newList) {
-            htmlString += `
-            <div class="movieContainer">
-                <a href="">
-                <figure>
-                    <img src="${m.poster}" alt="${m.name}">
-                </figure>
-                </a>
-                <div class="moviePosterContainer" value ="${m.movieid}">
-                    <p>${m.name}</p>
-                    <p>${m.director}</p>
-                    <p>${m.year}</p>
-                    <div class="infoS">
-                        <div class="infoS1">
-                            <p>Views: ${m.views}</p>
-                            <p>Searches: ${m.searches}</p>
-                        </div>
-                        <div class="infoS2">
-                            <p>Rating: ${m.rating}/100</p>
-                            <p>Trending: ${m.trending}</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="addFavourite">+</button>
-            </div>`;
-            document.getElementById('shuffle').innerHTML = htmlString;
-        }
-    });
-}
 
 //sort movies when loading in the first time
 function sortMovies(movies, sortSetting) {
@@ -524,42 +494,7 @@ function updateMovieList(movies, sortSetting, input) {
     renderMovies(newList);
 }
 
-//change login form
-async function checkSwitchLogin() {
-    if (!sessionStorage.login) {
-        document.getElementById("loginPage").addEventListener('click', event => {
-            if (event.target.className = "non-activeButton" && sleutel == 0) {
-                htmlString = ""
-                htmlString += `
-                    <div id="loginSection">
-                        <p>Create a new account</p>
-                        <form action="" id="loginForm">
-                            <input type="text" id="emailUser" placeholder="Email">
-                            <input type="password" id="passwordUser" placeholder="Password">
-                            <input type="password" id="passwordUserConfirmation" placeholder="Confirm Password">
-                        </form>
-                        <button id="signUpButton">Sign</button>
-                    </div>
-                    `;
-                document.getElementById('loginContainer').innerHTML = htmlString;
-                sleutel = 1;
-            } else if (event.target.className = "non-activeButton" && sleutel == 1) {
-                htmlString = ""
-                htmlString += `
-                    <div id="loginSection">
-                        <form action="" id="loginForm">
-                            <input type="text" id="emailUser" placeholder="Email">
-                            <input type="text" id="passwordUser" placeholder="Password">
-                        </form>
-                        <button id="loginButton">Login</button>
-                    </div>
-                    `;
-                document.getElementById('loginContainer').innerHTML = htmlString;
-                sleutel = 0;
-            }
-        })
-    }
-}
+
 
 //function that shows message (added movie) and function that adds movie to the userdata
 function addFavourite() {
@@ -619,46 +554,7 @@ function sendFavourite(event) {
         })
 }
 
-// async function loadProfileContent() {
-//     let favMovies;
-//     console.log("rendering profile content");
-//     await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             }
-//         })
-//         .then(response => {
-//             return response.json();
-//         })
-//         .then(data => {
-//             data.forEach(d =>{
-//                 if(data.email == sessionStorage.name){
-//                     favMovies.push(m)
-//                 }
-//             })
-//             console.log(favMovies);
-
-//             console.log(favMovies);
-
-//             let movieHTML = "";
-//             data.forEach(d => {
-//                 movieHTML += `
-//                 <div class="movieContainer">
-//                 <div class="moviePosterContainer">
-//                     <p>The Green Mile</p>
-//                     <p>Frank Darabont</p>
-//                     <p>1999</p>
-//                 </div>
-//                 <button class="addFavourite">-</button>
-//             </div>`;
-//                 document.getElementById('profileContent').innerHTML = movieHTML;
-//             });
-//         })
-// }
-
 function infoPage(event) {
-    console.log("Running infopage function")
     let clicked = event.target.value;
     console.log(clicked);
 
@@ -680,6 +576,165 @@ function infoPage(event) {
     //     })
     // }
 }
+
+
+
+
+
+function runIndexPage() {
+    console.log("running info link function")
+    document.getElementById("infoButton").addEventListener('click', event => {
+        event.preventDefault();
+        console.log("clicked info button")
+        sessionStorage.setItem("movieTitle", "Space Jam");
+        window.location.href = "./html/info.html";
+    })
+}
+
+
+
+
+
+//TO WORK ON!!//////////////////////////////////////////////////////////
+
+
+
+function shuffleFunction(e) {
+
+    document.getElementById("shuffle").addEventListener('click', event => {
+        event.preventDefault();
+        let click = e.target.closest('.movieContainer').className
+        if (click) {
+            console.log(click, e.target)
+        }
+    })
+
+    // document.getElementById("shufflePage").addEventListener('click', e => {
+    //     e.preventDefault();
+    //     console.log(e.path[2].className);
+    //     const favourite = e.target.className.indexOf("movieContainer");
+    //     if (favourite) {
+    //         console.log("running")
+    //         if (e.target.className.indexOf('posterName')) {
+    //             console.log("running to")
+    //             const item = e.target.className;
+    //             console.log(item);
+    //             let fMovie = {
+    //                 email: sessionStorage.name,
+    //                 movieid: item,
+    //                 favourite: true
+    //             }
+    //             console.log(fMovie);
+    //         }
+    //     }
+
+
+    //     if (target = "posterName") {
+    //         console.log("here comes the info link function")
+
+    //     } else if (target = "addFavourite") {
+    //         console.log("here comes the add favourite function")
+    //     }
+
+
+    // })
+
+    // document.getElementById("shufflePage").addEventListener('click', event => {
+    //     // event.preventDefault();
+    //     console.log(event.target.value);
+    //     const favourite = event.target.className.indexOf("movieContainer");
+    //     if (favourite) {
+    //         let movieid = document.getElementsByClassName("moviePosterContainer").value;
+
+
+    //         sessionStorage.setItem("movieid", item);
+    //         if (event.target.className.indexOf('infoLink')) {
+    //             console.log('step2')
+    //             console.log(event.target)
+    //             const item = event.target.value;
+    //             console.log(item);
+    //             sessionStorage.setItem("movieid", item);
+    //         }
+    //     }
+    // })
+
+
+
+    document.getElementById('shuffleButton').addEventListener('click', () => {
+
+        let newList = [];
+        htmlString = "";
+        movies.sort(() => Math.random() - 0.5);
+        newList = movies.slice(0, 3);
+        for (let m of newList) {
+            htmlString += `
+            <div class="movieContainer">
+                <a class="posterLink" href="">
+                <figure>
+                    <img src="${m.poster}" alt="${m.name}">
+                </figure>
+                </a>
+                <div class="moviePosterContainer" value ="${m.movieid}">
+                    <p>${m.name}</p>
+                    <p>${m.director}</p>
+                    <p>${m.year}</p>
+                    <div class="infoS">
+                        <div class="infoS1">
+                            <p>Views: ${m.views}</p>
+                            <p>Searches: ${m.searches}</p>
+                        </div>
+                        <div class="infoS2">
+                            <p>Rating: ${m.rating}/100</p>
+                            <p>Trending: ${m.trending}</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="addFavourite">+</button>
+            </div>`;
+            document.getElementById('shuffle').innerHTML = htmlString;
+        }
+    });
+}
+
+
+async function loadProfileContent() {
+    let favMovies;
+    console.log("rendering profile content");
+    await fetch(`https://web2-backend-sambuseyne.herokuapp.com/favourites`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            data.forEach(d => {
+                if (data.email == sessionStorage.name) {
+                    favMovies.push(m)
+                }
+            })
+            console.log(favMovies);
+
+            console.log(favMovies);
+
+            let movieHTML = "";
+            data.forEach(d => {
+                movieHTML += `
+                <div class="movieContainer">
+                <div class="moviePosterContainer">
+                    <p>The Green Mile</p>
+                    <p>Frank Darabont</p>
+                    <p>1999</p>
+                </div>
+                <button class="addFavourite">-</button>
+            </div>`;
+                document.getElementById('profileContent').innerHTML = movieHTML;
+            });
+        })
+}
+
 
 async function renderWatchPage() {
     console.log(movies);
@@ -748,26 +803,34 @@ async function renderWatchPage() {
 }
 
 
-function loadUserBasedContent(guide) {
-    if (guide == "watch") {
-        getMovies();
-        renderWatchPage();
-        // loadProfileContent(movies);
-    } else if (guide == "shuffle") {
-        getMovies()
-        shuffleFunction(movies, null, null);
-        addFavourite();
-        // infoPage();
-    } else if (guide == "advanced") {
-        getMovies();
-        updateMovieList(movies, null, null);
-        addFavourite();
-        // checkSortings(movies);
-    } else if (guide == "info") {
-        infoPage();
-    } else if (guide == "login") {
-        console.log("Let's show the login page")
-    } else if (guide == "index") {
-        console.log("Let's show the homepage")
-    }
-}
+
+
+
+
+
+
+
+// document.getElementById('buttonSection').addEventListener('click', () => {
+
+//     if (document.querySelector('.genre:checked')) {
+//         let checkedBoxes = document.querySelector('.genre:checked').value;
+//         let userInput = null;
+//         this.advancedSearch(userInput, checkedBoxes)
+//     } else if (document.getElementById("field").value) {
+//         userInput = document.getElementById("field").value;
+//         let checkedBoxes = null;
+//         this.advancedSearch(userInput, checkedBoxes)
+//     } else if (!selectionResult == "0") {
+//         let userInput = null;
+//         let checkedBoxes = null;
+//         let selection = document.getElementById('yearList');
+//         let selectionResult = selection.options[selection.selectedIndex].value;
+//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
+//     } else {
+//         let userInput = null;
+//         let checkedBoxes = null;
+//         let selectionResult = null;
+//         this.advancedSearch(userInput, checkedBoxes, selectionResult);
+//     }
+// })
+// }
