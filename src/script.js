@@ -346,11 +346,6 @@ async function getMovies() {
         }
 
     })
-
-
-
-    //klopt niet checkt onmiddelijk bij inladen en dan kan er nog geen genres aangeklikt zijn
-    // is nu normaal gefixt
 }
 
 //render the movies on the pages
@@ -517,7 +512,6 @@ function updateMovieList(movies, sortSetting, input, checked) {
             if (title.includes(input.toLowerCase())) {
                 newList.push(m)
             } else {
-                //render message => no movies found
             }
         })
     } else if (sortSetting == "yearList" && selectionResult) {
