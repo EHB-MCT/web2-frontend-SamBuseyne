@@ -13,7 +13,7 @@ function setup() {
 }
 
 function addYears() {
-    if(document.URL.includes("advanced")){
+    if (document.URL.includes("advanced")) {
         if (counter == "0") {
             let year = 1970;
             let till = 2014;
@@ -23,7 +23,7 @@ function addYears() {
             }
             document.getElementById("yearStart").insertAdjacentHTML('afterend', options);
         }
-        counter +=1;
+        counter += 1;
     }
 }
 
@@ -355,37 +355,41 @@ async function getMovies() {
 
 //render the movies on the pages
 function renderMovies(movies) {
-    console.log("rendering");
-    let movieHTML = "";
-    movies.forEach(m => {
-        movieHTML += `
-
-        <div class="movieContainer">
-        <a href="../html/info.html">
-        <figure>
-            <img src="${m.poster}" alt="${m.name}">
-        </figure>
-        </a>
-        <div class="moviePosterContainer">
-            <p>${m.name}</p>
-            <p>${m.director}</p>
-            <p>${m.year}</p>
-            <div class="infoS">
-                <div class="infoS1">
-                    <p>Views: ${m.views}</p>
-                    <p>Searches: ${m.searches}</p>
-                </div>
-                <div class="infoS2">
-                    <p>Rating: ${m.rating}/100</p>
-                    <p>Trending: ${m.trending}</p>
+    if(movies.length === 0){
+        renderMessage();
+    }else{
+        console.log("rendering");
+        let movieHTML = "";
+        movies.forEach(m => {
+            movieHTML += `
+    
+            <div class="movieContainer">
+            <a href="../html/info.html">
+            <figure>
+                <img src="${m.poster}" alt="${m.name}">
+            </figure>
+            </a>
+            <div class="moviePosterContainer">
+                <p>${m.name}</p>
+                <p>${m.director}</p>
+                <p>${m.year}</p>
+                <div class="infoS">
+                    <div class="infoS1">
+                        <p>Views: ${m.views}</p>
+                        <p>Searches: ${m.searches}</p>
+                    </div>
+                    <div class="infoS2">
+                        <p>Rating: ${m.rating}/100</p>
+                        <p>Trending: ${m.trending}</p>
+                    </div>
                 </div>
             </div>
+            <button value="${m.movieid}" class="addFavourite">+</button>
         </div>
-        <button value="${m.movieid}" class="addFavourite">+</button>
-    </div>
-`
-        document.getElementById('results').innerHTML = movieHTML;
-    });
+    `
+            document.getElementById('results').innerHTML = movieHTML;
+        });
+    }
 }
 
 
@@ -526,7 +530,7 @@ function updateMovieList(movies, sortSetting, input, checked) {
         newList.sort((a, b) => {
             return b.year - a.year
         });
-    }else if(sortSetting == "searchGenres"){
+    } else if (sortSetting == "searchGenres") {
         resultsContainer.style.margin = "4em";
         movies.forEach(m => {
             if (m.genres == checked) {
@@ -637,6 +641,14 @@ function runIndexPage() {
     })
 }
 
+function renderMessage() {
+    console.log("function is running")
+    let movieHTML = "";
+    movieHTML += `
+        <p>No movies where found!</p>
+`
+    document.getElementById('results').innerHTML = movieHTML;
+}
 
 
 
